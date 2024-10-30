@@ -19,7 +19,7 @@ const defaultButtonStyles: SxProps<Theme> = {
 
 const CustomButton: React.FC<CustomButtonProps> = ({ title, onClick, sx }) => {
   return (
-    <Button sx={{ ...defaultButtonStyles, ...sx }} onClick={onClick}>
+    <Button type='submit' sx={{ ...defaultButtonStyles, ...sx }} onClick={onClick}>
       {title}
     </Button>
   );

@@ -1,0 +1,50 @@
+// index.module.scss
+
+.dialogTitle {
+  text-align: center;
+  font-size: 32px; // Adjust as necessary for responsiveness
+  @media (max-width: 600px) {
+    font-size: 24px; // For small devices
+  }
+}
+
+.dialogContent {
+  padding-top: 50px;
+  padding-left: 50px;
+  padding-right: 50px;
+  margin-bottom: 10px;
+  height: 100%;
+}
+
+.formFieldContainer {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.dialogActions {
+  padding-bottom: 50px;
+  padding-left: 50px;
+  padding-right: 50px;
+}
+
+.buttonContainer {
+  padding-top: 0 !important; // Specific override
+  justify-content: center;
+}
+
+.dividerContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 20px;
+
+  .divider {
+    width: 40%;
+  }
+
+  .orText {
+    margin: 0 10px;
+  }
+}

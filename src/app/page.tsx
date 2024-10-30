@@ -1,10 +1,25 @@
+"use client";
+
+import globeImage from "@/app/assets/images/globe.png";
+import Navbar from "@/app/components/Navbar";
 import { Box, Container, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
-import Navbar from "@/app/components/Navbar";
-import globeImage from "@/app/assets/images/globe.png";
+import { useState } from "react";
 import CustomButton from "./components/GenericButton";
+import SignUp from "./SignUp";
+import Login from "./Login";
 
 export default function Home() {
+  const [modaleOpen, setModalOpen] = useState(false);
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
+
+  const handleLoginModalOpen = () => setLoginModalOpen(true);
+  const handleLoginModalClose = () => setLoginModalOpen(false);
+
+  const handleModalOpen = () => setModalOpen(true);
+  const handleModalClose = () => setModalOpen(false);
+
+
   return (
     <>
       <Navbar />
@@ -13,11 +28,12 @@ export default function Home() {
           height: "100vh",
           width: "100%",
           marginTop: { xs: "90px", md: "140px" },
-          padding: { xs: "30px", md: 'none' },
+          padding: { xs: "30px", md: "none" },
         }}
       >
         <Grid container spacing={2}>
           <Grid
+            item
             xs={12} // Full width on small screens
             md={6} // Half width on medium and larger screens
             sx={{
@@ -50,24 +66,29 @@ export default function Home() {
             <Box sx={{ mt: "10px" }}>
               <CustomButton
                 title="Sign Up"
+                onClick={handleModalOpen}
                 sx={{
                   mt: "20px",
                   width: { xs: "100px", md: "200px" },
                   height: "50px",
+                  borderRadius: "8px",
                 }}
               />
               <CustomButton
                 title="Login"
+                onClick={handleLoginModalOpen}
                 sx={{
                   ml: "10px",
                   mt: "20px",
                   width: { xs: "100px", md: "200px" },
                   height: "50px",
+                  borderRadius: "8px",
                 }}
               />
             </Box>
           </Grid>
           <Grid
+            item
             xs={12} // Full width on small screens
             md={6} // Half width on medium and larger screens
             sx={{
@@ -84,6 +105,11 @@ export default function Home() {
             />
           </Grid>
         </Grid>
+        <SignUp modaleOpen={modaleOpen} handleModalClose={handleModalClose} />
+        <Login
+          modaleOpen={loginModalOpen}
+          handleModalClose={handleLoginModalClose}
+        />
       </Container>
     </>
   );

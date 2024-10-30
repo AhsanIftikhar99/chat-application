@@ -10,3 +10,9 @@ export const geistMono = localFont({
     variable: "--font-geist-mono",
     weight: "100 900",
   });
+
+  export const getRighteous = localFont({
+    src: "../assets/fonts/Righteous-Regular.ttf",
+    variable: "--font-righteous",
+    weight: "100 900",
+  });
