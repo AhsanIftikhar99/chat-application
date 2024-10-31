@@ -6,10 +6,10 @@ import { Box, Container, Toolbar, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { useState } from "react";
 import CustomButton from "./components/GenericButton";
-import SignUp from "./SignUp/page";
-import Login from "./Login/page";
+import SignUp from "./components/SignUp/page";
+import Login from "./components/Login/page";
 
-export default function Home() {
+export default function App() {
   const [modaleOpen, setModalOpen] = useState(false);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
 

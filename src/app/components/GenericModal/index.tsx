@@ -5,12 +5,14 @@ import {
   DialogContent,
   DialogTitle,
   Divider,
+  IconButton,
 } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { Box, SxProps, Theme } from "@mui/system";
 import * as React from "react";
 import CustomButton from "../GenericButton";
 import styles from "./index.module.scss";
+import closeicon from "@/app/assets/images/closeicon.png";
 
 // Define the prop types
 interface FormField {
@@ -25,7 +27,7 @@ interface CustomDialogProps {
   title: string;
   open: boolean;
   onClose: () => void;
-  formFields: FormField[];
+  formFields?: FormField[];
   onSubmit: (formData: { [key: string]: any }) => void;
   sx?: SxProps<Theme>;
 }
@@ -68,8 +70,15 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
       >
         {title}
       </DialogTitle>
+      <IconButton
+          aria-label="close"
+          onClick={onClose}
+          sx={{ position: "absolute", right: 8, top: 8 }}
+        >
+          <img src={closeicon.src} alt="closeicon" height={'20px'} width={'20px'} />
+        </IconButton>
       <DialogContent className={styles.dialogContent}>
-        {formFields.map((field, index) => (
+        {!!formFields && formFields?.map((field, index) => (
           <Box key={index} className={styles.formFieldContainer}>
             <FormBuilder formFields={field} />
           </Box>
@@ -77,7 +86,7 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
       </DialogContent>
       <DialogActions className={styles.dialogActions}>
         <Grid container spacing={2} justifyContent="center" alignItems="center">
-          {formFields.map(
+          {!!formFields && formFields?.map(
             (field, index) =>
               field?.type === "button" && (
                 <Grid
@@ -88,14 +97,14 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
                   className={styles.buttonContainer}
                 >
                   <CustomButton
-                    title={field.label}
+                    title={field?.label}
                     sx={{
                       ...field?.sx,
                       width: "400px",
                       height: "48px",
                     }}
                   />
-                  {index < formFields.length - 1 && (
+                  {index < formFields?.length - 1 && (
                     <Box className={styles.dividerContainer}>
                       <Divider className={styles.divider} />
                       <span className={styles.orText}>or</span>

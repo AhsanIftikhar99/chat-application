@@ -1,15 +1,17 @@
 import CustomDialog from "@/app/components/GenericModal";
 import axios from "axios";
-import { loginFormFields } from "@/app/utils/constants";
+import { signupFormFields } from "@/app/utils/constants";
+import { useRouter } from "next/navigation";
 
-interface LoginProps {
+
+interface SignUpProps {
   modaleOpen: boolean;
   handleModalClose: () => void;
 }
 
-export default function Login({ modaleOpen, handleModalClose }: LoginProps) {
- 
-  const login = async (
+export default function SignUp({ modaleOpen, handleModalClose }: SignUpProps) {
+  const router = useRouter();
+  const signup = async (
     username: string,
     email: string,
     password: string,
@@ -17,7 +19,7 @@ export default function Login({ modaleOpen, handleModalClose }: LoginProps) {
   ) => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/auth/login",
+        "http://localhost:4000/api/auth/signup",
         {
           username,
           email,
@@ -29,7 +31,8 @@ export default function Login({ modaleOpen, handleModalClose }: LoginProps) {
 
       if (response.status === 201) {
         console.log("Signup successful", response.data);
-        return response.data; // Contains the success message
+        router.push("/home"); // Navigate to the homepage
+        handleModalClose();
       }
     } catch (error: any) {
       if (error.response) {
@@ -42,21 +45,20 @@ export default function Login({ modaleOpen, handleModalClose }: LoginProps) {
 
   const handleSubmit = (formData: { [key: string]: any }) => {
     console.log(formData);
-    login(
+    signup(
       formData.username,
       formData.email,
       formData.password,
       formData.displayName
     );
-    handleModalClose();
   };
 
   return (
     <CustomDialog
-      title="Login"
+      title="Sign Up"
       open={modaleOpen}
       onClose={handleModalClose}
-      formFields={loginFormFields}
+      formFields={signupFormFields}
       onSubmit={handleSubmit}
     />
   );
