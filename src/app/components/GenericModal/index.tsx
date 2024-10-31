@@ -50,6 +50,7 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
     backgroundColor: "white",
     maxWidth: "450px",
     maxHeight:'100%',
+    paddingBottom:'20px',
   };
 
   return (

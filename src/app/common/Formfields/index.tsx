@@ -14,11 +14,11 @@ interface FormField {
   maxLength?: number;
 }
 
-interface TextInputFieldProps {
+interface FormFieldProps {
   field: FormField;
 }
 
-export const TextInputField: React.FC<TextInputFieldProps> = ({ field }) => {
+export const TextInputField: React.FC<FormFieldProps> = ({ field }) => {
   return (
     <TextField
       {...field}
@@ -54,26 +54,17 @@ export const TextInputField: React.FC<TextInputFieldProps> = ({ field }) => {
           borderRadius: '8px',
           maxWidth: '400px',
           width: '100%',
-          fontSize: '1rem',
-          lineHeight: '15px',
-          height: '50px',
         },
         inputProps: {
           type: field?.type,
           maxLength: field?.maxLength,
         },
       }}
-      InputLabelProps={{
-        style: {
-          fontSize: '14px',
-          color: '#666666'
-        },
-      }}
     />
   );
 };
 
-export const EmailInput: React.FC<TextInputFieldProps> = ({ field }) => {
+export const EmailInput: React.FC<FormFieldProps> = ({ field }) => {
     return(
         <TextField
             id={field?.name}
@@ -108,21 +99,10 @@ export const EmailInput: React.FC<TextInputFieldProps> = ({ field }) => {
                 borderRadius: '8px',
                 maxWidth: '400px',
                 width: '100%',
-                fontSize: '1rem',
-                lineHeight: '15px',
-                height: '50px',
-
               },
               inputProps: {
                 type: field?.type,
                 maxLength: field?.maxLength,
-              },
-            }}
-            InputLabelProps={{
-              style: {
-                fontSize: '1rem',
-                color: '#666666',
-                fontFamily: "ArticulatCF-Regular"
               },
             }}
           />
@@ -148,14 +128,25 @@ export const PasswordInput: React.FC<{ field: any }> = ({ field }) => {
       type={showPassword ? 'text' : 'password'}
       variant="filled"
       fullWidth
-      sx={{ backgroundColor: 'white', borderRadius: '5px' }}
+      sx={{
+        '& .MuiFilledInput-root': {
+          backgroundColor: 'white',
+        },
+        '& .MuiTextField-root': {
+          backgroundColor: 'white',
+        }
+      }}
       InputProps={{
         disableUnderline: true,
         inputProps: {
-          maxLength: 50,
+          maxLength: field?.maxLength || 40,
         },
-        sx: {
-          paddingLeft: '10px',
+        style: {
+          background: 'white',
+          border: '1px solid #eaeaea',
+          borderRadius: '8px',
+          maxWidth: '400px',
+          width: '100%',
         },
         endAdornment: (
           <InputAdornment position="end">
@@ -168,12 +159,6 @@ export const PasswordInput: React.FC<{ field: any }> = ({ field }) => {
             </IconButton>
           </InputAdornment>
         ),
-      }}
-      InputLabelProps={{
-        sx: {
-          paddingLeft: '10px',
-          color: 'black',
-        },
       }}
     />
   );

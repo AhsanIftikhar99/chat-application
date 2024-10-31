@@ -1,41 +1,14 @@
 import CustomDialog from "@/app/components/GenericModal";
 import axios from "axios";
-
-const formFields = [
-  {
-    placeholder: "Email Address/Phone Number",
-    label: "Email Address/Phone Number",
-    type: "email",
-    name: "email",
-  },
-  {
-    placeholder: "Password",
-    label: "Password",
-    type: "password",
-    name: "password",
-  },
-  {
-    label: "Login",
-    type: "button",
-    baseline: true,
-  },
-  {
-    label: "Create a New Account",
-    type: "button",
-    baseline: false,
-    sx: {
-      backgroundColor: "white",
-      border: "1px solid #08344D",
-      color: "#08344D",
-    },
-  },
-];
+import { loginFormFields } from "@/app/utils/constants";
 
 interface LoginProps {
   modaleOpen: boolean;
   handleModalClose: () => void;
 }
+
 export default function Login({ modaleOpen, handleModalClose }: LoginProps) {
+ 
   const login = async (
     username: string,
     email: string,
@@ -83,7 +56,7 @@ export default function Login({ modaleOpen, handleModalClose }: LoginProps) {
       title="Login"
       open={modaleOpen}
       onClose={handleModalClose}
-      formFields={formFields}
+      formFields={loginFormFields}
       onSubmit={handleSubmit}
     />
   );

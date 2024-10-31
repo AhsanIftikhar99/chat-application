@@ -2,12 +2,12 @@
 
 import globeImage from "@/app/assets/images/globe.png";
 import Navbar from "@/app/components/Navbar";
-import { Box, Container, Typography } from "@mui/material";
+import { Box, Container, Toolbar, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { useState } from "react";
 import CustomButton from "./components/GenericButton";
-import SignUp from "./SignUp";
-import Login from "./Login";
+import SignUp from "./SignUp/page";
+import Login from "./Login/page";
 
 export default function Home() {
   const [modaleOpen, setModalOpen] = useState(false);
@@ -23,12 +23,14 @@ export default function Home() {
   return (
     <>
       <Navbar />
+      <Toolbar /> 
       <Container
         sx={{
-          height: "100vh",
+          height: "calc(100vh - 90px)",
           width: "100%",
-          marginTop: { xs: "90px", md: "140px" },
-          padding: { xs: "30px", md: "none" },
+          padding: { xs: "30px", md: "22px" },
+          maxWidth: "100% !important",
+          mt: '20px'
         }}
       >
         <Grid container spacing={2}>

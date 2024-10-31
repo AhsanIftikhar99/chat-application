@@ -2,8 +2,8 @@
 
 .dialogTitle {
   text-align: center;
-  font-size: 32px; // Adjust as necessary for responsiveness
-  @media (max-width: 600px) {
+  font-size: 38px !important; // Adjust as necessary for responsiveness
+  @media (max-width: 768px) {
     font-size: 24px; // For small devices
   }
 }

@@ -1,55 +1,15 @@
 import CustomDialog from "@/app/components/GenericModal";
 import axios from "axios";
+import { signupFormFields } from "@/app/utils/constants";
 
-const formFields = [
-  {
-    placeholder: "Email Address/Phone Number",
-    label: "Email Address/Phone Number",
-    type: "email",
-    name: "email",
-  },
-  {
-    placeholder: "Display Name",
-    label: "Display Name",
-    type: "text",
-    name: "displayName",
-  },
-  {
-    placeholder: "Username",
-    label: "Username",
-    type: "text",
-    name: "username",
-  },
-  {
-    placeholder: "Password",
-    label: "Password",
-    type: "password",
-    name: "password",
-  },
-  {
-    label: "Login",
-    type: "button",
-    name: "Already have an account? Login",
-    baseline: true,
-  },
-  {
-    label: "Already have an account? Login",
-    type: "button",
-    name: "Already have an account? Login",
-    baseline: false,
-    sx: {
-      backgroundColor: "white",
-      border: "1px solid #08344D",
-      color: "#08344D",
-    },
-  },
-];
 
 interface SignUpProps {
   modaleOpen: boolean;
   handleModalClose: () => void;
 }
+
 export default function SignUp({ modaleOpen, handleModalClose }: SignUpProps) {
+  
   const signup = async (
     username: string,
     email: string,
@@ -97,7 +57,7 @@ export default function SignUp({ modaleOpen, handleModalClose }: SignUpProps) {
       title="Sign Up"
       open={modaleOpen}
       onClose={handleModalClose}
-      formFields={formFields}
+      formFields={signupFormFields}
       onSubmit={handleSubmit}
     />
   );
