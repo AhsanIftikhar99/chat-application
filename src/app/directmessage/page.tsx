@@ -5,11 +5,12 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Home from '../home/page';
 import styles from './index.module.scss';
-import UserAutocomplete from '../../common/Formfields';
+import NewMessageField from '../../common/Formfields';
+import { useRouter } from 'next/navigation';
 
 export default function DirectMessage() {
-    const [users, setUsers] = useState([]);
- 
+  const [users, setUsers] = useState([]);
+  const router = useRouter();
 
   const fetchUsers = async () => {
     try {
@@ -26,13 +27,17 @@ export default function DirectMessage() {
     fetchUsers();
   }, []);
 
+  const handleUserSelect = (user:any) => {
+    console.log('Selected user:', user);
+    router.push(`/directmessage/${user?.id}`);
+  };
 
   return (
     <Home>
       <Box className={styles.content}>
         <p className={styles.newMessageTitle}>New Message</p>
         <Box className={styles.toMessageStyles}>
-          <UserAutocomplete users={users} />
+          <NewMessageField users={users} onUserSelect={handleUserSelect} />
         </Box>
       </Box>
     </Home>

@@ -170,101 +170,20 @@ export const AppbarSearch: React.FC<FormFieldProps> = ({ field }) => {
   );
 };
 
-// export default function TextFieldWithMenu({ users }: { users: User[] }) {
-//   const [inputValue, setInputValue] = useState('');
-//   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-//   const inputRef = useRef<HTMLInputElement>(null);
+interface NewMessageFieldProps {
+  users: User[];
+  onUserSelect: (user: User) => void;
+}
 
-//   useEffect(() => {
-//     const handleClickOutside = (event: MouseEvent) => {
-//       if (anchorEl && inputRef.current && !inputRef.current.contains(event.target as Node)) {
-//         setAnchorEl(null);
-//       }
-//     };
-
-//     document.addEventListener('click', handleClickOutside);
-//     return () => {
-//       document.removeEventListener('click', handleClickOutside);
-//     };
-//   }, [anchorEl]);
-
-//   const handleInputClick = (event: React.MouseEvent<HTMLInputElement>) => {
-//     setAnchorEl(event.currentTarget);
-//   };
-
-//   const handleMenuItemClick = (user: any) => {
-//     setInputValue(user.displayName);
-//     setAnchorEl(null);
-//   };
-
-//   return (
-// <Box>
-//   <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, }}>
-//   <Typography sx={{ fontSize: '17px', fontWeight: 'bold' , color:'#214F6D',minWidth:'40px'}} variant="body1">
-//     To :
-//   </Typography>
-//       <TextField
-//         value={inputValue}
-//         onClick={handleInputClick}
-//         inputRef={inputRef}
-//         variant="standard"
-//         placeholder="Select a user"
-//         fullWidth
-//         InputProps={{
-//           disableUnderline: true,
-//           style: {
-//             background: 'none',
-//             border: 'none',
-//             outline: 'none',
-//             fontSize: '16px',
-//           },
-//         }}
-//         sx={{
-//           ml: 1,
-//           '& .MuiInputBase-input': {
-//             padding: 0,
-//           },
-//         }}
-//       />
-//        </Box>
-//       <Menu
-//         anchorEl={anchorEl}
-//         open={Boolean(anchorEl)}
-//         onClose={() => setAnchorEl(null)}
-//         PaperProps={{
-//           style: {
-//             maxHeight: 300,
-//             width: '100%',
-//             maxWidth: '1100px',
-//           },
-//         }}
-//       >
-//         {users.map((user: any) => (
-//           <MenuItem key={user.id} onClick={() => handleMenuItemClick(user)}>
-//             <ListItemIcon>
-//               {user.icon ? (
-//                 <img src={user.icon} alt={user.displayName} style={{ width: 24, height: 24 }} />
-//               ) : (
-//                 <Avatar sx={{ width:'40px', height:'40px', mr:'10px'}}>{user.displayName.charAt(0)}</Avatar>
-//               )}
-//             </ListItemIcon>
-//             <ListItemText sx={{'& .MuiTypography-root':{fontSize:'13px'}}} primary={user.displayName} secondary={`@${user.username}`} />
-//           </MenuItem>
-//         ))}
-//       </Menu>
-//     </Box>
-//   );
-// }
-
-
-export default function UserAutocomplete({ users }: { users: User[] }) {
+export default function NewMessageField({ users, onUserSelect }: NewMessageFieldProps) {
   return (
     <Box>
-      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, }}>
+      <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
         <Typography sx={{ fontSize: '17px', fontWeight: 'bold', color: '#214F6D', minWidth: '40px' }} variant="body1">
-          To :
+          To:
         </Typography>
         <Autocomplete
+          onChange={(event, value) => onUserSelect(value as User)}
           options={users}
           getOptionLabel={(option) => option.displayName} // Display name in the input
           disablePortal
@@ -293,6 +212,6 @@ export default function UserAutocomplete({ users }: { users: User[] }) {
       </Box>
     </Box>
   );
-};
+}
 
 

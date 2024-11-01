@@ -1,0 +1,58 @@
+.container {
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  margin-top: 60px;
+  flex-direction: column;
+}
+
+.profileContainer{
+    max-height: 350px;
+    height: 100%;
+    border-bottom: 1px solid #E5E5E5;
+    width: 100%;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  margin-top: 40px;
+}
+
+
+.avatar {
+  width: 120px !important;
+  height: 120px !important;
+  margin-right: 20px;
+  border-radius: 5px !important;
+}
+
+.userDetails {
+  display: flex;
+  flex-direction: column;
+  margin-top: 15px;
+}
+
+.displayName {
+  font-size: 20px;
+  font-weight: bold;
+  color: #06334D;
+  font-weight: bold !important;
+}
+
+.username {
+  font-size: 16px;
+  color: #666;
+}
+
+.profileMessage{
+    margin-top: 20px;
+    width: 100%;
+    color: #5691B2;
+
+    span{
+        font-weight: bold;
+        color:#245E80;
+    }
+}

@@ -1,43 +1,86 @@
 "use client";
 
-import { Box } from '@mui/material';
+import { Box, Avatar, Typography } from '@mui/material';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Home from '../../home/page';
-import styles from '../index.module.scss';
-import UserAutocomplete from '../../../common/Formfields';
+import styles from './index.module.scss';
+import CustomButton from '@/components/GenericButton';
+import { useParams } from 'next/navigation';
+import MessageEditor from '@/common/MessageEditor';
 
-interface Params {
-  // Define the expected structure of params here
-  userId: string;
-}
+// interface Params {
+//   dmSpecificUser: string;
+// }
 
-export default function DmSpecifiUser({ params }: { params: Params }) {
-    const [users, setUsers] = useState([]);
- 
+type User = {
+  id: string;
+  displayName: string;
+  username: string;
+  icon?: string;
+};
 
-  const fetchUsers = async () => {
+export default function DmSpecificUser() {
+  const [user, setUser] = useState<User | null>(null);
+  const params = useParams();
+
+  const fetchUserById = async (userId: string) => {
     try {
-      const response = await axios.get('http://localhost:4000/api/users', {
+      const response = await axios.get(`http://localhost:4000/api/users/${userId}`, {
         withCredentials: true,
       });
-      setUsers(response.data);
+      setUser(response.data);
     } catch (error) {
-      console.error('Error fetching users:', error);
+      console.error('Error fetching user:', error);
     }
   };
 
   useEffect(() => {
-    fetchUsers();
+    if (typeof params?.dmSpecificUser === 'string') {
+      fetchUserById(params.dmSpecificUser);
+    }
   }, []);
-
 
   return (
     <Home>
-      <Box className={styles.content}>
-        <p className={styles.newMessageTitle}>New Message</p>
-        <Box className={styles.toMessageStyles}>
-          <UserAutocomplete users={users} />
+      <Box className={styles.container}>
+        <Box className={styles.profileContainer}>
+          <Box sx={{ ml: '15px' }}>
+            {user && (
+              <>
+                <Box className={styles.userInfo}>
+
+                  {!user.icon ?
+                    <Avatar variant='rounded' className={styles.avatar}>{user.displayName.charAt(0)}</Avatar>
+                    :
+                    (<Avatar variant='square' src={user.icon} />)
+                  }
+                </Box>
+                <Box className={styles.userDetails}>
+                  <Typography variant="h6" className={styles.displayName}>
+                    {user.displayName}
+                  </Typography>
+                  <Typography variant="body2" className={styles.username}>
+                    @{user.username}
+                  </Typography>
+                </Box>
+
+              </>
+            )}
+            <Box className={styles.profileMessage}>
+              <p>This conversation is just between
+                <span> @{user?.username}</span> and you. Check out their profile to learn more about them.</p>
+            </Box>
+            <CustomButton title='View Profile' sx={{
+              backgroundColor: "white",
+              border: "1px solid #08344D",
+              color: "#08344D",
+              marginTop: '10px',
+            }} />
+          </Box>
+        </Box>
+        <Box sx={{width: '100%'}}>
+        <MessageEditor />
         </Box>
       </Box>
     </Home>
