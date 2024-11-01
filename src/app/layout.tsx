@@ -1,8 +1,8 @@
 import { ThemeProvider } from "@mui/material"; // Import MUI components
 import type { Metadata } from "next";
 import "./globals.css";
-import theme from "@/app/theme"; // Ensure this path is correct
-import { geistMono, geistSans } from "@/app/utils/helper";
+import theme from "@/theme"; // Ensure this path is correct
+import { geistMono, geistSans } from "@/utils/helper";
 
 export const metadata: Metadata = {
   title: "Create Next App",

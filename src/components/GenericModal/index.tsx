@@ -1,4 +1,4 @@
-import { FormBuilder } from "@/app/common/Formbuilder";
+import { FormBuilder } from "@/common/Formbuilder";
 import {
   Dialog,
   DialogActions,
@@ -12,7 +12,7 @@ import { Box, SxProps, Theme } from "@mui/system";
 import * as React from "react";
 import CustomButton from "../GenericButton";
 import styles from "./index.module.scss";
-import closeicon from "@/app/assets/images/closeicon.png";
+// import closeicon from "@/assets/images/closeicon.png";
 
 // Define the prop types
 interface FormField {
@@ -75,7 +75,7 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
           onClick={onClose}
           sx={{ position: "absolute", right: 8, top: 8 }}
         >
-          <img src={closeicon.src} alt="closeicon" height={'20px'} width={'20px'} />
+          {/* <img src={closeicon.src} alt="closeicon" height={'20px'} width={'20px'} /> */}
         </IconButton>
       <DialogContent className={styles.dialogContent}>
         {!!formFields && formFields?.map((field, index) => (

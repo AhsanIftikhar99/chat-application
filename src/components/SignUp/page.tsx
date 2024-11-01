@@ -1,6 +1,6 @@
-import CustomDialog from "@/app/components/GenericModal";
+import CustomDialog from "@/components/GenericModal";
 import axios from "axios";
-import { signupFormFields } from "@/app/utils/constants";
+import { signupFormFields } from "@/utils/constants";
 import { useRouter } from "next/navigation";
 
 

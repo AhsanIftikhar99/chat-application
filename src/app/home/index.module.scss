@@ -1,0 +1,31 @@
+.container {
+    background: white;
+    width: 100%;
+    display: flex;
+  }
+  
+  .content {
+    background: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .welcomeImage {
+    width: 100%;
+    max-width: 400px;
+  }
+  
+  .title {
+    color: #214F6D;
+    font-size: 32px;
+    margin-bottom: 10px;
+  }
+  
+  .subtitle {
+    color: #214F6D;
+    margin-bottom: 10px;
+  }
+  

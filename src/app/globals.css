@@ -12,7 +12,7 @@
 
 @font-face {
   font-family: 'Righteous';
-  src: url('@/app/assets/fonts/Righteous-Regular.ttf');
+  src: url('@/assets/fonts/Righteous-Regular.ttf');
 }
 
 html,

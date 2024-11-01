@@ -12,12 +12,18 @@ import {
 } from "@mui/material";
 import GroupIcon from "@mui/icons-material/Group";
 import MessageIcon from '@mui/icons-material/Message';
+import { useRouter } from "next/navigation";
 
 export default function SideMenu() {
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
+    const router=useRouter();
+
     const handleListItemClick = (index: number) => {
         setSelectedIndex(index);
+        if(index===1){
+            router.push("/directmessage");
+        }
     };
 
     return (
@@ -75,17 +81,18 @@ export default function SideMenu() {
 
 // Styles
 const containerStyles = {
-    width: 300,
+    width: 400,
     backgroundColor: "#FAFDFF",
     padding: "10px",
     borderRight: "1px solid #E0E0E0",
     display: 'flex',
     height: "100%",
     flexDirection: 'column',
+    pt:'70px'
 };
 
 const titleStyles = {
-    color: "primary",
+    color: "#214F6D",
     mb: "10px",
     fontWeight: "bold",
 };

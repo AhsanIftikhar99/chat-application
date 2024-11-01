@@ -1,36 +1,36 @@
-import CustomDialog from "@/app/components/GenericModal";
+import CustomDialog from "@/components/GenericModal";
 import axios from "axios";
-import { signupFormFields } from "@/app/utils/constants";
+import { loginFormFields } from "@/utils/constants";
+import { useRouter } from "next/navigation";
 
-
-interface SignUpProps {
+interface LoginProps {
   modaleOpen: boolean;
   handleModalClose: () => void;
 }
 
-export default function SignUp({ modaleOpen, handleModalClose }: SignUpProps) {
-  
-  const signup = async (
-    username: string,
+export default function Login({ modaleOpen, handleModalClose }: LoginProps) {
+
+  const router = useRouter()
+ 
+  const login = async (
     email: string,
     password: string,
-    displayName: string
   ) => {
     try {
       const response = await axios.post(
-        "http://localhost:4000/api/auth/signup",
+        "http://localhost:4000/api/auth/login",
         {
-          username,
           email,
           password,
-          displayName,
         },
         { withCredentials: true } // Enable sending cookies with the request
       );
 
-      if (response.status === 201) {
+      if (response.status === 200) {
         console.log("Signup successful", response.data);
-        return response.data; // Contains the success message
+        router.push("/home");
+        handleModalClose();
+         // Navigate to the homepage
       }
     } catch (error: any) {
       if (error.response) {
@@ -43,21 +43,18 @@ export default function SignUp({ modaleOpen, handleModalClose }: SignUpProps) {
 
   const handleSubmit = (formData: { [key: string]: any }) => {
     console.log(formData);
-    signup(
-      formData.username,
+    login(
       formData.email,
       formData.password,
-      formData.displayName
     );
-    handleModalClose();
   };
 
   return (
     <CustomDialog
-      title="Sign Up"
+      title="Login"
       open={modaleOpen}
       onClose={handleModalClose}
-      formFields={signupFormFields}
+      formFields={loginFormFields}
       onSubmit={handleSubmit}
     />
   );

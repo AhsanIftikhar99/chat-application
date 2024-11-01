@@ -61,9 +61,6 @@ export default function Sidebar() {
                 <ListItemIcon sx={iconStyles}>
                   {item.icon}
                 </ListItemIcon>
-                <Box sx={{ color: "white", "&:hover": { color: "#08344D" } }}>
-                  {item.text}
-                </Box>
               </ListItemButton>
             </ListItem>
           ))}
@@ -95,6 +92,8 @@ const drawerStyles = {
     backgroundColor: "#08344D",
     color: "white",
     boxShadow: "none",
+    overflowX: "hidden",
+    overflowY:'hidden',
   },
 };
 
