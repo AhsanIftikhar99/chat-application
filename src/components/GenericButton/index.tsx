@@ -1,10 +1,12 @@
 import React from 'react';
 import Button from '@mui/material/Button';
 import { SxProps, Theme } from '@mui/system';
+import { SvgIconComponent } from '@mui/icons-material';
 
 // Define the prop types
 interface CustomButtonProps {
-  title: string;
+  title?: string;
+  icon?: React.ReactElement<SvgIconComponent>;
   onClick?: () => void;
   sx?: SxProps<Theme>;
 }
@@ -17,9 +19,14 @@ const defaultButtonStyles: SxProps<Theme> = {
   textTransform: 'none',
 };
 
-const CustomButton: React.FC<CustomButtonProps> = ({ title, onClick, sx }) => {
+const CustomButton: React.FC<CustomButtonProps> = ({ title, icon, onClick, sx }) => {
   return (
-    <Button type='submit' sx={{ ...defaultButtonStyles, ...sx }} onClick={onClick}>
+    <Button
+      type='submit'
+      sx={{ ...defaultButtonStyles, ...sx }}
+      onClick={onClick}
+      endIcon={icon} // This will place the icon at the end of the button
+    >
       {title}
     </Button>
   );
