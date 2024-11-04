@@ -1,0 +1,62 @@
+.chatContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 100%;
+  height: calc(100vh - 400px); /* Adjust this based on your layout */
+}
+
+.messagesContainer {
+  flex-grow: 1;
+  overflow-y: auto;
+  max-height: 100%; /* This allows it to grow as messages are added */
+  padding: 10px;
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */ 
+}
+
+.messageRow {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+
+.messageAvatar {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}
+
+.messageContentWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.messageHeader {
+  display: flex;
+  align-items: center;
+  margin-top: 3px;
+  gap: 8px;
+}
+
+.messageSender {
+  color: #06334d;
+  font-size: 14px;
+  font-weight: 700;
+  margin: 0;
+}
+
+.messageTimestamp {
+  font-size: 12px;
+  color: gray;
+}
+
+.messageContent {
+  font-size: 14px;
+  color: #000000;
+  font-weight: 400;
+  margin-top: 4px;
+}

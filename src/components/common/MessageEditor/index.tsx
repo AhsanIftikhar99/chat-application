@@ -4,7 +4,7 @@ import React from 'react';
 import ReactQuill from 'react-quill-new';
 import 'react-quill-new/dist/quill.snow.css';
 
-interface TextEditorProps {
+type TextEditorProps = {
   value: string;
   onChange: (value: string) => void;
   theme?: string;
@@ -15,8 +15,8 @@ const toolbarOptions = [
   ['blockquote', 'code-block'],
   ['link', 'image'],
   [{ 'header': 1 }, { 'header': 2 }],
-  [{ 'list': 'ordered'}, { 'list': 'bullet' }, { 'list': 'check' }],
-  [{ 'script': 'sub'}, { 'script': 'super' }],
+  [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
+  [{ 'script': 'sub' }, { 'script': 'super' }],
   [{ 'direction': 'rtl' }],
   [{ 'font': [] }],
   [{ 'align': [] }],

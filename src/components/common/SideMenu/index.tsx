@@ -1,5 +1,7 @@
 "use client";
-import React, { useState } from "react";
+import axios from "@/utils/axiosConfig";
+import GroupIcon from "@mui/icons-material/Group";
+import MessageIcon from '@mui/icons-material/Message';
 import {
     Box,
     Divider,
@@ -10,18 +12,44 @@ import {
     ListItemText,
     Typography,
 } from "@mui/material";
-import GroupIcon from "@mui/icons-material/Group";
-import MessageIcon from '@mui/icons-material/Message';
 import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
-export default function SideMenu() {
+
+type User = {
+    id: string;
+    username: string;
+    displayName: string;
+    profilePicture?: string;
+};
+
+export default function SideMenu({ setShowLoader }: { setShowLoader: (value: boolean) => void }) {
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
-    const router=useRouter();
+    const [users, setUsers] = useState<User[]>([]);
+
+    const fetchDmedUsers = async () => {
+        try {
+            const response = await axios.get('http://localhost:4000/api/chats/getDmUsers');
+            setUsers(response.data);
+            console.log('DMed users:', response.data);
+            setShowLoader(false);
+        } catch (error) {
+            setShowLoader(false);
+            console.error('Error fetching DMed users:', error);
+        }
+    };
+
+    useEffect(() => {
+        setShowLoader(true);
+        fetchDmedUsers();
+    }, []);
+
+    const router = useRouter();
 
     const handleListItemClick = (index: number) => {
         setSelectedIndex(index);
-        if(index===1){
+        if (index === 1) {
             router.push("/directmessage");
         }
     };
@@ -88,7 +116,8 @@ const containerStyles = {
     display: 'flex',
     height: "100%",
     flexDirection: 'column',
-    pt:'70px'
+    pt: '70px',
+    minHeight: 'calc(100vh-60px)',
 };
 
 const titleStyles = {

@@ -1,17 +1,19 @@
 "use client";
 
 import globeImage from "@/assets/images/globe.png";
+import Loader from "@/components/Loader";
+import Login from "@/components/Login/page";
 import Navbar from "@/components/Navbar";
+import SignUp from "@/components/SignUp/page";
 import { Box, Container, Toolbar, Typography } from "@mui/material";
 import Grid from "@mui/material/Grid";
 import { useState } from "react";
 import CustomButton from "../components/GenericButton";
-import SignUp from "../components/SignUp/page";
-import Login from "../components/Login/page";
 
 export default function App() {
   const [modaleOpen, setModalOpen] = useState(false);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [showLoader, setShowLoader] = useState(false);
 
   const handleLoginModalOpen = () => setLoginModalOpen(true);
   const handleLoginModalClose = () => setLoginModalOpen(false);
@@ -22,6 +24,7 @@ export default function App() {
 
   return (
     <>
+    {showLoader && <Loader />}
       <Navbar />
       <Toolbar /> 
       <Container
@@ -107,10 +110,11 @@ export default function App() {
             />
           </Grid>
         </Grid>
-        <SignUp modaleOpen={modaleOpen} handleModalClose={handleModalClose} />
+        <SignUp modaleOpen={modaleOpen} handleModalClose={handleModalClose} setShowLoader={setShowLoader} />
         <Login
           modaleOpen={loginModalOpen}
           handleModalClose={handleLoginModalClose}
+          setShowLoader={setShowLoader}
         />
       </Container>
     </>

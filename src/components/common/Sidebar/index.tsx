@@ -1,6 +1,7 @@
 // Sidebar.js
 import React from 'react';
 import {
+  Avatar,
   Box,
   Drawer,
   List,
@@ -74,7 +75,9 @@ export default function Sidebar() {
           </ListItemIcon>
         </ListItemButton>
         <Box sx={accountCircleBoxStyles}>
+          <Avatar>
           <AccountCircle sx={{ color: "white", fontSize: 40 }} />
+          </Avatar>
           <Box sx={statusIndicatorStyles} />
         </Box>
       </Box>

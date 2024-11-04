@@ -2,15 +2,18 @@ import CustomDialog from "@/components/GenericModal";
 import axios from "axios";
 import { signupFormFields } from "@/utils/constants";
 import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 
 
-interface SignUpProps {
+type SignUpProps = {
   modaleOpen: boolean;
   handleModalClose: () => void;
+  setShowLoader: (value: boolean) => void;
 }
 
-export default function SignUp({ modaleOpen, handleModalClose }: SignUpProps) {
+export default function SignUp({ modaleOpen, handleModalClose, setShowLoader}: SignUpProps) {
   const router = useRouter();
+  const [isPending, startTransition] = useTransition();
   const signup = async (
     username: string,
     email: string,
@@ -28,13 +31,18 @@ export default function SignUp({ modaleOpen, handleModalClose }: SignUpProps) {
         },
         { withCredentials: true } // Enable sending cookies with the request
       );
-
+      setShowLoader(false);
       if (response.status === 201) {
-        console.log("Signup successful", response.data);
-        router.push("/home"); // Navigate to the homepage
+        console.log("Signup successful", response?.data?.user);
+        localStorage.setItem("user", JSON.stringify(response?.data));
+        startTransition(() => {
+          setShowLoader(true); // Start the loader
+          router.push("/home"); // Navigate to the homepage
+        });
         handleModalClose();
       }
     } catch (error: any) {
+      setShowLoader(false);
       if (error.response) {
         console.error("Signup failed:", error.response.data.message);
       } else {
@@ -45,6 +53,7 @@ export default function SignUp({ modaleOpen, handleModalClose }: SignUpProps) {
 
   const handleSubmit = (formData: { [key: string]: any }) => {
     console.log(formData);
+    setShowLoader(true);
     signup(
       formData.username,
       formData.email,

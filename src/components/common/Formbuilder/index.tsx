@@ -1,7 +1,9 @@
-import { EmailInput, PasswordInput, TextInputField } from "../Formfields"
+import EmailInput from "../Formfields/EmailField";
+import { PasswordInput } from "../Formfields/Password/Password";
+import TextInputField from "../Formfields/TextField";
 
 
-interface FormBuilderProps {
+type FormBuilderProps = {
     formFields: any;
 }
 

@@ -2,39 +2,41 @@ import CustomDialog from "@/components/GenericModal";
 import axios from "axios";
 import { loginFormFields } from "@/utils/constants";
 import { useRouter } from "next/navigation";
+import { useTransition } from "react";
 
-interface LoginProps {
+type LoginProps = {
   modaleOpen: boolean;
   handleModalClose: () => void;
-}
+  setShowLoader: (value: boolean) => void;
+};
 
-export default function Login({ modaleOpen, handleModalClose }: LoginProps) {
+export default function Login({ modaleOpen, handleModalClose, setShowLoader }: LoginProps) {
+  const router = useRouter();
+  const [isPending, startTransition] = useTransition();
 
-  const router = useRouter()
- 
-  const login = async (
-    email: string,
-    password: string,
-  ) => {
+  const login = async (email: string, password: string) => {
     try {
       const response = await axios.post(
         "http://localhost:4000/api/auth/login",
-        {
-          email,
-          password,
-        },
+        { email, password },
         { withCredentials: true } // Enable sending cookies with the request
       );
 
       if (response.status === 200) {
-        console.log("Signup successful", response.data);
-        router.push("/home");
-        handleModalClose();
-         // Navigate to the homepage
+        console.log("Login successful", response?.data);
+        localStorage.setItem("user", JSON.stringify(response?.data?.user));
+        // Use transition to handle the navigation and loading state
+        startTransition(() => {
+          setShowLoader(true); // Start the loader
+          router.push("/home"); // Navigate to the homepage
+        });
+
+        handleModalClose(); // Close the modal
       }
     } catch (error: any) {
+      setShowLoader(false); // Stop loader on error
       if (error.response) {
-        console.error("Signup failed:", error.response.data.message);
+        console.error("Login failed:", error.response.data.message);
       } else {
         console.error("Error:", error.message);
       }
@@ -43,10 +45,10 @@ export default function Login({ modaleOpen, handleModalClose }: LoginProps) {
 
   const handleSubmit = (formData: { [key: string]: any }) => {
     console.log(formData);
-    login(
-      formData.email,
-      formData.password,
-    );
+    setShowLoader(true); // Show loader when form submission begins
+    login(formData.email, formData.password).finally(() => {
+      setShowLoader(false); // Stop loader after login completion
+    });
   };
 
   return (

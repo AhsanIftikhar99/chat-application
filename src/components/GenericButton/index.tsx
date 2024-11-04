@@ -4,7 +4,7 @@ import { SxProps, Theme } from '@mui/system';
 import { SvgIconComponent } from '@mui/icons-material';
 
 // Define the prop types
-interface CustomButtonProps {
+type CustomButtonProps = {
   title?: string;
   icon?: React.ReactElement<SvgIconComponent>;
   onClick?: () => void;

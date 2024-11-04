@@ -5,8 +5,9 @@ import axios from 'axios';
 import { useEffect, useState } from 'react';
 import Home from '../home/page';
 import styles from './index.module.scss';
-import NewMessageField from '../../common/Formfields';
 import { useRouter } from 'next/navigation';
+import SearchUserField from '@/components/common/Formfields/SearchPeopleField';
+
 
 export default function DirectMessage() {
   const [users, setUsers] = useState([]);
@@ -37,7 +38,7 @@ export default function DirectMessage() {
       <Box className={styles.content}>
         <p className={styles.newMessageTitle}>New Message</p>
         <Box className={styles.toMessageStyles}>
-          <NewMessageField users={users} onUserSelect={handleUserSelect} />
+          <SearchUserField users={users} onUserSelect={handleUserSelect} />
         </Box>
       </Box>
     </Home>

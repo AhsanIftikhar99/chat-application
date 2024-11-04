@@ -1,4 +1,3 @@
-import { FormBuilder } from "@/common/Formbuilder";
 import {
   Dialog,
   DialogActions,
@@ -12,10 +11,11 @@ import { Box, SxProps, Theme } from "@mui/system";
 import * as React from "react";
 import CustomButton from "../GenericButton";
 import styles from "./index.module.scss";
-// import closeicon from "@/assets/images/closeicon.png";
+import closeicon from "@/assets/images/closeicon.png";
+import { FormBuilder } from "../common/Formbuilder";
 
 // Define the prop types
-interface FormField {
+type FormField = {
   label: string;
   type: string;
   name?: string;
@@ -23,7 +23,7 @@ interface FormField {
   sx?: any;
 }
 
-interface CustomDialogProps {
+type CustomDialogProps = {
   title: string;
   open: boolean;
   onClose: () => void;
@@ -51,8 +51,8 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
   const defaultModalStyles: SxProps<Theme> = {
     backgroundColor: "white",
     maxWidth: "450px",
-    maxHeight:'100%',
-    paddingBottom:'20px',
+    maxHeight: '100%',
+    paddingBottom: '20px',
   };
 
   return (
@@ -71,12 +71,12 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
         {title}
       </DialogTitle>
       <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{ position: "absolute", right: 8, top: 8 }}
-        >
-          {/* <img src={closeicon.src} alt="closeicon" height={'20px'} width={'20px'} /> */}
-        </IconButton>
+        aria-label="close"
+        onClick={onClose}
+        sx={{ position: "absolute", right: 8, top: 8 }}
+      >
+        <img src={closeicon.src} alt="closeicon" height={'20px'} width={'20px'} />
+      </IconButton>
       <DialogContent className={styles.dialogContent}>
         {!!formFields && formFields?.map((field, index) => (
           <Box key={index} className={styles.formFieldContainer}>
