@@ -8,6 +8,7 @@ type TextEditorProps = {
   value: string;
   onChange: (value: string) => void;
   theme?: string;
+  className?: any;
 }
 
 const toolbarOptions = [
@@ -27,12 +28,14 @@ const TextEditor: React.FC<TextEditorProps> = ({
   value,
   onChange,
   theme = 'snow',
+  className
 }) => {
   return (
     <ReactQuill
       theme={theme}
       value={value}
       onChange={onChange}
+      className={className}
       modules={{
         toolbar: toolbarOptions,
       }}

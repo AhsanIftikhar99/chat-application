@@ -1,158 +1,43 @@
+
 "use client";
-import axios from '@/utils/axiosConfig';
-import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
-import useSocket from '@/hooks/useSocket';
-import CustomButton from '@/components/GenericButton';
 
-import SendIcon from '@mui/icons-material/Send';
-import Home from '../../home/page';
-import { Avatar, Box, Typography } from '@mui/material';
 import Loader from '@/components/Loader';
+import { Box } from '@mui/material';
+import Home from '../../home/page';
 
-import styles from './index.module.scss';
 import ChatContainer from '@/components/common/ChatContainer';
-import TextEditor from '@/components/common/MessageEditor';
-import { Message, User } from '@/utils/types';
-
+import ChatProfileCard from '@/components/common/ChatProfileCard';
+import { useGetDataFromServer } from '@/hooks/useGetDataFromServer';
+import { User } from '@/utils/types';
+import styles from './index.module.scss';
 
 export default function DmSpecificUser() {
-  const [user, setUser] = useState<User | null>(null);
-  const [chatId, setChatId] = useState<string | null>(null);
-  const [message, setMessage] = useState<string>('');
-  const [messages, setMessages] = useState<Message[]>([]);
-  const [showLoader, setShowLoader] = useState(false);
-  const LoggedInUser = JSON.parse(localStorage.getItem('user') || '{}');
-  const socket = useSocket();
+
   const params = useParams();
 
-  const fetchUserById = async (userId: string) => {
-    setShowLoader(true);
-    try {
-      const response = await axios.get(`http://localhost:4000/api/users/${userId}`, {
-        withCredentials: true,
-      });
-      setShowLoader(false);
-      setUser(response.data);
-    } catch (error) {
-      console.error('Error fetching user:', error);
-    }
-  };
+  // Fetch user data
+  /// fetch it in CHatProfileCArd, make it server fetch
+  const { data: fetchedUser, isLoading: isUserLoading } = useGetDataFromServer<User>({
+    url: `http://localhost:4000/api/users/getUserById/${params?.dmSpecificUser}`,
+    queryKey: ["user", params?.dmSpecificUser],
+    enabled: !!params?.dmSpecificUser,
+  });
 
-  const fetchMessages = async (chatId: string) => {
-    setShowLoader(true);
-    try {
-      const response = await axios.get(`http://localhost:4000/api/chats/${chatId}/messages`, {
-        withCredentials: true,
-      });
-      setShowLoader(false);
-      setMessages(response.data);
-    } catch (error) {
-      console.error('Error fetching messages:', error);
-    }
-  };
-
-  useEffect(() => {
-    if (typeof params?.dmSpecificUser === 'string') {
-      fetchUserById(params.dmSpecificUser);
-    }
-  }, [params]);
-
-  useEffect(() => {
-    setShowLoader(true);
-    if (user) {
-      try {
-        axios.get(`http://localhost:4000/api/chats/${user.id}`)
-          .then((res) => {
-            setShowLoader(false);
-            setChatId(res.data.chatId);
-            fetchMessages(res.data.chatId);
-          })
-      } catch (error) {
-        setShowLoader(false);
-        console.error('Error fetching chat:', error);
-      }
-    }
-  }, [user]);
-
-  useEffect(() => {
-    socket.on('newMessage', (newMessage) => {
-      setMessages((prevMessages) => [...prevMessages, newMessage]);
-    });
-
-    return () => {
-      socket.off('newMessage');
-    };
-  }, [socket]);
-
-  const handleSendMessage = () => {
-    if (message.trim() && chatId && user) {
-      const newMessage = {
-        chatId,
-        senderId: LoggedInUser.id,
-        content: message.replace(/<\/?p>/g, ''), // Sanitize <p> tags
-        messageType: 'text',
-      };
-      console.log('Sending message:', newMessage);
-      socket.emit('sendMessage', newMessage);
-      setMessages((prevMessages) => [
-        ...prevMessages,
-        { ...newMessage, timestamp: new Date().toISOString(), id: Math.random().toString() },
-      ]);
-      setMessage('');
-    }
-  };
+  // Fetch chat data for the fetched user
+  /// fetch it in ChatContainer, make it server fetch
+  const { data: chatData, isLoading: isChatLoading } = useGetDataFromServer<{ chatId: string }>({
+    url: `http://localhost:4000/api/chats/${fetchedUser?.id}`,
+    queryKey: ["chat", fetchedUser?.id],
+    enabled: !!fetchedUser?.id,
+  });
 
   return (
     <Home>
-      {showLoader && <Loader />}
+      {(isUserLoading || isChatLoading) && <Loader />}
       <Box className={styles.container}>
-        <Box className={styles.profileContainer}>
-          <Box sx={{ ml: '15px' }}>
-            {user && (
-              <>
-                <Box className={styles.userInfo}>
-                  {!user.icon ? (
-                    <Avatar variant="rounded" className={styles.avatar}>
-                      {user.displayName.charAt(0)}
-                    </Avatar>
-                  ) : (
-                    <Avatar variant="square" src={user.icon} />
-                  )}
-                </Box>
-                <Box className={styles.userDetails}>
-                  <Typography variant="h6" className={styles.displayName}>
-                    {user.displayName}
-                  </Typography>
-                  <Typography variant="body2" className={styles.username}>
-                    @{user.username}
-                  </Typography>
-                </Box>
-              </>
-            )}
-            <Box className={styles.profileMessage}>
-              <p>
-                This conversation is just between
-                <span> @{user?.username}</span> and you. Check out their profile to learn more about them.
-              </p>
-            </Box>
-            <CustomButton
-              title="View Profile"
-              sx={{
-                backgroundColor: 'white',
-                border: '1px solid #08344D',
-                color: '#08344D',
-                marginTop: '10px',
-              }}
-            />
-          </Box>
-        </Box>
-        {/* Use ChatContainer component to display messages */}
-        <ChatContainer messages={messages} user={user} />
-        <Box className={styles.editorContainer}>
-          <TextEditor value={message} onChange={setMessage} />
-          <CustomButton title="Send" icon={<SendIcon />} onClick={handleSendMessage} />
-        </Box>
+        <ChatProfileCard fetchedUser={fetchedUser as User} />
+        {!!chatData && <ChatContainer chatData={chatData as {}} chatId={chatData?.chatId as string} user={fetchedUser as any} />}
       </Box>
     </Home>
   );

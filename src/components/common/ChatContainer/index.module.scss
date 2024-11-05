@@ -3,7 +3,7 @@
   flex-direction: column;
   justify-content: space-between;
   width: 100%;
-  height: calc(100vh - 400px); /* Adjust this based on your layout */
+  height: calc(100vh - 450px); /* Adjust this based on your layout */
 }
 
 .messagesContainer {
@@ -59,4 +59,21 @@
   color: #000000;
   font-weight: 400;
   margin-top: 4px;
+}
+.editorContainer {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  border-top: 1px solid #ddd;
+  position: fixed;
+  bottom: 0;
+  background-color: #fff;
+  width: 100%;
+}
+
+.textEditor {
+  flex-grow: 1; /* Allow TextEditor to take up remaining space */
+  margin-right: 10px; /* Space between TextEditor and the Send button */
+  max-width: 1050px;
+  width: 100%;
 }

@@ -11,6 +11,8 @@
     align-items: center;
     justify-content: center;
     width: 100%;
+    padding: 20px; /* Add some padding */
+    overflow-y: auto; /* Ensure this content can scroll */
   }
   
   .welcomeImage {

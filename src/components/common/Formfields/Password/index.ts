@@ -1,3 +1,3 @@
-import Password from './Password'
+import {PasswordInput} from './Password'
 
-export default Password
+export default PasswordInput

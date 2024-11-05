@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import theme from "@/theme"; // Ensure this path is correct
 import { geistMono, geistSans } from "@/utils/helper";
+import ReactQueryProvider from "@/utils/providers/ReactQueryProvider";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -17,9 +18,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <ReactQueryProvider>
         <ThemeProvider theme={theme}>
          {children}
         </ThemeProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );

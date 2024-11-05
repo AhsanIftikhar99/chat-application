@@ -3,12 +3,25 @@ import { useEffect } from 'react';
 import { io } from 'socket.io-client';
 import Cookies from 'js-cookie';
 
-const useSocket = () => {
-  const token = Cookies.get('token'); // Retrieve token from cookies
+let socket = null;
 
-  const socket = io('http://localhost:4000', {
-    auth: { token },
-  });
+const getSocketInstance = () => {
+
+  if (!socket) {
+    const token = Cookies.get('token');
+    socket = io('http://localhost:4000', {
+      auth: { token },
+    });
+  }
+
+  return socket
+
+}
+
+const useSocket = () => {
+   // Retrieve token from cookies
+
+  const socket = getSocketInstance()
 
   useEffect(() => {
     socket.on('connect', () => {

@@ -1,74 +1,56 @@
+// components/SignUp.tsx
+
 import CustomDialog from "@/components/GenericModal";
-import axios from "axios";
+import usePostDataToServer from "@/hooks/usePostDatatoServer";
 import { signupFormFields } from "@/utils/constants";
 import { useRouter } from "next/navigation";
-import { useTransition } from "react";
-
+import Loader from "../Loader";
+import CustomSnackbar from "../Toaster";
 
 type SignUpProps = {
   modaleOpen: boolean;
   handleModalClose: () => void;
-  setShowLoader: (value: boolean) => void;
-}
+};
 
-export default function SignUp({ modaleOpen, handleModalClose, setShowLoader}: SignUpProps) {
+export default function SignUp({ modaleOpen, handleModalClose }: SignUpProps) {
   const router = useRouter();
-  const [isPending, startTransition] = useTransition();
-  const signup = async (
-    username: string,
-    email: string,
-    password: string,
-    displayName: string
-  ) => {
-    try {
-      const response = await axios.post(
-        "http://localhost:4000/api/auth/signup",
-        {
-          username,
-          email,
-          password,
-          displayName,
-        },
-        { withCredentials: true } // Enable sending cookies with the request
-      );
-      setShowLoader(false);
-      if (response.status === 201) {
-        console.log("Signup successful", response?.data?.user);
-        localStorage.setItem("user", JSON.stringify(response?.data));
-        startTransition(() => {
-          setShowLoader(true); // Start the loader
-          router.push("/home"); // Navigate to the homepage
-        });
-        handleModalClose();
-      }
-    } catch (error: any) {
-      setShowLoader(false);
-      if (error.response) {
-        console.error("Signup failed:", error.response.data.message);
-      } else {
-        console.error("Error:", error.message);
-      }
-    }
+
+
+  const handleSuccess = (data: any) => {
+    console.log("Signup successful", data);
+    localStorage.setItem("user", JSON.stringify(data));
+      router.push("/home"); // Navigate to the homepage
+    handleModalClose();
   };
 
+
+  const { mutate: signup, status, isError } = usePostDataToServer({
+    onPostReqSuccess: handleSuccess,
+  });
+
   const handleSubmit = (formData: { [key: string]: any }) => {
-    console.log(formData);
-    setShowLoader(true);
-    signup(
-      formData.username,
-      formData.email,
-      formData.password,
-      formData.displayName
-    );
+    signup({
+      API_URL: "/api/auth/signup",
+      BODY: {
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+        displayName: formData.displayName,
+      },
+    });
   };
 
   return (
-    <CustomDialog
-      title="Sign Up"
-      open={modaleOpen}
-      onClose={handleModalClose}
-      formFields={signupFormFields}
-      onSubmit={handleSubmit}
-    />
+    <>
+      {status === 'pending' && <Loader />} {/* Show loader if request is in progress */}
+      {isError && <CustomSnackbar message={'Signup Failed'} severity="error" />} {/* Show error message if signup fails */}
+      <CustomDialog
+        title="Sign Up"
+        open={modaleOpen}
+        onClose={handleModalClose}
+        formFields={signupFormFields}
+        onSubmit={handleSubmit}
+      />
+    </>
   );
 }

@@ -1,5 +1,5 @@
-"use client";
 import axios from "@/utils/axiosConfig";
+import { User } from "@/utils/types";
 import GroupIcon from "@mui/icons-material/Group";
 import MessageIcon from '@mui/icons-material/Message';
 import {
@@ -16,34 +16,26 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
 
-type User = {
-    id: string;
-    username: string;
-    displayName: string;
-    profilePicture?: string;
-};
 
 export default function SideMenu({ setShowLoader }: { setShowLoader: (value: boolean) => void }) {
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
 
-    const [users, setUsers] = useState<User[]>([]);
+    // const fetchDmedUsers = async () => {
+    //     try {
+    //         const response = await axios.get('http://localhost:4000/api/chats/getDmUsers');
+    //         setUsers(response.data);
+    //         console.log('DMed users:', response.data);
+    //         setShowLoader(false);
+    //     } catch (error) {
+    //         setShowLoader(false);
+    //         console.error('Error fetching DMed users:', error);
+    //     }
+    // };
 
-    const fetchDmedUsers = async () => {
-        try {
-            const response = await axios.get('http://localhost:4000/api/chats/getDmUsers');
-            setUsers(response.data);
-            console.log('DMed users:', response.data);
-            setShowLoader(false);
-        } catch (error) {
-            setShowLoader(false);
-            console.error('Error fetching DMed users:', error);
-        }
-    };
-
-    useEffect(() => {
-        setShowLoader(true);
-        fetchDmedUsers();
-    }, []);
+    // useEffect(() => {
+    //     setShowLoader(true);
+    //     // fetchDmedUsers();
+    // }, []);
 
     const router = useRouter();
 
@@ -109,7 +101,7 @@ export default function SideMenu({ setShowLoader }: { setShowLoader: (value: boo
 
 // Styles
 const containerStyles = {
-    width: 400,
+    width: 300,
     backgroundColor: "#FAFDFF",
     padding: "10px",
     borderRight: "1px solid #E0E0E0",

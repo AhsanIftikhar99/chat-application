@@ -1,8 +1,31 @@
-import { NewMessageFieldProps, User } from "@/utils/types";
+"use client";
+
+import { useGetDataFromServer } from "@/hooks/useGetDataFromServer";
+import { User } from "@/utils/types";
 import { Autocomplete, Avatar, Box, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
+import { useRouter } from "next/navigation";
 
-export default function SearchUserField({ users, onUserSelect }: NewMessageFieldProps) {
+
+/// it will be server side comp
+export default function SearchUserField() {
+  const router = useRouter();
+
+
+  /// Make it server side fetch
+  // Use the useGetDataFromServer hook to fetch users
+  const { data: users = [], isLoading, isError } = useGetDataFromServer<User[]>({
+    url: '/api/users/getAllUsers',
+    queryKey: ['users'],
+  });
+
+
+  const onUserSelect = (user: User) => {
+    console.log('Selected user:', user);
+    router.push(`/directmessage/${user?.id}`);
+  };
+
+
   return (
     <Box>
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>

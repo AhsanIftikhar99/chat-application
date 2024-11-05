@@ -1,3 +1,5 @@
+// components/DmSpecificUser.module.scss
+
 .container {
   display: flex;
   align-items: flex-start;
@@ -8,68 +10,19 @@
   height: 100vh;
 }
 
-.profileContainer {
-  max-height: 350px;
-  height: 100%;
-  border-bottom: 1px solid #E5E5E5;
-  width: 100%;
-}
-
-.userInfo {
-  display: flex;
-  align-items: center;
-  margin-top: 40px;
-}
-
-.avatar {
-  width: 120px !important;
-  height: 120px !important;
-  margin-right: 20px;
-  border-radius: 10px !important;
-}
-
-.userDetails {
-  display: flex;
-  flex-direction: column;
-  margin-top: 15px;
-}
-
-.displayName {
-  font-size: 20px;
-  font-weight: bold;
-  color: #06334D;
-  font-weight: bold !important;
-}
-
-.username {
-  font-size: 16px;
-  color: #666;
-}
-
-.profileMessage {
-  margin-top: 20px;
-  width: 100%;
-  color: #5691B2;
-
-  span {
-    font-weight: bold;
-    color: #245E80;
-  }
-}
-
 .chatContainer {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-
   width: 100%;
 }
 
 .messagesContainer {
- margin-left: 10px;
- margin-top: 5px;
- margin-bottom: 5px;
+  margin-left: 10px;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
+
 .messageRow {
   display: flex;
   align-items: flex-start;
@@ -112,17 +65,4 @@
   color: #000000;
   font-weight: 400;
   margin-top: 4px; /* Space between timestamp and message */
-}
-
-
-
-.editorContainer {
-  display: flex;
-  align-items: center;
-  padding: 12px;
-  border-top: 1px solid #ddd;
-  position: fixed;
-  bottom: 0;
-  background-color: #fff;
-  width: 100%;
 }
