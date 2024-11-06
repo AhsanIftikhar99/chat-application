@@ -1,16 +1,32 @@
-// components/UserProfile.tsx
+// components/ChatProfileCard.tsx
 
-import React from 'react';
-import { Avatar, Box, Typography } from '@mui/material';
-import CustomButton from '@/components/GenericButton';
-import styles from './index.module.scss';
-import { User, UserProfileProps } from '@/utils/types';
+import { Avatar, Box, Typography } from "@mui/material";
+import CustomButton from "@/components/GenericButton";
+import styles from "./index.module.scss";
+import { User } from "@/utils/types";
+import axios, { getAxiosConfig } from "@/utils/axiosConfig";
 
-const ChatProfileCard: React.FC<UserProfileProps> = ({ fetchedUser }) => {
+type ChatProfileCardProps = { 
+  dmSpecificUser: string;
+  cookies: string; 
+};
+
+const ChatProfileCard = async ({ dmSpecificUser , cookies}: ChatProfileCardProps) => {
+
+  var fetchedUser: User | null = null;
+
+  try {
+    const userResponse = await axios.get(`/api/users/getUserById/${dmSpecificUser}`, getAxiosConfig(cookies));
+    fetchedUser = userResponse.data;
+  } catch (error) {
+    console.error("Failed to fetch getUserById:", error);
+  }
+
+
   return (
     <Box className={styles.profileContainer}>
       {fetchedUser && (
-        <Box sx={{ ml: '15px' }}>
+        <Box sx={{ ml: "15px" }}>
           <Box className={styles.userInfo}>
             {!fetchedUser.icon ? (
               <Avatar variant="rounded" className={styles.avatar}>
@@ -24,9 +40,6 @@ const ChatProfileCard: React.FC<UserProfileProps> = ({ fetchedUser }) => {
             <Typography variant="h6" className={styles.displayName}>
               {fetchedUser.displayName}
             </Typography>
-            {/* <Typography variant="body2" className={styles.username}>
-              @{fetchedUser.username}
-            </Typography> */}
           </Box>
           <Box className={styles.profileMessage}>
             <p>
@@ -37,10 +50,10 @@ const ChatProfileCard: React.FC<UserProfileProps> = ({ fetchedUser }) => {
           <CustomButton
             title="View Profile"
             sx={{
-              backgroundColor: 'white',
-              border: '1px solid #08344D',
-              color: '#08344D',
-              marginTop: '10px',
+              backgroundColor: "white",
+              border: "1px solid #08344D",
+              color: "#08344D",
+              marginTop: "5px",
             }}
           />
         </Box>

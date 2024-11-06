@@ -7,5 +7,14 @@ const axiosInstance = axios.create({
   withCredentials: true,
 });
 
+// src/utils/axiosUtils.ts
+
+export const getAxiosConfig = (cookies: string) => ({
+  headers: {
+    Cookie: cookies,
+  },
+});
+
+
 export default axiosInstance;
 export type { AxiosError, AxiosRequestConfig };

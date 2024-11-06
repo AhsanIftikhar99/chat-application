@@ -1,4 +1,4 @@
-import CustomDialog from "@/components/GenericModal";
+import CustomDialog from "@/components/common/GenericModal";
 import usePostDataToServer from "@/hooks/usePostDatatoServer";
 import { loginFormFields } from "@/utils/constants";
 import { useRouter } from "next/navigation";
@@ -16,7 +16,6 @@ export default function Login({ modaleOpen, handleModalClose }: LoginProps) {
 
   // Define the success handler with the correct type
   const handleSuccess = (data: { user: any }) => {
-    localStorage.setItem("user", JSON.stringify(data.user))
     router.push("/home"); 
     handleModalClose(); 
   };

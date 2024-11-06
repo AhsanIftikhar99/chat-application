@@ -1,156 +1,126 @@
-import axios from "@/utils/axiosConfig";
-import { User } from "@/utils/types";
+// src/components/common/SideMenu/index.tsx
+
 import GroupIcon from "@mui/icons-material/Group";
-import MessageIcon from '@mui/icons-material/Message';
+import MessageIcon from "@mui/icons-material/Message";
+import Link from "next/link";
 import {
-    Box,
-    Divider,
-    List,
-    ListItem,
-    ListItemButton,
-    ListItemIcon,
-    ListItemText,
-    Typography,
+  Box,
+  Divider,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Typography,
 } from "@mui/material";
-import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
 
+type SideMenuProps = {
+  currentPath: string; // Add `currentPath` prop to highlight the active item
+};
 
+export default function SideMenu({ currentPath }: SideMenuProps) {
+  return (
+    <Box sx={containerStyles}>
+      <Typography variant="h6" sx={titleStyles}>
+        QLU Recruiting
+      </Typography>
 
-export default function SideMenu({ setShowLoader }: { setShowLoader: (value: boolean) => void }) {
-    const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+      <Divider />
 
-    // const fetchDmedUsers = async () => {
-    //     try {
-    //         const response = await axios.get('http://localhost:4000/api/chats/getDmUsers');
-    //         setUsers(response.data);
-    //         console.log('DMed users:', response.data);
-    //         setShowLoader(false);
-    //     } catch (error) {
-    //         setShowLoader(false);
-    //         console.error('Error fetching DMed users:', error);
-    //     }
-    // };
+      <List>
+        <ListItem disablePadding>
+          <Link style={{width:'100%'}} href="/groups" passHref>
+            <ListItemButton
+              selected={currentPath === "/groups"}
+              sx={listItemButtonStyles}
+            >
+              <ListItemIcon sx={iconStyles}>
+                <GroupIcon />
+              </ListItemIcon>
+              <ListItemText primary="Groups" sx={textStyles} />
+            </ListItemButton>
+          </Link>
+        </ListItem>
+        <ListItem disablePadding>
+          <Link style={{width:'100%'}} href="/directmessage" passHref>
+            <ListItemButton
+              selected={currentPath === "/directmessage"}
+              sx={listItemButtonStyles}
+            >
+              <ListItemIcon sx={iconStyles}>
+                <MessageIcon />
+              </ListItemIcon>
+              <ListItemText primary="Direct Messages" sx={textStyles} />
+            </ListItemButton>
+          </Link>
+        </ListItem>
+      </List>
 
-    // useEffect(() => {
-    //     setShowLoader(true);
-    //     // fetchDmedUsers();
-    // }, []);
-
-    const router = useRouter();
-
-    const handleListItemClick = (index: number) => {
-        setSelectedIndex(index);
-        if (index === 1) {
-            router.push("/directmessage");
-        }
-    };
-
-    return (
-        <Box sx={containerStyles}>
-            <Typography variant="h6" sx={titleStyles}>
-                QLU Recruiting
-            </Typography>
-
-            <Divider />
-
-            <List>
-                <ListItem disablePadding>
-                    <ListItemButton
-                        selected={selectedIndex === 0}
-                        onClick={() => handleListItemClick(0)}
-                        sx={listItemButtonStyles}
-                    >
-                        <ListItemIcon sx={iconStyles}>
-                            <GroupIcon />
-                        </ListItemIcon>
-                        <ListItemText
-                            primary="Groups"
-                            sx={textStyles}
-                        />
-                    </ListItemButton>
-                </ListItem>
-                <ListItem disablePadding>
-                    <ListItemButton
-                        selected={selectedIndex === 1}
-                        onClick={() => handleListItemClick(1)}
-                        sx={listItemButtonStyles}
-                    >
-                        <ListItemIcon sx={iconStyles}>
-                            <MessageIcon />
-                        </ListItemIcon>
-                        <ListItemText
-                            primary="Direct Messages"
-                            sx={textStyles}
-                        />
-                    </ListItemButton>
-                </ListItem>
-            </List>
-
-            <Box sx={footerBoxStyles}>
-                <Typography variant="body2" sx={footerTextStyles}>
-                    Groups &gt;
-                </Typography>
-                <Typography variant="body2" sx={footerTextStyles}>
-                    Direct Messages &gt;
-                </Typography>
-            </Box>
-        </Box>
-    );
+      <Box sx={footerBoxStyles}>
+        <Typography variant="body2" sx={footerTextStyles}>
+          Groups &gt;
+        </Typography>
+        <Typography variant="body2" sx={footerTextStyles}>
+          Direct Messages &gt;
+        </Typography>
+      </Box>
+    </Box>
+  );
 }
 
-// Styles
+// Styles (same as before)
 const containerStyles = {
-    width: 300,
-    backgroundColor: "#FAFDFF",
-    padding: "10px",
-    borderRight: "1px solid #E0E0E0",
-    display: 'flex',
-    height: "100%",
-    flexDirection: 'column',
-    pt: '70px',
-    minHeight: 'calc(100vh-60px)',
+  width: 300,
+  backgroundColor: "#FAFDFF",
+  padding: "10px",
+  borderRight: "1px solid #E0E0E0",
+  display: 'flex',
+  height: "100%",
+  flexDirection: 'column',
+  pt: '70px',
+  minHeight: 'calc(100vh-60px)',
 };
 
 const titleStyles = {
-    color: "#214F6D",
-    mb: "10px",
-    fontWeight: "bold",
+  color: "#214F6D",
+  mb: "10px",
+  fontWeight: "bold",
 };
 
 const listItemButtonStyles = {
-    '&.Mui-selected': {
-        backgroundColor: '#c7eaff',
-    },
-    '&.Mui-selected:hover': {
-        backgroundColor: '#c7eaff',
-    },
-    '&:hover': {
-        backgroundColor: '#e0f4ff',
-    },
+  '&.Mui-selected': {
+    backgroundColor: '#c7eaff',
+  },
+  '&.Mui-selected:hover': {
+    backgroundColor: '#c7eaff',
+  },
+  '&:hover': {
+    backgroundColor: '#e0f4ff',
+  },
+  width: '100%',
 };
 
 const iconStyles = {
-    color: '#08344D',
-    p: 0,
-    minWidth: '30px',
+  color: '#08344D',
+  p: 0,
+  minWidth: '30px',
 };
 
 const textStyles = {
-    color: '#08344D',
-    '& .MuiTypography-root': {
-        fontSize: '14px',
-        fontWeight: 'bold',
-    },
+  color: '#08344D',
+  '& .MuiTypography-root': {
+    fontSize: '14px',
+    fontWeight: 'bold',
+  },
 };
 
 const footerBoxStyles = {
-    mt: 2,
-    ml: 2,
+  mt: 2,
+  ml: 2,
 };
 
 const footerTextStyles = {
-    color: "#08344D",
-    mb: 1,
-    fontWeight: 'bold',
+  color: "#08344D",
+  mb: 1,
+  fontWeight: 'bold',
 };

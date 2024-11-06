@@ -1,33 +1,44 @@
-.container {
-    background: white;
-    width: 100%;
-    display: flex;
-  }
-  
-  .content {
-    background: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    padding: 20px; /* Add some padding */
-    overflow-y: auto; /* Ensure this content can scroll */
-  }
-  
-  .welcomeImage {
-    width: 100%;
-    max-width: 400px;
-  }
-  
-  .title {
-    color: #214F6D;
-    font-size: 32px;
-    margin-bottom: 10px;
-  }
-  
-  .subtitle {
-    color: #214F6D;
-    margin-bottom: 10px;
-  }
-  
+.mainContainer {
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
+}
+
+.sideMenuContainer{
+  position: sticky;
+  height: 100vh;
+  top: 0;
+}
+
+.container {  
+  background: white;
+  width: 100%;
+  display: flex;
+}
+
+.content {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 20px; /* Add some padding */
+  overflow-y: auto; /* Ensure this content can scroll */
+}
+
+.welcomeImage {
+  width: 100%;
+  max-width: 400px;
+}
+
+.title {
+  color: #214f6d;
+  font-size: 32px;
+  margin-bottom: 10px;
+}
+
+.subtitle {
+  color: #214f6d;
+  margin-bottom: 10px;
+}

@@ -6,25 +6,18 @@ import { Autocomplete, Avatar, Box, ListItemIcon, ListItemText, Typography } fro
 import TextField from "@mui/material/TextField";
 import { useRouter } from "next/navigation";
 
-
-/// it will be server side comp
 export default function SearchUserField() {
   const router = useRouter();
 
-
-  /// Make it server side fetch
-  // Use the useGetDataFromServer hook to fetch users
   const { data: users = [], isLoading, isError } = useGetDataFromServer<User[]>({
     url: '/api/users/getAllUsers',
     queryKey: ['users'],
   });
 
-
   const onUserSelect = (user: User) => {
     console.log('Selected user:', user);
     router.push(`/directmessage/${user?.id}`);
   };
-
 
   return (
     <Box>
@@ -35,7 +28,7 @@ export default function SearchUserField() {
         <Autocomplete
           onChange={(event, value) => onUserSelect(value as User)}
           options={users}
-          getOptionLabel={(option) => option.displayName} // Display name in the input
+          getOptionLabel={(option) => option.displayName}
           disablePortal
           sx={{ width: '100%' }}
           renderInput={(params) =>
@@ -46,8 +39,8 @@ export default function SearchUserField() {
                 disableUnderline: true,
               }}
               variant="standard" placeholder="Select a user" />}
-          renderOption={(props, option) => (
-            <li {...props}>
+          renderOption={({ key, ...props }, option) => ( // Destructure `key` out of props
+            <li key={option.id} {...props}>
               <ListItemIcon>
                 {option.icon ? (
                   <img src={option.icon} alt={option.displayName} style={{ width: 24, height: 24 }} />
@@ -63,5 +56,3 @@ export default function SearchUserField() {
     </Box>
   );
 }
-
-

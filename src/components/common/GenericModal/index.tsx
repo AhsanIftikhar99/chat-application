@@ -1,3 +1,5 @@
+// CustomDialog.tsx
+
 import {
   Dialog,
   DialogActions,
@@ -9,10 +11,10 @@ import {
 import Grid from "@mui/material/Grid";
 import { Box, SxProps, Theme } from "@mui/system";
 import * as React from "react";
-import CustomButton from "../GenericButton";
+import CustomButton from "../../GenericButton";
 import styles from "./index.module.scss";
 import closeicon from "@/assets/images/closeicon.png";
-import { FormBuilder } from "../common/Formbuilder";
+import { FormBuilder } from "../Formbuilder";
 
 // Define the prop types
 type FormField = {
@@ -21,7 +23,7 @@ type FormField = {
   name?: string;
   baseline?: boolean;
   sx?: any;
-}
+};
 
 type CustomDialogProps = {
   title: string;
@@ -30,7 +32,8 @@ type CustomDialogProps = {
   formFields?: FormField[];
   onSubmit: (formData: { [key: string]: any }) => void;
   sx?: SxProps<Theme>;
-}
+  positionRight?: boolean; // New prop to control position
+};
 
 const CustomDialog: React.FC<CustomDialogProps> = ({
   title,
@@ -39,6 +42,7 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
   formFields,
   onSubmit,
   sx,
+  positionRight = false, // Default is false
 }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -55,6 +59,18 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
     paddingBottom: '20px',
   };
 
+  // Styles for positioning the dialog on the right and slightly above the layout
+  const rightPositionStyles: SxProps<Theme> = {
+    position: "fixed",
+    top: "60px", // Adjusted to be slightly higher
+    right: 0,
+    maxWidth: "400px",
+    width: "100%",
+    maxHeight: "660px",
+    height: "100%",
+    margin: 0, // Remove any margin
+  };
+
   return (
     <Dialog
       open={open}
@@ -62,7 +78,11 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
       PaperProps={{
         component: "form",
         onSubmit: handleSubmit,
-        sx: { ...defaultModalStyles, ...sx },
+        sx: {
+          ...defaultModalStyles,
+          ...(positionRight ? rightPositionStyles : {}), // Apply right position styles conditionally
+          ...sx,
+        },
       }}
     >
       <DialogTitle

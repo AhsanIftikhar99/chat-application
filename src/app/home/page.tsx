@@ -1,27 +1,22 @@
-// Home Component
-"use client";
-import { Box } from "@mui/material";
+// src/app/home/page.tsx
 import welcomeIcom from "@/assets/images/welcome.svg";
-import styles from "./index.module.scss";
-import Loader from "@/components/Loader";
-import { useState } from "react";
 import CustomAppBar from "@/components/common/Appbar";
 import Sidebar from "@/components/common/Sidebar";
 import SideMenu from "@/components/common/SideMenu";
+import { Box } from "@mui/material";
+import styles from "./index.module.scss";
+import { ProfileModal } from "@/components/ProfileModal";
 
-export default function Home({ children }: { children: React.ReactNode }) {
-  const [showLoader, setShowLoader] = useState(false);
-
+// Home receives `currentPath` as a prop
+export default function Home({ children, currentPath }: { children: React.ReactNode; currentPath?: string }) {
   return (
-    <Box sx={{ display: "flex", height: "100vh", overflow: "hidden" }}>
-      {showLoader && <Loader />}
+    <Box className={styles.mainContainer}>
       <CustomAppBar />
       <Sidebar />
-      {/* SideMenu with a fixed width and sticky positioning */}
-      <Box sx={{ position: "sticky", top: 0, height: "100vh" }}>
-        <SideMenu setShowLoader={setShowLoader} />
+      <Box className={styles.sideMenuContainer}>
+        <SideMenu currentPath={currentPath ?? ""} /> 
       </Box>
-      {/* Content container with its own scrollable area */}
+
       <Box className={styles.container}>
         {children ? (
           children
@@ -34,6 +29,7 @@ export default function Home({ children }: { children: React.ReactNode }) {
           </Box>
         )}
       </Box>
+      {/* <ProfileModal /> */}
     </Box>
   );
 }

@@ -34,14 +34,3 @@ export type Message = {
   messageType: string;
   timestamp: string;
 };
-
-
-export type ChatContainerProps = {
-  user: User | null;
-  chatId: string;
-  chatData: {};
-};
-
-export type UserProfileProps = {
-  fetchedUser: User | null;
-};

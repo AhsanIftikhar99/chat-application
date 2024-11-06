@@ -1,0 +1,19 @@
+/* src/app/directmessage/[dmSpecificUser]/MessageInput.module.scss */
+
+.editorContainer {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border-top: 1px solid #ddd;
+    background-color: #fff;
+    width: 100%;
+    bottom: 0;
+  }
+  
+  .textEditor {
+    flex-grow: 1;
+    margin-right: 10px;
+    max-width: 1050px;
+    width: 100%;
+  }
+  

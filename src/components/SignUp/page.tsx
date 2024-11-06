@@ -1,6 +1,6 @@
 // components/SignUp.tsx
 
-import CustomDialog from "@/components/GenericModal";
+import CustomDialog from "@/components/common/GenericModal";
 import usePostDataToServer from "@/hooks/usePostDatatoServer";
 import { signupFormFields } from "@/utils/constants";
 import { useRouter } from "next/navigation";
@@ -18,8 +18,7 @@ export default function SignUp({ modaleOpen, handleModalClose }: SignUpProps) {
 
   const handleSuccess = (data: any) => {
     console.log("Signup successful", data);
-    localStorage.setItem("user", JSON.stringify(data));
-      router.push("/home"); // Navigate to the homepage
+    router.push("/home"); // Navigate to the homepage
     handleModalClose();
   };
 

@@ -1,3 +1,4 @@
+"use client"
 import { getInputProps } from "@/utils/helper";
 import { FormFieldProps } from "@/utils/types";
 import TextField from "@mui/material/TextField";

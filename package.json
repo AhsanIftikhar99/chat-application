@@ -15,8 +15,10 @@
     "@mui/material": "^6.1.5",
     "@reduxjs/toolkit": "^2.3.0",
     "@tanstack/react-query": "^5.59.19",
+    "@types/jsonwebtoken": "^9.0.7",
     "axios": "^1.7.7",
     "js-cookie": "^3.0.5",
+    "jsonwebtoken": "^9.0.2",
     "next": "15.0.1",
     "quill": "^2.0.2",
     "react": "19.0.0-rc-69d4b800-20241021",
@@ -26,6 +28,7 @@
     "socket.io-client": "^4.8.1"
   },
   "devDependencies": {
+    "@types/js-cookie": "^3.0.6",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
