@@ -8,6 +8,7 @@ export type FormField = {
   required?: boolean;
   pattern?: string;
   minLength?: number;
+  variant?: string;
 };
 
 export type FormFieldProps = {

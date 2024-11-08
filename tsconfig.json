@@ -23,6 +23,6 @@
       }
     ]
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/common/MessageEditor/index.tsx", "src/common/MessageEditor/Editor.js", "src/hooks/usePostDatatoServer.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/common/MessageEditor/index.tsx", "src/common/MessageEditor/Editor.js", "src/hooks/usePost.ts"],
   "exclude": ["node_modules"]
 }

@@ -1,6 +1,7 @@
 "use client";
 
-import { useGetDataFromServer } from "@/hooks/useGetDataFromServer";
+import Loader from "@/components/Loader";
+import { useFetch } from "@/hooks/useFetch";
 import { User } from "@/utils/types";
 import { Autocomplete, Avatar, Box, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
@@ -9,7 +10,7 @@ import { useRouter } from "next/navigation";
 export default function SearchUserField() {
   const router = useRouter();
 
-  const { data: users = [], isLoading, isError } = useGetDataFromServer<User[]>({
+  const { data: users = [], isLoading, isError } = useFetch<User[]>({
     url: '/api/users/getAllUsers',
     queryKey: ['users'],
   });
@@ -21,6 +22,7 @@ export default function SearchUserField() {
 
   return (
     <Box>
+      {isLoading && <Loader />}
       <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
         <Typography sx={{ fontSize: '17px', fontWeight: 'bold', color: '#214F6D', minWidth: '40px' }} variant="body1">
           To:

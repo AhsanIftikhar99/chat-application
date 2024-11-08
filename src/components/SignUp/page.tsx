@@ -1,10 +1,11 @@
 // components/SignUp.tsx
 
 import CustomDialog from "@/components/common/GenericModal";
-import usePostDataToServer from "@/hooks/usePostDatatoServer";
+import usePost from "@/hooks/usePost";
 import { signupFormFields } from "@/utils/constants";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 import Loader from "../Loader";
+import SignupConfirmationModal from "../SignConfirmationModal";
 import CustomSnackbar from "../Toaster";
 
 type SignUpProps = {
@@ -13,21 +14,25 @@ type SignUpProps = {
 };
 
 export default function SignUp({ modaleOpen, handleModalClose }: SignUpProps) {
-  const router = useRouter();
-
+ 
+  const [openSignupConfirmationModal, setOpenSignupConfirmationModal] = useState(false);
+  const [email, setEmail] = useState("");
 
   const handleSuccess = (data: any) => {
-    console.log("Signup successful", data);
-    router.push("/home"); // Navigate to the homepage
+     console.log("Signup successful", data);
+    // router.push("/home"); // Navigate to the homepage
     handleModalClose();
+    setOpenSignupConfirmationModal(true);
+   
   };
 
 
-  const { mutate: signup, status, isError } = usePostDataToServer({
+  const { mutate: signup, status, isError } = usePost({
     onPostReqSuccess: handleSuccess,
   });
 
   const handleSubmit = (formData: { [key: string]: any }) => {
+    setEmail(formData.email);
     signup({
       API_URL: "/api/auth/signup",
       BODY: {
@@ -50,6 +55,9 @@ export default function SignUp({ modaleOpen, handleModalClose }: SignUpProps) {
         formFields={signupFormFields}
         onSubmit={handleSubmit}
       />
+
+      <SignupConfirmationModal open={openSignupConfirmationModal} handleClose={() => {setOpenSignupConfirmationModal(false) }} email={email} />
+
     </>
   );
 }

@@ -1,10 +1,10 @@
 // components/ChatProfileCard.tsx
 
-import { Avatar, Box, Typography } from "@mui/material";
 import CustomButton from "@/components/GenericButton";
-import styles from "./index.module.scss";
-import { User } from "@/utils/types";
 import axios, { getAxiosConfig } from "@/utils/axiosConfig";
+import { User } from "@/utils/types";
+import { Avatar, Box, Typography } from "@mui/material";
+import styles from "./index.module.scss";
 
 type ChatProfileCardProps = { 
   dmSpecificUser: string;
@@ -14,6 +14,7 @@ type ChatProfileCardProps = {
 const ChatProfileCard = async ({ dmSpecificUser , cookies}: ChatProfileCardProps) => {
 
   var fetchedUser: User | null = null;
+
 
   try {
     const userResponse = await axios.get(`/api/users/getUserById/${dmSpecificUser}`, getAxiosConfig(cookies));

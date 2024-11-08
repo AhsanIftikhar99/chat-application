@@ -1,6 +1,7 @@
 // CustomDialog.tsx
 
 import {
+  Avatar,
   Dialog,
   DialogActions,
   DialogContent,
@@ -33,6 +34,7 @@ type CustomDialogProps = {
   onSubmit: (formData: { [key: string]: any }) => void;
   sx?: SxProps<Theme>;
   positionRight?: boolean; // New prop to control position
+  children?: React.ReactNode;
 };
 
 const CustomDialog: React.FC<CustomDialogProps> = ({
@@ -43,6 +45,7 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
   onSubmit,
   sx,
   positionRight = false, // Default is false
+  children
 }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -86,10 +89,11 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
       }}
     >
       <DialogTitle
-        className={`${styles.dialogTitle} righteous-font`}
+        className={title.includes("Profile".toLowerCase()) ? `${styles.dialogTitle}` : `${styles.dialogTitle} righteous-font`}
       >
         {title}
       </DialogTitle>
+      {title.includes("Profile".toLowerCase()) && <Divider />}
       <IconButton
         aria-label="close"
         onClick={onClose}
@@ -103,6 +107,7 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
             <FormBuilder formFields={field} />
           </Box>
         ))}
+        {!!children && children}
       </DialogContent>
       <DialogActions className={styles.dialogActions}>
         <Grid container spacing={2} justifyContent="center" alignItems="center">

@@ -10,7 +10,7 @@ type FetchDataOptions<T> = {
   onError?: (error: AxiosError) => void;
 };
 
-export function useGetDataFromServer<T>({
+export function useFetch<T>({
   url,
   queryKey,
   config,

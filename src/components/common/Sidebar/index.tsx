@@ -1,4 +1,4 @@
-// Sidebar.js
+"use client";
 import React from 'react';
 import {
   Avatar,
@@ -20,6 +20,7 @@ import {
 } from "@mui/icons-material";
 import AddIcon from "@mui/icons-material/Add";
 import LocalParkingIcon from "@mui/icons-material/LocalParking";
+import { ProfileModal } from '@/components/ProfileModals/ProfileDetails';
 
 const drawerWidth = 60;
 
@@ -31,7 +32,7 @@ const iconStyles = {
 };
 
 const addIconStyles = {
-  ml:'30px',
+  ml: '30px',
   color: "white",
   "&:hover": {
     color: "#08344D",
@@ -47,6 +48,10 @@ const listItems = [
 ];
 
 export default function Sidebar() {
+  const [openProfileModal, setOpenProfileModal] = React.useState(false);
+  const handleProfileModalClose = () => setOpenProfileModal(false);
+  const handleProfileModalOpen = () => setOpenProfileModal(true);
+
   return (
     <Drawer sx={drawerStyles} variant="permanent" anchor="left">
       <Toolbar sx={toolbarStyles}>
@@ -74,18 +79,19 @@ export default function Sidebar() {
             <AddIcon />
           </ListItemIcon>
         </ListItemButton>
-        <Box sx={accountCircleBoxStyles}>
+        <Box sx={accountCircleBoxStyles} onClick={handleProfileModalOpen}>
           <Avatar>
-          <AccountCircle sx={{ color: "white", fontSize: 40 }} />
+            <AccountCircle sx={{ color: "white", fontSize: 40 }} />
           </Avatar>
           <Box sx={statusIndicatorStyles} />
         </Box>
       </Box>
+      <ProfileModal isOpen={openProfileModal} handleClose={handleProfileModalClose} />
     </Drawer>
   );
 }
 
-// Styles
+// Styles (remain unchanged)
 const drawerStyles = {
   width: drawerWidth,
   flexShrink: 0,
@@ -96,7 +102,7 @@ const drawerStyles = {
     color: "white",
     boxShadow: "none",
     overflowX: "hidden",
-    overflowY:'hidden',
+    overflowY: 'hidden',
   },
 };
 
@@ -151,6 +157,7 @@ const addButtonStyles = {
 
 const accountCircleBoxStyles = {
   position: "relative",
+  cursor: "pointer", // Make the avatar appear clickable
 };
 
 const statusIndicatorStyles = {

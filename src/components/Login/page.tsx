@@ -1,5 +1,5 @@
 import CustomDialog from "@/components/common/GenericModal";
-import usePostDataToServer from "@/hooks/usePostDatatoServer";
+import usePost from "@/hooks/usePost";
 import { loginFormFields } from "@/utils/constants";
 import { useRouter } from "next/navigation";
 import Loader from "../Loader";
@@ -21,7 +21,7 @@ export default function Login({ modaleOpen, handleModalClose }: LoginProps) {
   };
 
   // Use the hook with the specific response type
-  const { mutate: login, status, isError } = usePostDataToServer<any>({
+  const { mutate: login, status, isError } = usePost<any>({
     onPostReqSuccess: handleSuccess,
   });
 

@@ -1,0 +1,87 @@
+.avatarContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.avatar {
+  width: 200px !important;
+  height: 200px !important;
+  border-radius: 10px !important;
+}
+
+.inCenter{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.userNameWrapper {
+  @extend .inCenter;
+  margin-top: 20px;
+}
+
+.displayName {
+  font-size: 18px;
+  font-weight: bold;
+  color: #06334D;
+  font-weight: bold !important;
+  margin-left: 2px;
+}
+
+.userNameStyles{
+  color:#5691B2;
+  font-size: 14px;
+}
+
+.statusStyles{
+  font-size: 12px;
+  color: #06334D;
+  line-height: 20px;
+  margin-bottom: 20px;
+}
+
+.titleAndButtonContainer{
+  @extend .inCenter;
+  margin-top: 10px;
+}
+
+.emailAddressLabel{
+  font-weight: 500;
+  font-size: 11px;
+  color: #3A7699;
+}
+
+.emailAddressStyle{
+  font-weight: bold;
+  color:#3A7699;
+  font-size: 12px;
+}
+
+.contactLabel{
+  margin-top: 15px;
+  font-weight: 500;
+  font-size: 11px;
+  color: #3A7699;
+}
+
+.contactStyle{
+  margin-top: 8px;
+  font-weight: bold;
+  color:#3A7699;
+  font-size: 12px;
+  margin-bottom: 15px;
+}
+
+.informationStyles{
+  margin-top: 30px;
+  font-weight: bold;
+  font-size: 13px;
+  color: #3A7699;
+}
+
+.editButton{
+  width: 40px;
+  background-color: #BCE1FF;
+  color:#06334D
+}

@@ -3,21 +3,22 @@ import { getInputProps } from "@/utils/helper";
 import TextField from "@mui/material/TextField";
 import React from "react";
 
-export const TextInputField: React.FC<{field: any}> = ({ field }) => {
+export const MultilineInputField: React.FC<{ field: any }> = ({ field }) => {
   return (
     <TextField
       id={field?.name}
       autoComplete="off"
       name={field?.name}
       label={field?.label}
-      type={field?.type}  
+      type={field?.type || "text"} // Default to "text" for multiline
       variant={field?.variant || "filled"}
-      fullWidth
-      placeholder={field?.placeholder}
-      InputProps={getInputProps(field)}
-      sx={defaultFormFieldsSxStyles}
+      multiline
+      rows={6}
+      sx={{
+        width: "100%",
+      }}
       onKeyDown={(event) => {
-        if (field?.type === "text") {
+        if (field?.restrictInput) {
           const keyCode = event.keyCode || event.which;
           const keyValue = String.fromCharCode(keyCode);
           // Allow backspace key, enter key, and tab key
@@ -27,6 +28,7 @@ export const TextInputField: React.FC<{field: any}> = ({ field }) => {
             event.keyCode === 9
           )
             return;
+          // Restrict to only letters and spaces if specified
           if (!/^[a-zA-Z ]*$/.test(keyValue)) event.preventDefault();
         }
       }}

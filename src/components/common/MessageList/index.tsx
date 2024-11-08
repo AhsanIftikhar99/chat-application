@@ -7,7 +7,7 @@ import styles from "./index.module.scss";
 import { Message, User } from "@/utils/types";
 import useSocket from "@/hooks/useSocket";
 import Loader from "@/components/Loader";
-import { useGetDataFromServer } from "@/hooks/useGetDataFromServer";
+import { useFetch } from "@/hooks/useFetch";
 
 type MessagesListProps = {
   user: any;
@@ -20,7 +20,7 @@ const MessagesList: React.FC<MessagesListProps> = ({ chatId, user }) => {
   const bottomRef = useRef<HTMLDivElement | null>(null);
 
   // Fetch initial messages
-  const { data: fetchedMessages = [], isLoading: isMessageLoading } = useGetDataFromServer<Message[]>({
+  const { data: fetchedMessages = [], isLoading: isMessageLoading } = useFetch<Message[]>({
     url: `http://localhost:4000/api/chats/${chatId}/messages`,
     queryKey: ["messages", chatId],
     enabled: !!chatId,
@@ -54,7 +54,7 @@ const MessagesList: React.FC<MessagesListProps> = ({ chatId, user }) => {
   }, [messages]);
 
   const getDisplayName = (senderId: string) => {
-    return senderId === user?.id ? user.displayName : loggedInUser?.displayName;
+    return senderId === user?.user?.id ? user.user?.displayName : loggedInUser?.displayName;
   };
 
   return (

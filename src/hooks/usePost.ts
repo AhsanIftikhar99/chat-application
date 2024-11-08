@@ -20,7 +20,7 @@ const POST_REQUEST = async <T>({ API_URL, BODY, }: PostRequestParams): Promise<T
 };
 
 // Custom hook with TypeScript
-function usePostDataToServer<T>({ onPostReqSuccess, onPostReqError }: UsePostDataToServerProps<T>): UseMutationResult<T, AxiosError, PostRequestParams> {
+function usePost<T>({ onPostReqSuccess, onPostReqError }: UsePostDataToServerProps<T>): UseMutationResult<T, AxiosError, PostRequestParams> {
   return useMutation<T, AxiosError, PostRequestParams>(
     {
       mutationFn: async (params: PostRequestParams) => {
@@ -40,4 +40,4 @@ function usePostDataToServer<T>({ onPostReqSuccess, onPostReqError }: UsePostDat
   );
 }
 
-export default usePostDataToServer;
+export default usePost;

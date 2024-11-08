@@ -1,11 +1,9 @@
-// src/app/home/page.tsx
 import welcomeIcom from "@/assets/images/welcome.svg";
 import CustomAppBar from "@/components/common/Appbar";
 import Sidebar from "@/components/common/Sidebar";
 import SideMenu from "@/components/common/SideMenu";
 import { Box } from "@mui/material";
 import styles from "./index.module.scss";
-import { ProfileModal } from "@/components/ProfileModal";
 
 // Home receives `currentPath` as a prop
 export default function Home({ children, currentPath }: { children: React.ReactNode; currentPath?: string }) {
@@ -29,7 +27,7 @@ export default function Home({ children, currentPath }: { children: React.ReactN
           </Box>
         )}
       </Box>
-      {/* <ProfileModal /> */}
+      
     </Box>
   );
 }

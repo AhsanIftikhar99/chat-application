@@ -1,5 +1,6 @@
 import EmailInput from "../Formfields/EmailField";
 import { PasswordInput } from "../Formfields/Password/Password";
+import MultilineInputField from "../Formfields/TextArea";
 import TextInputField from "../Formfields/TextField";
 
 
@@ -26,6 +27,12 @@ export const FormBuilder:React.FC<FormBuilderProps> = ({formFields }) => {
     else if(TYPE === "password") {
       return (
        <PasswordInput field={formFields} />
+      )
+    }
+
+    else if(TYPE === "textarea") {
+      return (
+       <MultilineInputField field={formFields} />
       )
     }
     
