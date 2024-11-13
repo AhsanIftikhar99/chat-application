@@ -107,10 +107,11 @@ export default function App() {
             />
           </Grid>
         </Grid>
-        <SignUp modaleOpen={modaleOpen} handleModalClose={handleModalClose}/>
+        <SignUp modaleOpen={modaleOpen} handleLoginModalOpen={handleLoginModalOpen} handleModalClose={handleModalClose}/>
         <Login
           modaleOpen={loginModalOpen}
           handleModalClose={handleLoginModalClose}
+          signUpModalOpen={handleModalOpen}
         />
       </Container>
     </>

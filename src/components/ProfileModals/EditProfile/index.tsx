@@ -1,81 +1,112 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CustomDialog from '@/components/common/GenericModal';
-import { Avatar, Box, Button, Divider, TextField, Typography } from '@mui/material';
+import { Avatar, Box, Button, Divider } from '@mui/material';
 import styles from './index.module.scss';
 import { FormBuilder } from '@/components/common/Formbuilder';
 import usePost from '@/hooks/usePost';
-import Loader from '@/components/Loader';
+import { User } from '@/utils/types';
 
 type EditProfileModalProps = {
     isOpen: boolean;
     handleClose: () => void;
+    userData: User
 };
 
-const formFields = [
-    {
-        placeholder: "Display name",
-        label: "Display name",
-        type: "text",
-        name: "displayName",
-        maxLength: 40,
-        variant: "outlined"
-    },
-    {
-        placeholder: "Username",
-        label: "Username",
-        type: "text",
-        name: "username",
-        minLength: 6,
-        maxLength: 30,
-        variant: "outlined"
-    },
-    {
-        placeholder: "Status",
-        label: "Status",
-        type: "textarea",
-        name: "status",
-        minLength: 6,
-        maxLength: 100,
-        variant: "outlined"
-    },
-];
 
-export const EditProfileModal = ({ isOpen, handleClose }: EditProfileModalProps) => {
-    const [selectedImage, setSelectedImage] = useState<string | ''>('');
 
-    const { mutate, status, isError } = usePost<any>({
+export const EditProfileModal = ({ isOpen, handleClose, userData }: EditProfileModalProps) => {
+    const [selectedImageBlob, setSelectedImageBlob] = useState<Blob | null>(null);
+    const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
+    console.log('user data', userData);
+    const { mutate, status, isError } = usePost({
         onPostReqSuccess: handleSuccess,
     });
 
-    function handleSuccess(response:any) {
+    function handleSuccess(response: any) {
         console.log(response);
+        handleClose();
     }
+
+    const formFields = [
+        {
+            placeholder: "Display name",
+            label: "Display name",
+            type: "text",
+            name: "displayName",
+            defaultValue: userData.displayName,
+            value: userData.displayName,
+            maxLength: 40,
+            minLength: 4,
+            variant: "outlined"
+        },
+        {
+            placeholder: "Username",
+            label: "Username",
+            type: "text",
+            name: "username",
+            defaultValue: userData.username,
+            minLength: 6,
+            maxLength: 30,
+            variant: "outlined"
+        },
+        {
+            placeholder: "Status",
+            label: "Status",
+            type: "textarea",
+            name: "status",
+            defaultValue: userData.status,
+            minLength: 6,
+            maxLength: 100,
+            variant: "outlined"
+        },
+    ];
+
+    useEffect(() => {
+        if (userData?.profilePicture && typeof userData.profilePicture !== 'string') {
+            // Convert Buffer data to a Base64 string
+            const base64String = Buffer.from(userData.profilePicture.data).toString('base64');
+            setImagePreviewUrl(`data:image/png;base64,${base64String}`);
+        }
+    }, [userData?.profilePicture]);
 
     const handleFormSubmit = (formData: { [key: string]: any }) => {
         console.log('Form data', formData);
-        const payload={
-            username:formData.username,
-            displayName:formData.displayName,
-            status:formData.status,
-            profilePicture:selectedImage.length > 0 ? selectedImage : null
+
+        // Create a FormData object to handle file upload
+        const formDataPayload = new FormData();
+        formDataPayload.append("username", formData.username || userData.username); // Fallback to userData value if empty
+        formDataPayload.append("displayName", formData.displayName || userData.displayName); // Fallback to userData value if empty
+        formDataPayload.append("status", formData.status || userData.status); // Fallback to userData value if empty
+
+        if (selectedImageBlob) {
+            formDataPayload.append("profilePicture", selectedImageBlob);
         }
+
+        console.log('Form data payload', formDataPayload);
         mutate({
             API_URL: "/api/users/updateUserDetails",
-            BODY: payload,
+            BODY: formDataPayload,
         });
     };
 
     const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files[0]) {
             const file = event.target.files[0];
-            const imageUrl = URL.createObjectURL(file);
-            setSelectedImage(imageUrl);
+            setSelectedImageBlob(file); // Store the Blob
+
+            // Create a preview URL for the selected image
+            const previewUrl = URL.createObjectURL(file);
+            setImagePreviewUrl(previewUrl);
         }
     };
 
     const handleRemoveImage = () => {
-        setSelectedImage('');
+        setSelectedImageBlob(null);
+        if (imagePreviewUrl) {
+            URL.revokeObjectURL(imagePreviewUrl); // Clean up the Blob URL
+            setImagePreviewUrl(null);
+        }
     };
 
     return (
@@ -89,7 +120,6 @@ export const EditProfileModal = ({ isOpen, handleClose }: EditProfileModalProps)
                 margin: 'auto',
             }}
         >
-            {status==="pending" && <Loader />}
             <Box className={styles.editProfileContainer}>
                 <Box className={styles.formFieldsWrapper}>
                     {!!formFields && formFields.map((field, index) => (
@@ -101,7 +131,7 @@ export const EditProfileModal = ({ isOpen, handleClose }: EditProfileModalProps)
                 <Box className={styles.profilePhotoWrapper}>
                     <Avatar
                         alt="Profile Photo"
-                        src={selectedImage} // Display uploaded image or default
+                        src={imagePreviewUrl || undefined} // Display preview URL or default
                         className={styles.profilePhoto}
                     />
                     <Button

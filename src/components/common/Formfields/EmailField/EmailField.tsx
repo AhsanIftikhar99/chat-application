@@ -12,14 +12,14 @@ export const EmailInput: React.FC<FormFieldProps> = ({ field }) => {
       autoComplete="off"
       name={field?.name}
       label={field?.label}
-      type={field?.type}
+      type='email'
       variant="filled"
       fullWidth
       placeholder={field?.placeholder}
       InputProps={getInputProps(field)}
+      slotProps={{htmlInput: {maxLength: field?.maxLength, minLength: field?.minLength}}}
       sx={defaultFormFieldsSxStyles}
       onKeyDown={(event) => {
-        if (field?.type === "text") {
           const keyValue = event.key;
           const Validation = /^[a-zA-Z0-9@._-]*$/;
           // Allow backspace key, enter key, and tab key
@@ -30,7 +30,6 @@ export const EmailInput: React.FC<FormFieldProps> = ({ field }) => {
           )
             return;
           if (!Validation.test(keyValue)) event.preventDefault();
-        }
       }}
     />
   );

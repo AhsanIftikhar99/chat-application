@@ -2,6 +2,7 @@
 
 import Loader from "@/components/Loader";
 import { useFetch } from "@/hooks/useFetch";
+import { useGetUsers } from "@/hooks/useGetUser";
 import { User } from "@/utils/types";
 import { Autocomplete, Avatar, Box, ListItemIcon, ListItemText, Typography } from "@mui/material";
 import TextField from "@mui/material/TextField";
@@ -10,10 +11,7 @@ import { useRouter } from "next/navigation";
 export default function SearchUserField() {
   const router = useRouter();
 
-  const { data: users = [], isLoading, isError } = useFetch<User[]>({
-    url: '/api/users/getAllUsers',
-    queryKey: ['users'],
-  });
+  const { data: users = [], isLoading, isError } = useGetUsers();
 
   const onUserSelect = (user: User) => {
     console.log('Selected user:', user);

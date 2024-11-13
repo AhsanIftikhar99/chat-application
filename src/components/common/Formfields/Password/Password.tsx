@@ -1,12 +1,12 @@
 "use client";
 
 import { defaultFormFieldsSxStyles } from "@/utils/constants";
-import { FormField } from "@/utils/types";
+import { FormFieldProps } from "@/utils/types";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { IconButton, InputAdornment, TextField } from "@mui/material";
 import { useState } from "react";
 
-export const PasswordInput: React.FC<{ field: FormField }> = ({ field }) => {
+export const PasswordInput: React.FC<FormFieldProps> = ({ field }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => {
@@ -26,11 +26,7 @@ export const PasswordInput: React.FC<{ field: FormField }> = ({ field }) => {
       type={showPassword ? "text" : "password"}
       variant="filled"
       fullWidth
-      inputProps={{
-        required: field.required,
-        minLength: field.minLength,
-        maxLength: field.maxLength,
-      }}
+      slotProps={{htmlInput: {maxLength: field?.maxLength, minLength: field?.minLength}}}
       sx={defaultFormFieldsSxStyles}
       InputProps={{
         disableUnderline: true,

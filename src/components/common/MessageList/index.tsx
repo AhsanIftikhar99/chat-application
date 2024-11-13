@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useEffect, useRef, useState } from "react";
-import { Box, Avatar } from "@mui/material";
-import PersonIcon from "@mui/icons-material/Person";
-import styles from "./index.module.scss";
-import { Message, User } from "@/utils/types";
-import useSocket from "@/hooks/useSocket";
 import Loader from "@/components/Loader";
-import { useFetch } from "@/hooks/useFetch";
+import { useGetMessages } from "@/hooks/useGetMessages";
+import useSocket from "@/hooks/useSocket";
+import { Message } from "@/utils/types";
+import PersonIcon from "@mui/icons-material/Person";
+import { Avatar, Box } from "@mui/material";
+import React, { useEffect, useRef, useState } from "react";
+import styles from "./index.module.scss";
 
 type MessagesListProps = {
   user: any;
@@ -18,13 +18,10 @@ const MessagesList: React.FC<MessagesListProps> = ({ chatId, user }) => {
   const loggedInUser=user?.loggedUser
   const socket = useSocket(chatId);
   const bottomRef = useRef<HTMLDivElement | null>(null);
+  console.log('user', user);
 
   // Fetch initial messages
-  const { data: fetchedMessages = [], isLoading: isMessageLoading } = useFetch<Message[]>({
-    url: `http://localhost:4000/api/chats/${chatId}/messages`,
-    queryKey: ["messages", chatId],
-    enabled: !!chatId,
-  });
+  const { data: fetchedMessages = [], isLoading: isMessageLoading } = useGetMessages({ chatId });
 
   // Initialize messages state with fetched messages
   const [messages, setMessages] = useState<Message[]>(fetchedMessages);

@@ -3,18 +3,36 @@ import { getInputProps } from "@/utils/helper";
 import TextField from "@mui/material/TextField";
 import React from "react";
 
-export const TextInputField: React.FC<{field: any}> = ({ field }) => {
+interface FieldProps {
+  name: string;
+  label: string;
+  type: string;
+  variant?: "filled" | "outlined" | "standard";
+  placeholder?: string;
+  maxLength?: number | string;
+  minLength?: number | string;
+  defaultValue?: string;
+  value?: string;
+}
+
+interface TextInputFieldProps {
+  field: FieldProps;
+}
+
+export const TextInputField: React.FC<TextInputFieldProps> = ({ field }) => {
   return (
     <TextField
       id={field?.name}
       autoComplete="off"
       name={field?.name}
       label={field?.label}
-      type={field?.type}  
+      defaultValue={field?.defaultValue}
+      type={field?.type}
       variant={field?.variant || "filled"}
       fullWidth
       placeholder={field?.placeholder}
       InputProps={getInputProps(field)}
+      slotProps={{htmlInput: {maxLength: field?.maxLength, minLength: field?.minLength}}}
       sx={defaultFormFieldsSxStyles}
       onKeyDown={(event) => {
         if (field?.type === "text") {

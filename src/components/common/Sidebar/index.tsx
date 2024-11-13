@@ -1,15 +1,8 @@
 "use client";
-import React from 'react';
-import {
-  Avatar,
-  Box,
-  Drawer,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  Toolbar
-} from "@mui/material";
+import { userLogout } from '@/api/user';
+import { ProfileModal } from '@/components/ProfileModals/ProfileDetails';
+import { useGetLoggedInUser } from '@/hooks/useGetLoggedInUser';
+import { User } from '@/utils/types';
 import {
   AccountCircle,
   ChatBubble as ChatBubbleIcon,
@@ -20,7 +13,19 @@ import {
 } from "@mui/icons-material";
 import AddIcon from "@mui/icons-material/Add";
 import LocalParkingIcon from "@mui/icons-material/LocalParking";
-import { ProfileModal } from '@/components/ProfileModals/ProfileDetails';
+import {
+  Avatar,
+  Box,
+  Drawer,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  Menu,
+  MenuItem,
+  Toolbar,
+} from "@mui/material";
+import React, { useEffect, useState } from 'react';
 
 const drawerWidth = 60;
 
@@ -49,8 +54,43 @@ const listItems = [
 
 export default function Sidebar() {
   const [openProfileModal, setOpenProfileModal] = React.useState(false);
+  const [menuAnchorEl, setMenuAnchorEl] = React.useState<null | HTMLElement>(null);
+  const [profilePictureUrl, setProfilePictureUrl] = useState<string | null>(null);
+  const { data: loggedInUser = {} as User } = useGetLoggedInUser();
+
+
+  useEffect(() => {
+    if (loggedInUser?.profilePicture && typeof loggedInUser.profilePicture !== 'string') {
+      const base64String = Buffer.from(loggedInUser.profilePicture.data).toString('base64');
+      setProfilePictureUrl(`data:image/png;base64,${base64String}`);
+    }
+  }, [loggedInUser?.profilePicture]);
+
+
   const handleProfileModalClose = () => setOpenProfileModal(false);
   const handleProfileModalOpen = () => setOpenProfileModal(true);
+
+  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>) => {
+    setMenuAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setMenuAnchorEl(null);
+  };
+
+  const handleLogout= async() => {
+    const  Logout= await userLogout()
+    if(Logout){
+      handleMenuClose();
+      window.location.href = '/'
+    }
+  
+  };
+
+  const handleProfile = () => {
+    handleProfileModalOpen();
+    handleMenuClose();
+  };
 
   return (
     <Drawer sx={drawerStyles} variant="permanent" anchor="left">
@@ -79,14 +119,29 @@ export default function Sidebar() {
             <AddIcon />
           </ListItemIcon>
         </ListItemButton>
-        <Box sx={accountCircleBoxStyles} onClick={handleProfileModalOpen}>
+        <Box sx={accountCircleBoxStyles} onClick={handleMenuOpen}>
           <Avatar>
+          {profilePictureUrl ? (
+              <img src={profilePictureUrl} alt="profile" />
+            ) : (
             <AccountCircle sx={{ color: "white", fontSize: 40 }} />
+          )}
           </Avatar>
           <Box sx={statusIndicatorStyles} />
         </Box>
       </Box>
       <ProfileModal isOpen={openProfileModal} handleClose={handleProfileModalClose} />
+      <Menu
+        anchorEl={menuAnchorEl}
+        open={Boolean(menuAnchorEl)}
+        onClose={handleMenuClose}
+        sx={{ top:'-40px', left: '-15px' }}
+        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
+        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+      >
+        <MenuItem onClick={handleProfile}>Profile</MenuItem>
+        <MenuItem onClick={handleLogout}>Logout</MenuItem>
+      </Menu>
     </Drawer>
   );
 }

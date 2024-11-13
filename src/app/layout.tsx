@@ -4,6 +4,7 @@ import "./globals.css";
 import theme from "@/theme"; // Ensure this path is correct
 import { geistMono, geistSans } from "@/utils/helper";
 import ReactQueryProvider from "@/utils/providers/ReactQueryProvider";
+import { cookies } from "next/headers"; // Import cookies utility
 
 export const metadata: Metadata = {
   title: "Chat App",
@@ -15,13 +16,15 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  
+
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-      <ReactQueryProvider>
-        <ThemeProvider theme={theme}>
-         {children}
-        </ThemeProvider>
+        <ReactQueryProvider > {/* Pass token if needed */}
+          <ThemeProvider theme={theme}>
+            {children}
+          </ThemeProvider>
         </ReactQueryProvider>
       </body>
     </html>

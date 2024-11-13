@@ -2,31 +2,33 @@
 
 "use client";
 
-import React, { useState } from "react";
-import { Box } from "@mui/material";
-import TextEditor from "../MessageEditor";
 import CustomButton from "@/components/GenericButton";
-import SendIcon from "@mui/icons-material/Send";
 import useSocket from "@/hooks/useSocket";
+import {  LoggedInUser, User } from "@/utils/types";
+import SendIcon from "@mui/icons-material/Send";
+import { Box } from "@mui/material";
+import React, { useState } from "react";
+import TextEditor from "../MessageEditor";
 import styles from "./index.module.scss";
-import { User } from "@/utils/types";
-import { AnySoaRecord } from "dns";
 
 type MessageInputProps = {
   chatId: string;
-  user: any;
+  user: User;
+  loggedInUser: LoggedInUser;
 };
+
+
 
 const MessageInput: React.FC<MessageInputProps> = ({ chatId, user }) => {
   const socket = useSocket(chatId);
   const [message, setMessage] = useState<string>("");
-  const loggedInUser = user?.loggedUser;
+  const LoggedInUser = user?.loggedUser
 
   const handleSendMessage = () => {
     if (message.trim()) {
       const newMessage = {
         chatId,
-        senderId: loggedInUser.id,
+        senderId: LoggedInUser?.id || "",
         content: message.replace(/<\/?p>/g, ""),
         messageType: "text",
         timestamp: new Date().toISOString(),

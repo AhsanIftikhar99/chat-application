@@ -24,6 +24,7 @@ type FormField = {
   name?: string;
   baseline?: boolean;
   sx?: any;
+  onClick?: () => void;
 };
 
 type CustomDialogProps = {
@@ -52,7 +53,7 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
     const formData = new FormData(event.currentTarget);
     const formJson = Object.fromEntries(formData.entries());
     onSubmit(formJson);
-    onClose();
+    // onClose();
   };
 
   const defaultModalStyles: SxProps<Theme> = {
@@ -73,6 +74,7 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
     height: "100%",
     margin: 0, // Remove any margin
   };
+  
 
   return (
     <Dialog
@@ -89,7 +91,7 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
       }}
     >
       <DialogTitle
-        className={title.includes("Profile".toLowerCase()) ? `${styles.dialogTitle}` : `${styles.dialogTitle} righteous-font`}
+        className={title.includes("Profile".toLowerCase()) ? `${styles.dialogTitle}` : `${styles.dialogTitleAuth} righteous-font`}
       >
         {title}
       </DialogTitle>
@@ -128,6 +130,8 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
                       width: "400px",
                       height: "48px",
                     }}
+                    onClick={field?.onClick}
+                    type={field?.type}
                   />
                   {index < formFields?.length - 1 && (
                     <Box className={styles.dividerContainer}>

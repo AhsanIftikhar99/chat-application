@@ -8,6 +8,7 @@ import ChatProfileCard from "../ChatProfileCard";
 import MessageInput from "../MessageInput";
 import MessagesList from "../MessageList";
 import styles from "./index.module.scss";
+import { User } from "@/utils/types";
 
 
 
@@ -25,8 +26,8 @@ export default async function ChatContainer({ dmSpecificUser }: ChatContainerPro
   return (
     <Box className={styles.chatContainer}>
       <ChatProfileCard dmSpecificUser={dmSpecificUser} cookies={cookieHeader as string}/>
-      <MessagesList user={fetchUserAndChatData as any} chatId={fetchUserAndChatData?.chat?.id as string} />
-      <MessageInput chatId={fetchUserAndChatData?.chat?.id as string} user={fetchUserAndChatData as any} />
+      <MessagesList user={fetchUserAndChatData as {}} chatId={fetchUserAndChatData?.chat?.id as string} />
+      <MessageInput chatId={fetchUserAndChatData?.chat?.id as string} user={fetchUserAndChatData as User} />
     </Box>
   );
 };

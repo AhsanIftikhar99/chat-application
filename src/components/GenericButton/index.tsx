@@ -9,6 +9,7 @@ type CustomButtonProps = {
   icon?: React.ReactElement<SvgIconComponent>;
   onClick?: () => void;
   sx?: SxProps<Theme>;
+  type?: 'button' | 'submit' | 'reset';
 }
 
 // Default styles using the sx prop
@@ -19,10 +20,10 @@ const defaultButtonStyles: SxProps<Theme> = {
   textTransform: 'none',
 };
 
-const CustomButton: React.FC<CustomButtonProps> = ({ title, icon, onClick, sx }) => {
+const CustomButton: React.FC<CustomButtonProps> = ({ title, icon, onClick, sx,type }) => {
   return (
     <Button
-      type='submit'
+      type={title === "Login" ? "submit" : type}
       sx={{ ...defaultButtonStyles, ...sx }}
       onClick={onClick}
       endIcon={icon} // This will place the icon at the end of the button

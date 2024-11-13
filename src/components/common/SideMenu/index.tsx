@@ -1,7 +1,4 @@
-// src/components/common/SideMenu/index.tsx
-
 import GroupIcon from "@mui/icons-material/Group";
-import MessageIcon from "@mui/icons-material/Message";
 import Link from "next/link";
 import {
   Box,
@@ -13,12 +10,20 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
+import { getUsersHaveChatWith } from "@/app/directmessage/[dmSpecificUser]/_apis";
+import { getCookieHeader } from "@/utils/helper/getCookieHeader";
+import DirectMessagesList from "@/components/DirectMessageList";
+import MessageIcon from "@mui/icons-material/Message";
+
 
 type SideMenuProps = {
-  currentPath: string; // Add `currentPath` prop to highlight the active item
+  currentPath: string; 
 };
 
-export default function SideMenu({ currentPath }: SideMenuProps) {
+export default async function SideMenu({ currentPath }: SideMenuProps) {
+  const cookieHeader = await getCookieHeader();
+  const userHaveChatWith = await getUsersHaveChatWith(cookieHeader as string);
+
   return (
     <Box sx={containerStyles}>
       <Typography variant="h6" sx={titleStyles}>
@@ -29,11 +34,8 @@ export default function SideMenu({ currentPath }: SideMenuProps) {
 
       <List>
         <ListItem disablePadding>
-          <Link style={{width:'100%'}} href="/groups" passHref>
-            <ListItemButton
-              selected={currentPath === "/groups"}
-              sx={listItemButtonStyles}
-            >
+          <Link style={{ width: '100%' }} href="/groups" passHref>
+            <ListItemButton selected={currentPath === "/groups"} sx={listItemButtonStyles}>
               <ListItemIcon sx={iconStyles}>
                 <GroupIcon />
               </ListItemIcon>
@@ -60,15 +62,14 @@ export default function SideMenu({ currentPath }: SideMenuProps) {
         <Typography variant="body2" sx={footerTextStyles}>
           Groups &gt;
         </Typography>
-        <Typography variant="body2" sx={footerTextStyles}>
-          Direct Messages &gt;
-        </Typography>
+       {/* Render the DirectMessagesList component */}
+       <DirectMessagesList users={userHaveChatWith} currentPath={currentPath} />
       </Box>
     </Box>
   );
 }
 
-// Styles (same as before)
+// Styles (as before)
 const containerStyles = {
   width: 300,
   backgroundColor: "#FAFDFF",

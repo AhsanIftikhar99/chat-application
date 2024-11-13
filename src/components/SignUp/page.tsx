@@ -2,7 +2,6 @@
 
 import CustomDialog from "@/components/common/GenericModal";
 import usePost from "@/hooks/usePost";
-import { signupFormFields } from "@/utils/constants";
 import { useState } from "react";
 import Loader from "../Loader";
 import SignupConfirmationModal from "../SignConfirmationModal";
@@ -11,9 +10,67 @@ import CustomSnackbar from "../Toaster";
 type SignUpProps = {
   modaleOpen: boolean;
   handleModalClose: () => void;
+  handleLoginModalOpen: () => void;
 };
 
-export default function SignUp({ modaleOpen, handleModalClose }: SignUpProps) {
+export default function SignUp({ modaleOpen, handleModalClose ,handleLoginModalOpen}: SignUpProps) {
+
+  const signupFormFields = [
+    {
+      placeholder: "Email Address/Phone Number",
+      label: "Email Address/Phone Number",
+      type: "email",
+      name: "email",
+      maxLength:40,
+      minLength: 6,
+    },
+    {
+      placeholder: "Display Name",
+      label: "Display Name",
+      type: "text",
+      name: "displayName",
+      minLength: 3,
+      maxLenegth: 30,
+    },
+    {
+      placeholder: "Username",
+      label: "Username",
+      type: "text",
+      name: "username",
+      minLength: 4,
+      maxLenegth: 30,
+    },
+    {
+      placeholder: "Password",
+      label: "Password",
+      type: "password",
+      name: "password",
+      minLength: 6,
+      maxLenegth: 30,
+    },
+    {
+      label: "Login",
+      type: "button",
+      name: "Already have an account? Login",
+      baseline: true,
+    },
+    {
+      label: "Already have an account? Login",
+      type: "button",
+      name: "Already have an account? Login",
+      onClick: () => {
+        handleModalClose();
+        handleLoginModalOpen();
+      },
+      baseline: false,
+      sx: {
+        backgroundColor: "white",
+        border: "1px solid #08344D",
+        color: "#08344D",
+      },
+    },
+  ];
+  
  
   const [openSignupConfirmationModal, setOpenSignupConfirmationModal] = useState(false);
   const [email, setEmail] = useState("");
@@ -33,6 +90,9 @@ export default function SignUp({ modaleOpen, handleModalClose }: SignUpProps) {
 
   const handleSubmit = (formData: { [key: string]: any }) => {
     setEmail(formData.email);
+    if(formData.email === "" || formData.password === "" || formData.username === "" || formData.displayName === ""){
+      return;
+    }
     signup({
       API_URL: "/api/auth/signup",
       BODY: {

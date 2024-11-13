@@ -1,12 +1,13 @@
 "use client";
-import React from 'react';
 import CustomDialog from '@/components/common/GenericModal';
-import { Avatar, Box, Divider } from '@mui/material';
 import CustomButton from '@/components/GenericButton';
-import styles from './index.module.scss';
+import { useGetLoggedInUser } from '@/hooks/useGetLoggedInUser';
+import { Avatar, Divider } from '@mui/material';
+import React, { useEffect, useState } from 'react';
 import EditProfileModal from '../EditProfile';
-import { useFetch } from '@/hooks/useFetch';
+import styles from './index.module.scss';
 import { User } from '@/utils/types';
+import { useQueryClient } from "@tanstack/react-query"; // Import useQueryClient
 
 type ProfileModalProps = {
   isOpen: boolean;
@@ -14,19 +15,29 @@ type ProfileModalProps = {
 };
 
 export const ProfileModal = ({ isOpen, handleClose }: ProfileModalProps) => {
+  const [isEditProfileOpen, setIsEditProfileOpen] = useState(false);
+  const [profilePictureUrl, setProfilePictureUrl] = useState<string | null>(null);
+
+  const queryClient = useQueryClient(); // Initialize query client
+
+  const { data: loggedInUser = {} as User } = useGetLoggedInUser();
+
+
+  useEffect(() => {
+    if (loggedInUser?.profilePicture && typeof loggedInUser.profilePicture !== 'string') {
+      const base64String = Buffer.from(loggedInUser.profilePicture.data).toString('base64');
+      setProfilePictureUrl(`data:image/png;base64,${base64String}`);
+    }
+  }, [loggedInUser?.profilePicture]);
+
   const handleFormSubmit = (formData: { [key: string]: any }) => {
     console.log('Form data', formData);
   };
 
-  const { data: loggedInUser = [], isLoading, isError } = useFetch<any>({
-    url: '/api/users/getLoggedInUser',
-    queryKey: ['getLoggedInUser'],
-  });
-
-  console.log('loggedInUser', loggedInUser);
-
-  // State to control the visibility of the EditProfileModal
-  const [isEditProfileOpen, setIsEditProfileOpen] = React.useState(false);
+  const handleEditProfileClose = () => {
+    queryClient.invalidateQueries({ queryKey: ["loggedInUser"] });
+    setIsEditProfileOpen(false);
+  };
 
   return (
     <>
@@ -37,17 +48,20 @@ export const ProfileModal = ({ isOpen, handleClose }: ProfileModalProps) => {
         onSubmit={handleFormSubmit}
         positionRight={true}
       >
-        {/* Custom content for the ProfileModal */}
         <div className={styles.avatarContainer}>
           <Avatar variant="square" className={styles.avatar}>
-            {loggedInUser?.profilePicture && <img src={loggedInUser?.profilePicture} alt="profile" />}
+            {profilePictureUrl ? (
+              <img src={profilePictureUrl} alt="profile" />
+            ) : (
+              <span>{loggedInUser?.displayName?.[0]}</span> // Placeholder if no image
+            )}
           </Avatar>
         </div>
         <div className={styles.userNameWrapper}>
           <p className={styles.displayName}>{loggedInUser?.displayName}</p>
           <CustomButton
             title="Edit"
-            onClick={() => setIsEditProfileOpen(true)} // Open the EditProfileModal
+            onClick={() => setIsEditProfileOpen(true)}
             sx={{
               backgroundColor: "#BCE1FF",
               color: "#06334D",
@@ -60,7 +74,7 @@ export const ProfileModal = ({ isOpen, handleClose }: ProfileModalProps) => {
         </div>
         <p className={styles.userNameStyles}>@{loggedInUser?.username}</p>
         <p className={styles.statusStyles}>
-        {loggedInUser?.staus}
+          {loggedInUser?.status}
         </p>
         <Divider />
         <div className={styles.titleAndButtonContainer}>
@@ -83,10 +97,10 @@ export const ProfileModal = ({ isOpen, handleClose }: ProfileModalProps) => {
         <span className={styles.informationStyles}>+ Add Information</span>
       </CustomDialog>
 
-      {/* Render EditProfileModal without closing the ProfileModal */}
       <EditProfileModal
         isOpen={isEditProfileOpen}
-        handleClose={() => setIsEditProfileOpen(false)}
+        userData={loggedInUser}
+        handleClose={handleEditProfileClose} // Pass handleEditProfileClose to refetch data on close
       />
     </>
   );

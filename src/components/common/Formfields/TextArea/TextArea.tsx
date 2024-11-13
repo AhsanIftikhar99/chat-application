@@ -1,18 +1,33 @@
-import { defaultFormFieldsSxStyles } from "@/utils/constants";
-import { getInputProps } from "@/utils/helper";
 import TextField from "@mui/material/TextField";
 import React from "react";
 
-export const MultilineInputField: React.FC<{ field: any }> = ({ field }) => {
+interface FieldProps {
+  name: string;
+  label: string;
+  type?: string;
+  variant?: "filled" | "outlined" | "standard";
+  restrictInput?: boolean;
+  maxLength?: number | string;
+  minLength?: number | string;
+  defaultValue?: string;
+}
+
+interface MultilineInputFieldProps {
+  field: FieldProps;
+}
+
+export const MultilineInputField: React.FC<MultilineInputFieldProps> = ({ field }) => {
   return (
     <TextField
       id={field?.name}
       autoComplete="off"
+      defaultValue={field?.defaultValue}
       name={field?.name}
       label={field?.label}
       type={field?.type || "text"} // Default to "text" for multiline
       variant={field?.variant || "filled"}
       multiline
+      slotProps={{htmlInput: {maxLength: field?.maxLength, minLength: field?.minLength}}}
       rows={6}
       sx={{
         width: "100%",

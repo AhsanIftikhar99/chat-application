@@ -28,8 +28,9 @@ export const getInputProps = (field: any) => ({
     height: field?.height ? field?.height : "48px",
     color: field?.color ? field.color : "#08344D",
   },
-  inputProps: {
-    type: field?.type,
-    maxLength: field?.maxLength,
-  },
+  // inputProps: {
+  //   type: field?.type,
+  //   maxLength: field?.maxLength,
+  //   minLength: field?.minLength,
+  // },
 });
