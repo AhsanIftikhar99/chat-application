@@ -1,0 +1,43 @@
+.textField {
+    width: 328px;
+    height: 48px;
+    padding: 0 10px;
+    border-radius: 8px;
+    border: 1px solid var(--Blue-Fade-3, #97B4CC);
+    font-size: 16px;
+    background-color: white;
+    color: black;
+    outline: none;
+  }
+  
+  .filled {
+    background-color: #f3f3f3;
+    border: none;
+  }
+  
+  .outlined {
+    border: 1px solid #97b4cc;
+    border-radius: 8px;
+  }
+  
+  .standard {
+    border-bottom: 1px solid #97b4cc;
+    border-radius: 8px;
+  }
+  
+  .passwordContainer {
+    width: 328px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .errorField {
+    border-color: red;
+  }
+  
+  .errorText {
+    color: red;
+    font-size: 12px;
+    margin-top: 4px;
+  }
+  

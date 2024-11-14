@@ -23,7 +23,7 @@ export const getInputProps = (field: any) => ({
     background: field?.backgroundColor ? field.backgroundColor : "white",
     border: "1px solid #eaeaea",
     borderRadius: "8px",
-    maxWidth: "400px",
+    maxWidth: "500px",
     width: "100%",
     height: field?.height ? field?.height : "48px",
     color: field?.color ? field.color : "#08344D",

@@ -2,7 +2,8 @@
 
 .dialogTitle {
   color: #06334d;
-  font-weight: bold;
+  font-weight: 400;
+  flex-grow: 1;
   font-size: 20px !important; // Adjust as necessary for responsiveness
   @media (max-width: 768px) {
     font-size: 16px; // For small devices
@@ -10,8 +11,10 @@
 }
 
 .dialogTitleAuth {
+  margin-top: 40px;
   color: #06334d;
-  font-weight: bold;
+  font-weight: 400;
+  flex-grow: 1;
   text-align: center;
   font-size: 36px !important; // Adjust as necessary for responsiveness
   @media (max-width: 768px) {
@@ -19,24 +22,13 @@
   }
 }
 
-.dialogContent {
-  padding-top: 50px;
-  padding-left: 40px;
-  padding-right: 40px;
-  margin-bottom: 10px;
-  height: 100%;
-  overflow: hidden;
-}
-
-.formFieldContainer {
-  margin-top: 10px;
-  margin-bottom: 10px;
-}
-
-.dialogActions {
-  padding-bottom: 50px;
-  padding-left: 50px;
-  padding-right: 50px;
+.closeButton {
+  position: absolute;
+  right: 20px;
+  background: transparent;
+  border: none;
+  font-size: 18px;
+  cursor: pointer;
 }
 
 .buttonContainer {
@@ -59,4 +51,147 @@
   .orText {
     margin: 0 10px;
   }
+}
+
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.dialogDefault {
+  background: white;
+  border-radius: 8px;
+  width: 500px;
+  max-height: 491px;
+  height: 100%;
+  overflow-y: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.signupDialog {
+  background: white;
+  border-radius: 8px;
+  width: 500px;
+  max-height: 630px;
+  min-height: 618px;
+  height: 100%;
+  overflow-y: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.dialogRight {
+  position: fixed;
+  top: 60px;
+  right: 0;
+  height: 660px;
+  max-width: 400px;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  font-size: 20px;
+  margin: 0;
+}
+
+.forgotPasswordStyles{
+  color: #849DB2;
+  font-size: 12px;
+  font-weight: 400;
+  text-align: right;
+  margin-right: 85px;
+  margin-bottom: 14px;
+}
+
+.content {
+  margin-top: 24px;
+  width: 100%;
+}
+
+.formFieldContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 20px;
+}
+.formFieldContainerNoMargin{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 7px;
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.buttonContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.customButton {
+  width: 328px;
+  height: 48px;
+  background-color: #06334D;
+  border: none;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.dividerContainer {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  max-width: 328px;
+  margin: 32px;
+}
+
+.divider {
+  flex: 1;
+  height: 1px;
+  background: #ddd;
+}
+
+.orText {
+  margin: 0 10px;
+  color: #aaa;
 }

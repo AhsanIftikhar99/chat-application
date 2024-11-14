@@ -22,8 +22,7 @@ export default function App() {
 
   return (
     <>
-      <Navbar />
-      <Toolbar /> 
+      
       <Container
         sx={{
           height: "calc(100vh - 90px)",
@@ -33,6 +32,8 @@ export default function App() {
           mt: '20px'
         }}
       >
+        <Navbar />
+        <Toolbar /> 
         <Grid container spacing={2}>
           <Grid
             item

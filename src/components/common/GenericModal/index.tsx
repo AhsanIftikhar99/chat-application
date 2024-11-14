@@ -1,28 +1,15 @@
-// CustomDialog.tsx
-
-import {
-  Avatar,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  Divider,
-  IconButton,
-} from "@mui/material";
-import Grid from "@mui/material/Grid";
-import { Box, SxProps, Theme } from "@mui/system";
-import * as React from "react";
-import CustomButton from "../../GenericButton";
+import React from "react";
+import Modal from "react-modal";
 import styles from "./index.module.scss";
-import closeicon from "@/assets/images/closeicon.png";
 import { FormBuilder } from "../Formbuilder";
+import closeicon from "@/assets/images/closeicon.png"
 
-// Define the prop types
 type FormField = {
-  label: string;
-  type: string;
+  label?: string;
+  type?: any;
   name?: string;
   baseline?: boolean;
+  manifest?: string;
   sx?: any;
   onClick?: () => void;
 };
@@ -33,10 +20,9 @@ type CustomDialogProps = {
   onClose: () => void;
   formFields?: FormField[];
   onSubmit: (formData: { [key: string]: any }) => void;
-  sx?: SxProps<Theme>;
-  positionRight?: boolean; // New prop to control position
+  positionRight?: boolean;
   children?: React.ReactNode;
-};
+}
 
 const CustomDialog: React.FC<CustomDialogProps> = ({
   title,
@@ -44,8 +30,7 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
   onClose,
   formFields,
   onSubmit,
-  sx,
-  positionRight = false, // Default is false
+  positionRight = false,
   children
 }) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -53,99 +38,69 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
     const formData = new FormData(event.currentTarget);
     const formJson = Object.fromEntries(formData.entries());
     onSubmit(formJson);
-    // onClose();
   };
-
-  const defaultModalStyles: SxProps<Theme> = {
-    backgroundColor: "white",
-    maxWidth: "450px",
-    maxHeight: '100%',
-    paddingBottom: '20px',
-  };
-
-  // Styles for positioning the dialog on the right and slightly above the layout
-  const rightPositionStyles: SxProps<Theme> = {
-    position: "fixed",
-    top: "60px", // Adjusted to be slightly higher
-    right: 0,
-    maxWidth: "400px",
-    width: "100%",
-    maxHeight: "660px",
-    height: "100%",
-    margin: 0, // Remove any margin
-  };
-  
 
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      PaperProps={{
-        component: "form",
-        onSubmit: handleSubmit,
-        sx: {
-          ...defaultModalStyles,
-          ...(positionRight ? rightPositionStyles : {}), // Apply right position styles conditionally
-          ...sx,
-        },
-      }}
+    <Modal
+      isOpen={open}
+      ariaHideApp={false}
+      onRequestClose={onClose}
+      className={`${positionRight ? styles.dialogRight : ""} ${title === 'Signup' ? styles.signupDialog : styles.dialogDefault}`}
+      overlayClassName={styles.overlay}
     >
-      <DialogTitle
-        className={title.includes("Profile".toLowerCase()) ? `${styles.dialogTitle}` : `${styles.dialogTitleAuth} righteous-font`}
-      >
-        {title}
-      </DialogTitle>
-      {title.includes("Profile".toLowerCase()) && <Divider />}
-      <IconButton
-        aria-label="close"
-        onClick={onClose}
-        sx={{ position: "absolute", right: 8, top: 8 }}
-      >
-        <img src={closeicon.src} alt="closeicon" height={'20px'} width={'20px'} />
-      </IconButton>
-      <DialogContent className={styles.dialogContent}>
-        {!!formFields && formFields?.map((field, index) => (
-          <Box key={index} className={styles.formFieldContainer}>
-            <FormBuilder formFields={field} />
-          </Box>
-        ))}
-        {!!children && children}
-      </DialogContent>
-      <DialogActions className={styles.dialogActions}>
-        <Grid container spacing={2} justifyContent="center" alignItems="center">
-          {!!formFields && formFields?.map(
-            (field, index) =>
-              field?.type === "button" && (
-                <Grid
+      <div className={styles.header}>
+        <h2 className={title.includes("Profile".toLowerCase()) ? `${styles.dialogTitle}` : `${styles.dialogTitleAuth} righteous-font`}
+        >
+          {title}
+        </h2>
+        <button onClick={onClose} className={styles.closeButton}>
+          <img src={closeicon.src} alt="closeicon" height={'20px'} width={'20px'} />
+        </button>
+      </div>
+      <form className={styles.content} onSubmit={handleSubmit}>
+        <div>
+          {!!formFields &&
+            formFields.map((field, index) => (
+              field.manifest === "field" && (
+                <div
                   key={index}
-                  item
-                  xs={12}
-                  container
-                  className={styles.buttonContainer}
+                  className={index === formFields.length - 3 && title === "Login" ? styles.formFieldContainerNoMargin : styles.formFieldContainer}
                 >
-                  <CustomButton
-                    title={field?.label}
-                    sx={{
-                      ...field?.sx,
-                      width: "400px",
-                      height: "48px",
-                    }}
-                    onClick={field?.onClick}
-                    type={field?.type}
-                  />
-                  {index < formFields?.length - 1 && (
-                    <Box className={styles.dividerContainer}>
-                      <Divider className={styles.divider} />
-                      <span className={styles.orText}>or</span>
-                      <Divider className={styles.divider} />
-                    </Box>
-                  )}
-                </Grid>
+                  <FormBuilder formFields={field} />
+                </div>
               )
-          )}
-        </Grid>
-      </DialogActions>
-    </Dialog>
+            ))}
+          {title === 'Login' && <p className={styles.forgotPasswordStyles}>Forgot Password?</p>}
+
+          {!!children && children}
+        </div>
+        <div className={styles.actions}>
+          {!!formFields &&
+            formFields.map(
+              (field, index) =>
+                field.manifest === "button" && (
+                  <div key={index} className={styles.buttonContainer}>
+                    <button
+                      type={field.type}
+                      style={field.sx}
+                      onClick={field.onClick}
+                      className={styles.customButton}
+                    >
+                      {field.label}
+                    </button>
+                    {index < formFields.length - 1 && (
+                      <div className={styles.dividerContainer}>
+                        <span className={styles.divider}></span>
+                        <span className={styles.orText}>or</span>
+                        <span className={styles.divider}></span>
+                      </div>
+                    )}
+                  </div>
+                )
+            )}
+        </div>
+      </form>
+    </Modal>
   );
 };
 

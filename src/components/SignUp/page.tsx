@@ -20,6 +20,7 @@ export default function SignUp({ modaleOpen, handleModalClose ,handleLoginModalO
       placeholder: "Email Address/Phone Number",
       label: "Email Address/Phone Number",
       type: "email",
+      manifest:'field',
       name: "email",
       maxLength:40,
       minLength: 6,
@@ -27,6 +28,7 @@ export default function SignUp({ modaleOpen, handleModalClose ,handleLoginModalO
     {
       placeholder: "Display Name",
       label: "Display Name",
+      manifest:'field',
       type: "text",
       name: "displayName",
       minLength: 3,
@@ -37,6 +39,7 @@ export default function SignUp({ modaleOpen, handleModalClose ,handleLoginModalO
       label: "Username",
       type: "text",
       name: "username",
+      manifest:'field',
       minLength: 4,
       maxLenegth: 30,
     },
@@ -45,18 +48,21 @@ export default function SignUp({ modaleOpen, handleModalClose ,handleLoginModalO
       label: "Password",
       type: "password",
       name: "password",
+      manifest:'field',
       minLength: 6,
       maxLenegth: 30,
     },
     {
       label: "Login",
-      type: "button",
+      type: "submit",
+      manifest:'button',
       name: "Already have an account? Login",
       baseline: true,
     },
     {
       label: "Already have an account? Login",
       type: "button",
+      manifest:'button',
       name: "Already have an account? Login",
       onClick: () => {
         handleModalClose();
@@ -106,10 +112,10 @@ export default function SignUp({ modaleOpen, handleModalClose ,handleLoginModalO
 
   return (
     <>
-      {status === 'pending' && <Loader />} {/* Show loader if request is in progress */}
+
       {isError && <CustomSnackbar message={'Signup Failed'} severity="error" />} {/* Show error message if signup fails */}
       <CustomDialog
-        title="Sign Up"
+        title="Signup"
         open={modaleOpen}
         onClose={handleModalClose}
         formFields={signupFormFields}

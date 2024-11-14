@@ -1,56 +1,52 @@
-"use client";
+import * as React from "react";
+import styles from "./index.module.scss";
 
-import { defaultFormFieldsSxStyles } from "@/utils/constants";
-import { FormFieldProps } from "@/utils/types";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { IconButton, InputAdornment, TextField } from "@mui/material";
-import { useState } from "react";
+interface FieldProps {
+  name: string;
+  label: string;
+  type: string;
+  variant?: "filled" | "outlined" | "standard";
+  placeholder?: string;
+  maxLength?: number;
+  minLength?: number;
+  defaultValue?: string;
+  value?: string;
+}
 
-export const PasswordInput: React.FC<FormFieldProps> = ({ field }) => {
-  const [showPassword, setShowPassword] = useState(false);
+interface PasswordInputFieldProps {
+  field: FieldProps;
+}
 
-  const handleClickShowPassword = () => {
-    setShowPassword(!showPassword);
-  };
+export const PasswordInput: React.FC<PasswordInputFieldProps> = ({ field }) => {
+  const [value, setValue] = React.useState(field.value || field.defaultValue || "");
+  const [error, setError] = React.useState("");
 
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    setValue(inputValue);
+
+    // MinLength validation
+    if (field.minLength && inputValue.length < field.minLength) {
+      setError(`Password must be at least ${field.minLength} characters.`);
+    } else {
+      setError("");
+    }
   };
 
   return (
-    <TextField
-      id={field.name}
-      autoComplete="off"
-      name={field.name}
-      label={field.label}
-      type={showPassword ? "text" : "password"}
-      variant="filled"
-      fullWidth
-      slotProps={{htmlInput: {maxLength: field?.maxLength, minLength: field?.minLength}}}
-      sx={defaultFormFieldsSxStyles}
-      InputProps={{
-        disableUnderline: true,
-        style: {
-          background:  "white",
-          border: "1px solid #eaeaea",
-          borderRadius: "8px",
-          maxWidth: "400px",
-          width: "100%",
-          height: "48px",
-          color: "#08344D",
-        },
-        endAdornment: (
-          <InputAdornment position="end">
-            <IconButton
-              onClick={handleClickShowPassword}
-              onMouseDown={handleMouseDownPassword}
-              edge="end"
-            >
-              {showPassword ? <VisibilityOff /> : <Visibility />}
-            </IconButton>
-          </InputAdornment>
-        ),
-      }}
-    />
+    <div className={styles.passwordContainer}>
+      <input
+        type="password"
+        autoComplete="off"
+        name={field.name}
+        placeholder={field.placeholder || field.label}
+        maxLength={field.maxLength ? Number(field.maxLength) : undefined}
+        minLength={field.minLength ? Number(field.minLength) : undefined}
+        value={value}
+        onChange={handleChange}
+        className={`${styles.textField} ${styles[field.variant || "standard"]} ${error ? styles.errorField : ""}`}
+      />
+      {error && <span className={styles.errorText}>{error}</span>}
+    </div>
   );
 };

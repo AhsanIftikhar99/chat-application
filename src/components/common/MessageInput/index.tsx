@@ -1,4 +1,4 @@
-// src/app/directmessage/[dmSpecificUser]/MessageInput.tsx
+// src/app/directmessage/[dmSpecificUser ]/MessageInput.tsx
 
 "use client";
 
@@ -14,7 +14,7 @@ import styles from "./index.module.scss";
 type MessageInputProps = {
   chatId: string;
   user: User;
-  loggedInUser: LoggedInUser;
+  loggedInUser?: LoggedInUser;
 };
 
 

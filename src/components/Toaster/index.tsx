@@ -14,7 +14,7 @@ interface CustomSnackbarProps {
 const CustomSnackbar: React.FC<CustomSnackbarProps> = ({
   message,
   severity = "info",
-  autoHideDuration = 1000,
+  autoHideDuration = 1500,
 }) => {
   const [open, setOpen] = useState(true);
 

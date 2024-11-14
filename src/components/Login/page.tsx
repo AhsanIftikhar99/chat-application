@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import Loader from "../Loader";
 import CustomSnackbar from "../Toaster";
 import { User } from "@/utils/types";
+import { useState } from "react";
 
 type LoginProps = {
   modaleOpen: boolean;
@@ -13,12 +14,14 @@ type LoginProps = {
 
 export default function Login({ modaleOpen, handleModalClose ,signUpModalOpen}: LoginProps) {
   const router = useRouter();
+  const [error, setError] = useState('');
 
   const loginFormFields = [
     {
       placeholder: "Email Address/Phone Number",
       label: "Email Address/Phone Number",
       type: "email",
+      manifest:'field',
       name: "email",
       maxLength:40,
       minLength: 6,
@@ -27,18 +30,21 @@ export default function Login({ modaleOpen, handleModalClose ,signUpModalOpen}: 
       placeholder: "Password",
       label: "Password",
       type: "password",
+      manifest:'field',
       name: "password",
       minLength: 6,
       maxLenegth: 30,
     },
     {
       label: "Login",
-      type: "button",
+      type: "submit",
+      manifest:'button',
       baseline: true,
     },
     {
       label: "Create a New Account",
       type: "button",
+      manifest:'button',
       onClick: () =>{
         handleModalClose();
         signUpModalOpen();
@@ -63,7 +69,8 @@ export default function Login({ modaleOpen, handleModalClose ,signUpModalOpen}: 
   const { mutate: login, status, isError } = usePost({
     onPostReqSuccess: handleSuccess,
     onPostReqError(error) {
-      
+      console.log(error);
+      setError((error as { response: { data: { message: string } } }).response.data.message)
     },
   });
 
@@ -82,8 +89,7 @@ export default function Login({ modaleOpen, handleModalClose ,signUpModalOpen}: 
   return (
     <>
       {/* Display Loader if isLoading is true */}
-      {status==="pending" && <Loader />}
-      {isError && <CustomSnackbar message="Login failed" severity="error" />}
+      {isError && <CustomSnackbar message={error} severity="error" />}
       <CustomDialog
         title="Login"
         open={modaleOpen}

@@ -2,6 +2,7 @@ import EmailInput from "../Formfields/EmailField";
 import { PasswordInput } from "../Formfields/Password/Password";
 import MultilineInputField from "../Formfields/TextArea";
 import TextInputField from "../Formfields/TextField";
+import styles from "./index.module.scss";
 
 
 type FormBuilderProps = {
@@ -35,6 +36,9 @@ export const FormBuilder:React.FC<FormBuilderProps> = ({formFields }) => {
        <MultilineInputField field={formFields} />
       )
     }
+   
+    else 
+    return null
     
   
 }

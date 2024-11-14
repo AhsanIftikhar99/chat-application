@@ -1,36 +1,53 @@
-import { defaultFormFieldsSxStyles } from "@/utils/constants";
-import { getInputProps } from "@/utils/helper";
-import { FormFieldProps } from "@/utils/types";
-import TextField from "@mui/material/TextField";
-import React from "react";
+import * as React from "react";
+import styles from "./index.module.scss";
 
+interface FieldProps {
+  name: string;
+  label: string;
+  type: string;
+  variant?: "filled" | "outlined" | "standard";
+  placeholder?: string;
+  maxLength?: number;
+  minLength?: number;
+  defaultValue?: string;
+  value?: string;
+}
 
-export const EmailInput: React.FC<FormFieldProps> = ({ field }) => {
+interface EmailInputFieldProps {
+  field: FieldProps;
+}
+
+export const EmailInput: React.FC<EmailInputFieldProps> = ({ field }) => {
+  const [value, setValue] = React.useState(field.value || field.defaultValue || "");
+  const [error, setError] = React.useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    setValue(inputValue);
+
+    // Basic email validation regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(inputValue) && inputValue !== "") {
+      setError("Please enter a valid email address.");
+    } else {
+      setError("");
+    }
+  };
+
   return (
-    <TextField
-      id={field?.name}
-      autoComplete="off"
-      name={field?.name}
-      label={field?.label}
-      type='email'
-      variant="filled"
-      fullWidth
-      placeholder={field?.placeholder}
-      InputProps={getInputProps(field)}
-      slotProps={{htmlInput: {maxLength: field?.maxLength, minLength: field?.minLength}}}
-      sx={defaultFormFieldsSxStyles}
-      onKeyDown={(event) => {
-          const keyValue = event.key;
-          const Validation = /^[a-zA-Z0-9@._-]*$/;
-          // Allow backspace key, enter key, and tab key
-          if (
-            event.keyCode === 8 ||
-            event.keyCode === 13 ||
-            event.keyCode === 9
-          )
-            return;
-          if (!Validation.test(keyValue)) event.preventDefault();
-      }}
-    />
+    <div className={styles.emailContainer}>
+      <input
+        type="email"
+        autoComplete="off"
+        name={field.name}
+        placeholder={field.placeholder || field.label}
+        maxLength={field.maxLength ? Number(field.maxLength) : undefined}
+        minLength={field.minLength ? Number(field.minLength) : undefined}
+        value={value}
+        onChange={handleChange}
+        className={`${styles.textField} ${styles[field.variant || "standard"]} ${error ? styles.errorField : ""}`}
+      />
+      {error && <span className={styles.errorText}>{error}</span>}
+    </div>
   );
 };

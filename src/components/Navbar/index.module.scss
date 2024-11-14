@@ -1,0 +1,145 @@
+// Basic reset and styles for navbar
+.navbar {
+    width: 100%;
+    background: white;
+    box-shadow: none;
+    font-weight: bold;
+  }
+  
+  .toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .menuButton {
+    display: none;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .menuIcon {
+    font-size: 1.5rem;
+    margin-right: 5px;
+    color: #08344d;
+  }
+  
+  .logoText {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    color: #08344d;
+  }
+  
+  .mainLogo {
+    font-size: 2rem;
+    font-weight: bold;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    color: #08344d;
+
+    img{
+        padding-left: 7px;
+    }
+  }
+  
+  .navLinks {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .navButton,
+  .tryPulseButton {
+    font-weight: bold;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #08344d;
+    font-size: 1rem;
+    padding: 0.5rem 1rem;
+  }
+  
+  .tryPulseButton {
+    color: white;
+    background: #08344d;
+    border-radius: 4px;
+  }
+  
+  .drawerOverlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: flex-start;
+    align-items: start;
+    z-index: 1000;
+  }
+  
+  .drawer {
+    background: #08344d;
+    width: 240px;
+    height: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
+    color: white;
+  }
+  
+  .drawerTitle {
+    display: flex;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+  }
+  
+  .drawerList {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .drawerListItem {
+    margin-bottom: 1rem;
+  }
+  
+  .drawerButton {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+  }
+  
+  // Responsive styling
+  @media (max-width: 600px) {
+    .menuButton {
+      display: flex;
+      align-items: center;
+    }
+  
+    .mainLogo {
+      display: none;
+    }
+  
+    .navLinks {
+      display: none;
+    }
+  }
+  
+  @media (min-width: 600px) {
+    .menuButton {
+      display: none;
+    }
+  
+    .mainLogo {
+      display: flex;
+    }
+  }
+  
