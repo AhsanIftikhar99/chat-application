@@ -7,17 +7,17 @@ import { Avatar, Box, Typography } from "@mui/material";
 import styles from "./index.module.scss";
 
 type ChatProfileCardProps = { 
-  dmSpecificUser: string;
+  chatWithSpecificUser: string;
   cookies: string; 
 };
 
-const ChatProfileCard = async ({ dmSpecificUser , cookies}: ChatProfileCardProps) => {
+const ChatProfileCard = async ({ chatWithSpecificUser , cookies}: ChatProfileCardProps) => {
 
   var fetchedUser: User | null = null;
 
 
   try {
-    const userResponse = await axios.get(`/api/users/getUserById/${dmSpecificUser}`, getAxiosConfig(cookies));
+    const userResponse = await axios.get(`/api/users/getUserById/${chatWithSpecificUser}`, getAxiosConfig(cookies));
     fetchedUser = userResponse.data;
   } catch (error) {
     console.error("Failed to fetch getUserById:", error);

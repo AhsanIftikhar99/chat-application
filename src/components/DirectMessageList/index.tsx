@@ -29,7 +29,7 @@ type DirectMessagesListProps = {
 export default function DirectMessagesList({ users, currentPath }: DirectMessagesListProps) {
     // Get current path and extract userId from it if available
     const pathname = usePathname();
-    const selectedUserId = pathname.split("/")[2]; // Assuming path is /directmessage/[userid]
+    const selectedUserId = pathname.split("/")[2]; // Assuming path is /chatwithuser/[userid]
     console.log('selectedUserId', selectedUserId);
     const [isOpen, setIsOpen] = useState(selectedUserId ? true : false);
 
@@ -40,7 +40,7 @@ export default function DirectMessagesList({ users, currentPath }: DirectMessage
     return (
         <>
             <ListItem disablePadding>
-                <ListItemButton sx={{ padding: '0px !important' }} onClick={handleToggle} selected={currentPath === "/directmessage"}>
+                <ListItemButton sx={{ padding: '0px !important' }} onClick={handleToggle} selected={currentPath === "/chatwithuser"}>
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <ListItemText sx={buttonStyle} primary="Direct Messages" />
                         {isOpen ? <KeyboardArrowDownIcon sx={iconDownStyles} /> : <ArrowForwardIosIcon sx={iconStyles} />}
@@ -54,7 +54,7 @@ export default function DirectMessagesList({ users, currentPath }: DirectMessage
                         const isSelected = selectedUserId === user.userid;
                         return (
                             <ListItem key={user.userid} disablePadding>
-                                <Link href={`/directmessage/${user.userid}`} passHref>
+                                <Link href={`/chatwithuser/${user.userid}`} passHref>
                                     <ListItemButton sx={{ padding: '3px !important', ...(isSelected && selectedUserStyle), width: '200px' }}>
                                         <ListItemIcon sx={{ minWidth: '35px' }}>
                                             {user.profilePicture ? (

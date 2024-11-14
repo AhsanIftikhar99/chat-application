@@ -15,7 +15,7 @@ export default function SearchUserField() {
 
   const onUserSelect = (user: User) => {
     console.log('Selected user:', user);
-    router.push(`/directmessage/${user?.id}`);
+    router.push(`/chatwithuser/${user?.id}`);
   };
 
   return (

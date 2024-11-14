@@ -10,7 +10,7 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { getUsersHaveChatWith } from "@/app/directmessage/[dmSpecificUser]/_apis";
+import { getUsersHaveChatWith } from "@/app/chatwithuser/[chatWithSpecificUser]/_apis";
 import { getCookieHeader } from "@/utils/helper/getCookieHeader";
 import DirectMessagesList from "@/components/DirectMessageList";
 import MessageIcon from "@mui/icons-material/Message";
@@ -44,9 +44,9 @@ export default async function SideMenu({ currentPath }: SideMenuProps) {
           </Link>
         </ListItem>
         <ListItem disablePadding>
-          <Link style={{width:'100%'}} href="/directmessage" passHref>
+          <Link style={{width:'100%'}} href="/chatwithuser" passHref>
             <ListItemButton
-              selected={currentPath === "/directmessage"}
+              selected={currentPath === "/chatwithuser"}
               sx={listItemButtonStyles}
             >
               <ListItemIcon sx={iconStyles}>

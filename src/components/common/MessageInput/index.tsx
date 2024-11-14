@@ -1,4 +1,4 @@
-// src/app/directmessage/[dmSpecificUser ]/MessageInput.tsx
+// src/app/chatwithuser/[chatWithSpecificUser ]/MessageInput.tsx
 
 "use client";
 

@@ -1,8 +1,8 @@
-// src/app/directmessage/[dmSpecificUser]/ChatContainer.tsx
+// src/app/chatwithuser/[chatWithSpecificUser]/ChatContainer.tsx
 
 import { Box } from "@mui/material";
 
-import { fetchUserAndChat } from "@/app/directmessage/[dmSpecificUser]/_apis";
+import { fetchUserAndChat } from "@/app/chatwithuser/[chatWithSpecificUser]/_apis";
 import { getCookieHeader } from "@/utils/helper/getCookieHeader";
 import ChatProfileCard from "../ChatProfileCard";
 import MessageInput from "../MessageInput";
@@ -13,19 +13,19 @@ import { User } from "@/utils/types";
 
 
 type ChatContainerProps = {
-  dmSpecificUser: string;
+  chatWithSpecificUser: string;
 };
 
-export default async function ChatContainer({ dmSpecificUser }: ChatContainerProps): Promise<JSX.Element> {
+export default async function ChatContainer({ chatWithSpecificUser }: ChatContainerProps): Promise<JSX.Element> {
 
   const cookieHeader = await getCookieHeader(); 
  
-  const fetchUserAndChatData = await fetchUserAndChat(dmSpecificUser, cookieHeader)
+  const fetchUserAndChatData = await fetchUserAndChat(chatWithSpecificUser, cookieHeader)
   
 
   return (
     <Box className={styles.chatContainer}>
-      <ChatProfileCard dmSpecificUser={dmSpecificUser} cookies={cookieHeader as string}/>
+      <ChatProfileCard chatWithSpecificUser={chatWithSpecificUser} cookies={cookieHeader as string}/>
       <MessagesList user={fetchUserAndChatData as {}} chatId={fetchUserAndChatData?.chat?.id as string} />
       <MessageInput chatId={fetchUserAndChatData?.chat?.id as string} user={fetchUserAndChatData as User} />
     </Box>

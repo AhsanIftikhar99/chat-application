@@ -34,5 +34,5 @@ export function middleware(request: NextRequest) {
 
 // Set the middleware to run on all relevant routes
 export const config = {
-  matcher: ["/", "/home", "/directmessage", "/directmessage/:path*"],
+  matcher: ["/", "/home", "/chatwithuser", "/chatwithuser/:path*"],
 };
