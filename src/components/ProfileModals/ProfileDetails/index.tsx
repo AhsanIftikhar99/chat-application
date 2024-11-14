@@ -57,7 +57,9 @@ export const ProfileModal = ({ isOpen, handleClose }: ProfileModalProps) => {
             )}
           </Avatar>
         </div>
-        <div className={styles.userNameWrapper}>
+        
+        <div className={styles.contentWrapper}>
+          <div className={styles.userNameWrapper}>
           <p className={styles.displayName}>{loggedInUser?.displayName}</p>
           <CustomButton
             title="Edit"
@@ -95,6 +97,7 @@ export const ProfileModal = ({ isOpen, handleClose }: ProfileModalProps) => {
         <p className={styles.contactLabel}>Contact Number</p>
         <p className={styles.contactStyle}>{loggedInUser?.phoneNumber}</p>
         <span className={styles.informationStyles}>+ Add Information</span>
+        </div>
       </CustomDialog>
 
       <EditProfileModal

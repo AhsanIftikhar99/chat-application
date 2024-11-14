@@ -1,12 +1,9 @@
-// CustomAppBar.js
-import { AppBar, Box, Toolbar } from "@mui/material";
+import React from "react";
 import AppbarSearch from "../Formfields/AppbarField";
+import styles from "./index.module.scss";
 
 
-const drawerWidth = 60;
-
-const formField =
-{
+const formField = {
     placeholder: "",
     label: "Search Qlu Recruiting",
     type: "text",
@@ -14,26 +11,16 @@ const formField =
     backgroundColor: '#124766',
     height: '45px',
     color: 'white',
-}
-
+};
 
 export default function CustomAppBar() {
     return (
-        <AppBar
-            position="fixed"
-            sx={{
-                width: `calc(100% - ${drawerWidth}px)`,
-                ml: `${drawerWidth}px`,
-                height: "60px",
-                boxShadow: "none",
-                backgroundColor: "#08344D",
-            }}
-        >
-            <Toolbar sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
-                <Box sx={{maxWidth:'500px', width:'100%'}}>
+        <header className={styles.appBar}>
+            <div className={styles.toolbar}>
+                <div className={styles.searchContainer}>
                     <AppbarSearch field={formField} />
-                </Box>
-            </Toolbar>
-        </AppBar>
+                </div>
+            </div>
+        </header>
     );
 }

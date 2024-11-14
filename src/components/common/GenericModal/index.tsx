@@ -3,6 +3,7 @@ import Modal from "react-modal";
 import styles from "./index.module.scss";
 import { FormBuilder } from "../Formbuilder";
 import closeicon from "@/assets/images/closeicon.png"
+import { Divider } from "@mui/material";
 
 type FormField = {
   label?: string;
@@ -13,6 +14,16 @@ type FormField = {
   sx?: any;
   onClick?: () => void;
 };
+
+type TitleType = "Signup" | "Login" | "Profile" | "EditProfile"; // Add any other possible titles
+
+const styleMapper: Record<TitleType, string> = {
+  Signup: styles.signupDialog,
+  Login: styles.loginDialog,
+  Profile: styles.profileDialog,
+  EditProfile: styles.editProfileDialog
+};
+
 
 type CustomDialogProps = {
   title: string;
@@ -33,6 +44,7 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
   positionRight = false,
   children
 }) => {
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const formData = new FormData(event.currentTarget);
@@ -40,16 +52,23 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
     onSubmit(formJson);
   };
 
+  const getTitleClass = (title: string): string => {
+    let titleClass = title.includes("Edit") ? "EditProfile" : title as TitleType;
+    return (titleClass in styleMapper ? styleMapper[titleClass as TitleType] : styles.dialogDefault);
+  };
+
+  console.log('title', title);
+
   return (
     <Modal
       isOpen={open}
       ariaHideApp={false}
       onRequestClose={onClose}
-      className={`${positionRight ? styles.dialogRight : ""} ${title === 'Signup' ? styles.signupDialog : styles.dialogDefault}`}
+      className={`${positionRight ? styles.dialogRight : ""} ${getTitleClass(title)}`}
       overlayClassName={styles.overlay}
     >
       <div className={styles.header}>
-        <h2 className={title.includes("Profile".toLowerCase()) ? `${styles.dialogTitle}` : `${styles.dialogTitleAuth} righteous-font`}
+        <h2 className={title.includes("Profile") || title.includes("profile")  ? `${styles.dialogTitle}` : `${styles.dialogTitleAuth} righteous-font`}
         >
           {title}
         </h2>
@@ -57,6 +76,8 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
           <img src={closeicon.src} alt="closeicon" height={'20px'} width={'20px'} />
         </button>
       </div>
+     
+      {title.includes("Profile") || title.includes("profile")  && <Divider />}
       <form className={styles.content} onSubmit={handleSubmit}>
         <div>
           {!!formFields &&

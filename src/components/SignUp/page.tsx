@@ -37,7 +37,7 @@ export default function SignUp({ modaleOpen, handleModalClose ,handleLoginModalO
     {
       placeholder: "Username",
       label: "Username",
-      type: "text",
+      type: "alphanumeric",
       name: "username",
       manifest:'field',
       minLength: 4,

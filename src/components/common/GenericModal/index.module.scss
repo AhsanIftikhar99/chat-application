@@ -2,12 +2,15 @@
 
 .dialogTitle {
   color: #06334d;
-  font-weight: 400;
+  font-weight: 600;
   flex-grow: 1;
-  font-size: 20px !important; // Adjust as necessary for responsiveness
+  font-size: 20px;
   @media (max-width: 768px) {
     font-size: 16px; // For small devices
   }
+  padding-top: 18px;
+  padding-bottom: 18px;
+  padding-left: 16px;
 }
 
 .dialogTitleAuth {
@@ -66,11 +69,40 @@
   z-index: 1000;
 }
 
-.dialogDefault {
+.loginDialog {
   background: white;
   border-radius: 8px;
   width: 500px;
   max-height: 491px;
+  height: 100%;
+  overflow-y: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.profileDialog {
+  background: white;
+  border-radius: 8px;
+  width: 500px;
+  max-height: 613px;
+  height: 100%;
+  overflow-y: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.editProfileDialog {
+ background: white;
+  border-radius: 8px;
+  width: 674px;
+  max-height: 520px ;
+  min-height: 520px;
   height: 100%;
   overflow-y: hidden;
   position: relative;

@@ -1,6 +1,5 @@
 .textField {
-    max-width: 328px;
-    width: 100%;
+    width: 328px;
     height: 48px;
     padding: 0 10px;
     border-radius: 8px;
@@ -19,7 +18,6 @@
   .outlined {
     border: 1px solid #97b4cc;
     border-radius: 8px;
-
   }
   
   .standard {
@@ -30,6 +28,7 @@
   .textContainer {
     display: flex;
     flex-direction: column;
+    width: 328px;
     position: relative;
   }
   

@@ -1,0 +1,53 @@
+.list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .listItem {
+    display: flex;
+    align-items: center;
+    margin-bottom: 3px;
+  
+    &:hover {
+      background-color: #e0f4ff;
+    }
+  }
+  
+  .selected {
+    background-color: #c7eaff;
+  }
+  
+  .listItemLink {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+    text-decoration: none;
+    color: #08344d;
+  
+    &:hover {
+      color: #08344d;
+    }
+  }
+  
+  .iconTextContainer {
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  
+  .icon {
+    color: #08344d;
+    margin-right: 10px;
+    min-width: 30px;
+  }
+  
+  .listItemText {
+    color: #08344d;
+    font-size: 14px;
+    font-weight: bold;
+  }
+  

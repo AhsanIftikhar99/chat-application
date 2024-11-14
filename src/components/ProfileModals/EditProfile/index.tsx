@@ -1,11 +1,11 @@
 "use client";
-import React, { useEffect, useState } from 'react';
-import CustomDialog from '@/components/common/GenericModal';
-import { Avatar, Box, Button, Divider } from '@mui/material';
-import styles from './index.module.scss';
 import { FormBuilder } from '@/components/common/Formbuilder';
+import CustomDialog from '@/components/common/GenericModal';
 import usePost from '@/hooks/usePost';
 import { User } from '@/utils/types';
+import { Avatar, Button, Divider } from '@mui/material';
+import React, { useEffect, useState } from 'react';
+import styles from './index.module.scss';
 
 type EditProfileModalProps = {
     isOpen: boolean;
@@ -38,12 +38,13 @@ export const EditProfileModal = ({ isOpen, handleClose, userData }: EditProfileM
             value: userData.displayName,
             maxLength: 40,
             minLength: 4,
-            variant: "outlined"
+            variant: "outlined",
+            className: styles.textField
         },
         {
             placeholder: "Username",
             label: "Username",
-            type: "text",
+            type: "alphanumeric",
             name: "username",
             defaultValue: userData.username,
             minLength: 6,
@@ -115,20 +116,16 @@ export const EditProfileModal = ({ isOpen, handleClose, userData }: EditProfileM
             open={isOpen}
             onClose={handleClose}
             onSubmit={handleFormSubmit}
-            sx={{
-                maxWidth: '600px',
-                margin: 'auto',
-            }}
         >
-            <Box className={styles.editProfileContainer}>
-                <Box className={styles.formFieldsWrapper}>
+            <div className={styles.editProfileContainer}>
+                <div className={styles.formFieldsWrapper}>
                     {!!formFields && formFields.map((field, index) => (
-                        <Box key={index} className={styles.formFieldContainer}>
+                        <div key={index} className={styles.formFieldContainer}>
                             <FormBuilder formFields={field} />
-                        </Box>
+                        </div>
                     ))}
-                </Box>
-                <Box className={styles.profilePhotoWrapper}>
+                </div>
+                <div className={styles.profilePhotoWrapper}>
                     <Avatar
                         alt="Profile Photo"
                         src={imagePreviewUrl || undefined} // Display preview URL or default
@@ -150,17 +147,17 @@ export const EditProfileModal = ({ isOpen, handleClose, userData }: EditProfileM
                     >
                         Remove Photo
                     </Button>
-                </Box>
-            </Box>
+                </div>
+            </div>
             <Divider />
-            <Box className={styles.actionButtons}>
+            <div className={styles.actionButtons}>
                 <Button variant="outlined" onClick={handleClose}>
                     Cancel
                 </Button>
                 <Button onClick={handleFormSubmit} variant="contained" color="primary" type="submit">
                     Save changes
                 </Button>
-            </Box>
+            </div>
         </CustomDialog>
     );
 };

@@ -1,0 +1,96 @@
+.listItem {
+    padding: 0;
+    display: flex;
+    align-items: center;
+}
+
+.selected {
+    background-color: #e0f4ff;
+}
+
+.listItemButton {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    text-align: left;
+    height: 40px;
+    margin-left: 5px;
+}
+
+.directMessagesText {
+    color: #08344d;
+    font-size: 0.875rem;
+    font-weight: bold;
+}
+
+.icon {
+    color: #08344d;
+    font-size: 1.2rem !important;
+    margin-left: 5px;
+}
+
+/* Collapsible menu animation */
+.collapse {
+    overflow: hidden;
+    max-height: 0; /* Menu starts closed */
+    transition: max-height 0.9s ease; /* Smooth open/close */
+    display: flex;
+    flex-direction: column;
+    padding-left: 15px;
+}
+
+/* Add a class for when the menu is open */
+.collapseOpen {
+    max-height: 500px; /* Large enough to fit the content when open */
+}
+
+.userItem {
+    padding-bottom: 2px;
+    padding-top: 2px;
+}
+
+.userButton {
+    display: flex;
+    align-items: center;
+    width: 270px;
+    padding: 5px;
+    height: 40px;
+    cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+
+    &:hover {
+        background-color: #c7eaff;
+        width: 283px;
+    }
+}
+
+.avatar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.defaultAvatar {
+    color: #08344d;
+    font-size: 1.5rem;
+}
+
+.userName {
+    color: #245e80;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.selectedUser {
+    background-color: #c7eaff;
+    padding-left: 10px;
+}

@@ -1,3 +1,4 @@
+import { AlphaNumericField } from "../Formfields/AlphaNumeric/AlphanumericField";
 import EmailInput from "../Formfields/EmailField";
 import { PasswordInput } from "../Formfields/Password/Password";
 import MultilineInputField from "../Formfields/TextArea";
@@ -22,6 +23,12 @@ export const FormBuilder:React.FC<FormBuilderProps> = ({formFields }) => {
     else if(TYPE === 'email') {
       return (
        <EmailInput field={formFields} />
+      )
+    }
+
+    else if(TYPE === 'alphanumeric') {
+      return (
+       <AlphaNumericField field={formFields} />
       )
     }
 

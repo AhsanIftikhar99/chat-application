@@ -11,15 +11,16 @@ interface FieldProps {
   minLength?: number;
   defaultValue?: string;
   value?: string;
-  style?: React.CSSProperties;
-  className?: string; // Add a className prop to allow custom classes
+  regex?: RegExp; // Add regex pattern for validation
+  regexErrorMessage?: string; // Add custom error message for regex mismatch
+  alphanumeric?: boolean; // Add a prop to restrict to alphanumeric characters
 }
 
 interface TextInputFieldProps {
   field: FieldProps;
 }
 
-export const TextInputField: React.FC<TextInputFieldProps> = ({ field }) => {
+export const AlphaNumericField: React.FC<TextInputFieldProps> = ({ field }) => {
   const [value, setValue] = React.useState(field.value || field.defaultValue || "");
   const [error, setError] = React.useState("");
 
@@ -30,9 +31,16 @@ export const TextInputField: React.FC<TextInputFieldProps> = ({ field }) => {
     // MinLength validation
     if (field.minLength && inputValue.length < field.minLength) {
       setError(`Minimum length is ${field.minLength} characters.`);
-    } else {
-      setError("");
+      return;
     }
+
+    // Regex validation
+    if (field.regex && !field.regex.test(inputValue)) {
+      setError(field.regexErrorMessage || "Invalid format.");
+      return;
+    }
+
+    setError(""); // Clear error if all validations pass
   };
 
   return (
@@ -41,19 +49,30 @@ export const TextInputField: React.FC<TextInputFieldProps> = ({ field }) => {
         type={field.type}
         autoComplete="off"
         name={field.name}
-        style={field.style}
         placeholder={field.placeholder || field.label}
         maxLength={field.maxLength ? Number(field.maxLength) : undefined}
+        // minLength={field.minLength ? Number(field.minLength) : undefined}
         value={value}
         onChange={handleChange}
-        className={`${styles.textField} ${styles[field.variant || "standard"]} ${error ? styles.errorField : ""} ${field.className || ""} `}
+        className={`${styles.textField} ${styles[field.variant || "standard"]} ${error ? styles.errorField : ""}`}
         onKeyDown={(event) => {
-          if (field?.type === "text") {
-            const keyCode = event.keyCode || event.which;
-            const keyValue = String.fromCharCode(keyCode);
-            // Allow backspace key, enter key, and tab key
-            if (event.keyCode === 8 || event.keyCode === 13 || event.keyCode === 9) return;
-            if (!/^[a-zA-Z ]*$/.test(keyValue)) event.preventDefault();
+          const allowedKeys = [
+            "Backspace",
+            "Enter",
+            "Tab",
+            "ArrowLeft",
+            "ArrowRight",
+            "Delete",
+            ".", // period
+            "_", // underscore
+          ];
+
+          // Allow only alphanumeric characters, period, underscore, and control keys
+          if (
+            !allowedKeys.includes(event.key) &&
+            !/^[a-zA-Z0-9]$/.test(event.key) // Allow letters and digits
+          ) {
+            event.preventDefault();
           }
         }}
       />

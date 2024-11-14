@@ -1,23 +1,15 @@
-import GroupIcon from "@mui/icons-material/Group";
+import React from "react";
 import Link from "next/link";
-import {
-  Box,
-  Divider,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Typography,
-} from "@mui/material";
+import GroupIcon from "@mui/icons-material/Group";
+import MessageIcon from "@mui/icons-material/Message";
 import { getUsersHaveChatWith } from "@/app/chatwithuser/[chatWithSpecificUser]/_apis";
 import { getCookieHeader } from "@/utils/helper/getCookieHeader";
 import DirectMessagesList from "@/components/DirectMessageList";
-import MessageIcon from "@mui/icons-material/Message";
-
+import styles from "./index.module.scss";
+import MenuItem from "@/components/MenuItem";
 
 type SideMenuProps = {
-  currentPath: string; 
+  currentPath: string;
 };
 
 export default async function SideMenu({ currentPath }: SideMenuProps) {
@@ -25,103 +17,30 @@ export default async function SideMenu({ currentPath }: SideMenuProps) {
   const userHaveChatWith = await getUsersHaveChatWith(cookieHeader as string);
 
   return (
-    <Box sx={containerStyles}>
-      <Typography variant="h6" sx={titleStyles}>
-        QLU Recruiting
-      </Typography>
+    <div className={styles.container}>
+      <h6 className={styles.title}>QLU Recruiting</h6>
+      <hr className={styles.divider} />
 
-      <Divider />
+      <ul className={styles.list}>
+        <MenuItem
+          href="/groups"
+          icon={<GroupIcon className={styles.icon} />}
+          text="Groups"
+          isSelected={currentPath === "/groups"}
+        />
+        <MenuItem
+          href="/chatwithuser"
+          icon={<MessageIcon className={styles.icon} />}
+          text="Direct Messages"
+          isSelected={currentPath === "/chatwithuser"}
+        />
+      </ul>
 
-      <List>
-        <ListItem disablePadding>
-          <Link style={{ width: '100%' }} href="/groups" passHref>
-            <ListItemButton selected={currentPath === "/groups"} sx={listItemButtonStyles}>
-              <ListItemIcon sx={iconStyles}>
-                <GroupIcon />
-              </ListItemIcon>
-              <ListItemText primary="Groups" sx={textStyles} />
-            </ListItemButton>
-          </Link>
-        </ListItem>
-        <ListItem disablePadding>
-          <Link style={{width:'100%'}} href="/chatwithuser" passHref>
-            <ListItemButton
-              selected={currentPath === "/chatwithuser"}
-              sx={listItemButtonStyles}
-            >
-              <ListItemIcon sx={iconStyles}>
-                <MessageIcon />
-              </ListItemIcon>
-              <ListItemText primary="Direct Messages" sx={textStyles} />
-            </ListItemButton>
-          </Link>
-        </ListItem>
-      </List>
-
-      <Box sx={footerBoxStyles}>
-        <Typography variant="body2" sx={footerTextStyles}>
-          Groups &gt;
-        </Typography>
-       {/* Render the DirectMessagesList component */}
-       <DirectMessagesList users={userHaveChatWith} currentPath={currentPath} />
-      </Box>
-    </Box>
+      <div className={styles.footer}>
+        {/* <p className={styles.footerText}>Groups &gt;</p> */}
+        {/* Render the DirectMessagesList component */}
+        <DirectMessagesList users={userHaveChatWith} currentPath={currentPath} />
+      </div>
+    </div>
   );
 }
-
-// Styles (as before)
-const containerStyles = {
-  width: 300,
-  backgroundColor: "#FAFDFF",
-  padding: "10px",
-  borderRight: "1px solid #E0E0E0",
-  display: 'flex',
-  height: "100%",
-  flexDirection: 'column',
-  pt: '70px',
-  minHeight: 'calc(100vh-60px)',
-};
-
-const titleStyles = {
-  color: "#214F6D",
-  mb: "10px",
-  fontWeight: "bold",
-};
-
-const listItemButtonStyles = {
-  '&.Mui-selected': {
-    backgroundColor: '#c7eaff',
-  },
-  '&.Mui-selected:hover': {
-    backgroundColor: '#c7eaff',
-  },
-  '&:hover': {
-    backgroundColor: '#e0f4ff',
-  },
-  width: '100%',
-};
-
-const iconStyles = {
-  color: '#08344D',
-  p: 0,
-  minWidth: '30px',
-};
-
-const textStyles = {
-  color: '#08344D',
-  '& .MuiTypography-root': {
-    fontSize: '14px',
-    fontWeight: 'bold',
-  },
-};
-
-const footerBoxStyles = {
-  mt: 2,
-  ml: 2,
-};
-
-const footerTextStyles = {
-  color: "#08344D",
-  mb: 1,
-  fontWeight: 'bold',
-};

@@ -37,12 +37,12 @@ export const EmailInput: React.FC<EmailInputFieldProps> = ({ field }) => {
   return (
     <div className={styles.emailContainer}>
       <input
-        type="email"
+        type="text"
         autoComplete="off"
         name={field.name}
         placeholder={field.placeholder || field.label}
         maxLength={field.maxLength ? Number(field.maxLength) : undefined}
-        minLength={field.minLength ? Number(field.minLength) : undefined}
+        // minLength={field.minLength ? Number(field.minLength) : undefined}
         value={value}
         onChange={handleChange}
         className={`${styles.textField} ${styles[field.variant || "standard"]} ${error ? styles.errorField : ""}`}
