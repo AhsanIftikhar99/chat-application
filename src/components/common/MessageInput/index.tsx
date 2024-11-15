@@ -4,9 +4,8 @@
 
 import CustomButton from "@/components/GenericButton";
 import useSocket from "@/hooks/useSocket";
-import {  LoggedInUser, User } from "@/utils/types";
+import { LoggedInUser, User } from "@/utils/types";
 import SendIcon from "@mui/icons-material/Send";
-import { Box } from "@mui/material";
 import React, { useState } from "react";
 import TextEditor from "../MessageEditor";
 import styles from "./index.module.scss";
@@ -40,10 +39,18 @@ const MessageInput: React.FC<MessageInputProps> = ({ chatId, user }) => {
   };
 
   return (
-    <Box className={styles.editorContainer}>
-      <TextEditor theme="snow" value={message} onChange={setMessage} className={styles.textEditor} />
-      <CustomButton sx={{ flexShrink: 0 }} title="Send" icon={<SendIcon />} onClick={handleSendMessage} />
-    </Box>
+    <div className={styles.editorContainer}>
+     <div className={styles.texteditorWrapper}>
+     <TextEditor theme="snow" value={message} onChange={setMessage} className={styles.textEditor} />
+     </div>
+      <CustomButton
+        title="Send"
+        icon={<SendIcon />}
+        onClick={handleSendMessage}
+        className={styles.sendButton} // Apply custom CSS class
+      />
+
+    </div>
   );
 };
 

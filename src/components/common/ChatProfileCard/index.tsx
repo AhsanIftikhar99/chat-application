@@ -1,65 +1,76 @@
-// components/ChatProfileCard.tsx
-
 import CustomButton from "@/components/GenericButton";
 import axios, { getAxiosConfig } from "@/utils/axiosConfig";
 import { User } from "@/utils/types";
-import { Avatar, Box, Typography } from "@mui/material";
+import PersonIcon from "@mui/icons-material/Person";
+import { Avatar } from "@mui/material";
 import styles from "./index.module.scss";
 
-type ChatProfileCardProps = { 
+type ChatProfileCardProps = {
   chatWithSpecificUser: string;
-  cookies: string; 
+  cookies: string;
 };
 
-const ChatProfileCard = async ({ chatWithSpecificUser , cookies}: ChatProfileCardProps) => {
-
-  var fetchedUser: User | null = null;
-
+const ChatProfileCard = async ({ chatWithSpecificUser, cookies }: ChatProfileCardProps) => {
+  let fetchedUser: User | null = null;
+  let profilePictureUrl: string | null = null;
 
   try {
     const userResponse = await axios.get(`/api/users/getUserById/${chatWithSpecificUser}`, getAxiosConfig(cookies));
     fetchedUser = userResponse.data;
+
+    // Check if `profilePicture` exists and is not a string
+    if (fetchedUser?.profilePicture && typeof fetchedUser.profilePicture !== "string") {
+      const base64String = Buffer.from(fetchedUser.profilePicture.data).toString("base64");
+      profilePictureUrl = `data:image/png;base64,${base64String}`;
+    }
   } catch (error) {
-    console.error("Failed to fetch getUserById:", error);
+    console.error("Failed to fetch user by ID:", error);
   }
 
+  console.log("profilePictureUrl", profilePictureUrl);
+  console.log("fetchedUser", fetchedUser);
 
   return (
-    <Box className={styles.profileContainer}>
+    <div className={styles.profileContainer}>
       {fetchedUser && (
-        <Box sx={{ ml: "15px" }}>
-          <Box className={styles.userInfo}>
-            {!fetchedUser.icon ? (
+        <div className={styles.wrapper}>
+          <div className={styles.avatarContainer}>
+            {!profilePictureUrl ? (
               <Avatar variant="rounded" className={styles.avatar}>
-                {fetchedUser.displayName.charAt(0)}
+                <PersonIcon />
               </Avatar>
             ) : (
-              <Avatar variant="square" src={fetchedUser.icon} />
+              <Avatar variant="rounded" src={profilePictureUrl} className={styles.avatar} />
             )}
-          </Box>
-          <Box className={styles.userDetails}>
-            <Typography variant="h6" className={styles.displayName}>
+          </div>
+          <div className={styles.userDetails}>
+            <h4 className={styles.displayName}>
               {fetchedUser.displayName}
-            </Typography>
-          </Box>
-          <Box className={styles.profileMessage}>
+              <span
+                className={`${styles.statusDot} ${
+                  fetchedUser.online ? styles.online : styles.offline
+                }`}
+              ></span>
+            </h4>
+          </div>
+          <div className={styles.profileMessage}>
             <p>
               This conversation is just between
               <span> @{fetchedUser?.username}</span> and you. Check out their profile to learn more about them.
             </p>
-          </Box>
+          </div>
           <CustomButton
             title="View Profile"
             sx={{
               backgroundColor: "white",
-              border: "1px solid #08344D",
+              border: "0.5px solid #124766",
               color: "#08344D",
-              marginTop: "5px",
+              marginTop: "12px",
             }}
           />
-        </Box>
+        </div>
       )}
-    </Box>
+    </div>
   );
 };
 

@@ -1,38 +1,44 @@
-// components/UserProfile.module.scss
-
 .profileContainer {
-  min-height: 320px;
-  max-height: 320px;
+  max-height: 380px;
   height: 100%;
   border-bottom: 1px solid #E5E5E5;
   width: 100%;
   padding-top: 27px;
 }
 
-.userInfo {
+.wrapper {
+  margin-left: 15px;
+}
+
+.avatarContainer {
   display: flex;
   align-items: center;
-  margin-top: 40px;
+  margin-top: 67px;
 }
 
 .avatar {
   width: 120px !important;
   height: 120px !important;
   margin-right: 20px;
-  border-radius: 10px !important;
+  border-radius: 4px !important;
 }
 
 .userDetails {
   display: flex;
   flex-direction: column;
-  margin-top: 15px;
+  margin-top: 24px;
 }
 
 .displayName {
   font-size: 20px;
   font-weight: bold;
   color: #06334D;
-  font-weight: bold !important;
+  align-items: center;
+  display: flex;
+
+  @media screen and (max-width: 768px) {
+    font-size: 16px;
+  }
 }
 
 .username {
@@ -41,7 +47,7 @@
 }
 
 .profileMessage {
-  margin-top: 3px;
+  margin-top: 9px;
   width: 100%;
   color: #5691B2;
 
@@ -49,4 +55,25 @@
     font-weight: bold;
     color: #245E80;
   }
+
+  @media screen and (max-width: 768px) {
+    font-size: 12.5px;
+  }
+}
+
+.statusDot {
+  display: inline-block;
+  width: 10px; /* Proper width for a dot */
+  height: 10px; /* Proper height for a dot */
+  border-radius: 50%; /* Make it a circle */
+  margin-left: 8px;
+  background-color: transparent; /* Default color to avoid visual clutter */
+}
+
+.online {
+  background-color: #3EE544; /* Green color for online */
+}
+
+.offline {
+  background-color: #C0C0C0; /* Gray color for offline */
 }

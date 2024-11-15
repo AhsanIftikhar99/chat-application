@@ -43,11 +43,15 @@
     color: #08344d;
     margin-right: 10px;
     min-width: 30px;
+    
   }
   
   .listItemText {
     color: #08344d;
     font-size: 14px;
     font-weight: bold;
+    @media screen and (max-width: 768px) {
+      font-size: 12px;
+    }
   }
   

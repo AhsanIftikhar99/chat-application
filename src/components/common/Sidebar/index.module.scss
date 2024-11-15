@@ -36,7 +36,7 @@
 }
 
 .listItem {
-  width: 100%;
+  width: 70%;
   height: 40px;
   display: flex;
   align-items: center;
@@ -67,7 +67,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-bottom: 16px;
+  margin-bottom: 30px;
   width: 100%;
 }
 
@@ -133,7 +133,7 @@
 }
 .menu {
   position: absolute;
-  bottom: 60;
+  bottom: 70;
   left: 0px;
   width: 58px;
   background-color: white;

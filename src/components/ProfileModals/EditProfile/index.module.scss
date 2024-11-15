@@ -1,52 +1,103 @@
+// Base button styles for reuse
+.buttonBase {
+  width: 100% !important;
+  font-size: 14px !important;
+  text-transform: none !important;
+  border-radius: 8px !important;
+}
+
+// Container Styles
 .editProfileContainer {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 20px;
-    padding-left: 16px;
-    padding-right: 32px;
-  }
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 20px;
+  padding-left: 16px;
+  padding-bottom: 10px;
+  padding-right: 32px;
+}
 
-  
-  .formFieldsWrapper {
-    flex: 2;
-  }
+// Form Field Wrapper
+.formFieldsWrapper {
+  flex: 2;
+}
 
-  .textField {
-    max-width: 400px;
-    width: 100%;
-    height: 48px;
-    padding: 0 10px;
-    border-radius: 8px;
-    border: 1px solid var(--Blue-Fade-3, #97B4CC);
-    font-size: 16px;
-    background-color: white;
-    color: black;
-  }
-  
-  .profilePhotoWrapper {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-  }
-  
-  .profilePhoto {
-    width: 200px !important;
-    height: 200px !important;
-    border-radius: 10px !important;
-  }
-  
-  .actionButtons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 10px;
-    margin-top: 20px;
-  }
+// Text Field
+.textField {
+  max-width: 400px;
+  width: 100%;
+  height: 48px;
+  padding: 0 10px;
+  border: 1px solid var(--Blue-Fade-3, #97b4cc);
+  border-radius: 8px;
+  font-size: 16px;
+  background-color: white;
+  color: black;
+}
 
-  .formFieldContainer {
-    margin-top: 10px;
-    margin-bottom: 10px;
-  }
-  
+.labelStyles{
+  color: #3A7699;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 3px;
+}
+
+// Button Styles
+.uploadProfileButtonStyles {
+  @extend .buttonBase;
+  margin-top: 5px !important;
+  border: 1px solid #124766 !important;
+}
+
+.removePhotoButtonStyles {
+  @extend .buttonBase;
+  color: #3a7699 !important;
+}
+
+.saveChangeButtonStyles {
+  @extend .buttonBase;
+  max-width: 119px;
+  height: 40px;
+  font-size: 13px !important;
+  background-color: #06334d !important;
+  font-weight: 500;
+
+}
+
+.cancelButtonStyles {
+  @extend .buttonBase;
+  color: #06334D !important;
+  background-color: white !important;
+  font-weight: 500;
+  max-width: 75px !important;
+}
+
+// Profile Photo Wrapper
+.profilePhotoWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+// Profile Photo
+.profilePhoto {
+  width: 200px !important;
+  height: 200px !important;
+  border-radius: 10px !important;
+}
+
+// Action Buttons Container
+.actionButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+  padding-right: 32px;
+}
+
+// Form Field Container
+.formFieldContainer {
+  margin: 10px 0;
+}

@@ -49,7 +49,8 @@ export const EditProfileModal = ({ isOpen, handleClose, userData }: EditProfileM
             defaultValue: userData.username,
             minLength: 6,
             maxLength: 30,
-            variant: "outlined"
+            variant: "outlined",
+            className: styles.textField
         },
         {
             placeholder: "Status",
@@ -59,7 +60,8 @@ export const EditProfileModal = ({ isOpen, handleClose, userData }: EditProfileM
             defaultValue: userData.status,
             minLength: 6,
             maxLength: 100,
-            variant: "outlined"
+            variant: "outlined",
+            className: styles.textField
         },
     ];
 
@@ -121,6 +123,7 @@ export const EditProfileModal = ({ isOpen, handleClose, userData }: EditProfileM
                 <div className={styles.formFieldsWrapper}>
                     {!!formFields && formFields.map((field, index) => (
                         <div key={index} className={styles.formFieldContainer}>
+                            <p className={styles.labelStyles}>{field?.label}</p>
                             <FormBuilder formFields={field} />
                         </div>
                     ))}
@@ -132,7 +135,7 @@ export const EditProfileModal = ({ isOpen, handleClose, userData }: EditProfileM
                         className={styles.profilePhoto}
                     />
                     <Button
-                        sx={{ fontSize: '12px', width: '100%', textTransform: 'none', mt: '5px' }}
+                        className={styles.uploadProfileButtonStyles}
                         variant="outlined"
                         component="label"
                     >
@@ -140,7 +143,7 @@ export const EditProfileModal = ({ isOpen, handleClose, userData }: EditProfileM
                         <input type="file" hidden onChange={handleImageChange} />
                     </Button>
                     <Button
-                        sx={{ fontSize: '12px', textTransform: 'none' }}
+                        className={styles.removePhotoButtonStyles}
                         variant="text"
                         color="error"
                         onClick={handleRemoveImage}
@@ -149,12 +152,11 @@ export const EditProfileModal = ({ isOpen, handleClose, userData }: EditProfileM
                     </Button>
                 </div>
             </div>
-            <Divider />
             <div className={styles.actionButtons}>
-                <Button variant="outlined" onClick={handleClose}>
+                <Button className={styles.cancelButtonStyles} variant="outlined" onClick={handleClose}>
                     Cancel
                 </Button>
-                <Button onClick={handleFormSubmit} variant="contained" color="primary" type="submit">
+                <Button onClick={handleFormSubmit} className={styles.saveChangeButtonStyles} variant="contained" type="submit">
                     Save changes
                 </Button>
             </div>

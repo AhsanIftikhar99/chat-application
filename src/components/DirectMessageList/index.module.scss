@@ -25,6 +25,10 @@
     color: #08344d;
     font-size: 0.875rem;
     font-weight: bold;
+
+    @media screen and (max-width: 768px) {
+        font-size: 0.75rem;
+    }
 }
 
 .icon {
@@ -77,17 +81,28 @@
     height: 35px;
     border-radius: 50%;
     overflow: hidden;
+
+    @media screen and (max-width: 768px) {
+        min-width: 30px;
+        height: 30px;
+    }
 }
 
 .defaultAvatar {
     color: #08344d;
     font-size: 1.5rem;
+    @media screen and (max-width: 768px) {
+        font-size: 1.2rem !important;
+    }
 }
 
 .userName {
     color: #245e80;
     font-weight: bold;
     font-size: 14px;
+    @media screen and (max-width: 768px) {
+        font-size: 12px;
+    }
 }
 
 .selectedUser {

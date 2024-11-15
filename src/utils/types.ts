@@ -20,11 +20,12 @@ export type User = {
   displayName: string;
   username: string;
   icon?: string;
-  profilePicture?: { type: string; data: [] } | string;
+  profilePicture?: { type: string; data: Uint8Array } | string;
   status?: string;
   phoneNumber?: string;
   email?: string;
   loggedUser?: LoggedInUser;
+  online?: boolean | null;
 };
 
 export type LoggedInUser = {

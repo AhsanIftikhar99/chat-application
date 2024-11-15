@@ -1,6 +1,6 @@
 .container {
     max-width: 320px;
-    min-width: 320px;
+    min-width: 150px;
     width: 100%;
     background-color: #fafcff;
     padding: 10px;
@@ -10,14 +10,21 @@
     height: 100vh;
     padding-top: 70px;
     margin-left: 60px;
+
+    @media screen and (max-width: 768px) {
+      max-width: 200px;
+    }
   }
   
   .title {
     color: #214f6d;
     font-weight: 600;
-    margin-top: 10px;
-    margin-bottom: 20px;
+    margin-top: 15px;
+    margin-bottom: 15px;
     font-size: 20px;
+    @media screen and (max-width: 768px) {
+      font-size: 16px;
+    }
   }
   
   .divider {
@@ -40,9 +47,11 @@
     color: #08344d;
     margin-right: 10px;
     min-width: 30px;
+    font-size: 1.5rem !important;
+    @media screen and (max-width: 768px) {
+      font-size: 1.2rem !important;
+    }
   }
-  
-
   
   .footer {
     margin-top: 16px;

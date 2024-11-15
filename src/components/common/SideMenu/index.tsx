@@ -37,8 +37,6 @@ export default async function SideMenu({ currentPath }: SideMenuProps) {
       </ul>
 
       <div className={styles.footer}>
-        {/* <p className={styles.footerText}>Groups &gt;</p> */}
-        {/* Render the DirectMessagesList component */}
         <DirectMessagesList users={userHaveChatWith} currentPath={currentPath} />
       </div>
     </div>

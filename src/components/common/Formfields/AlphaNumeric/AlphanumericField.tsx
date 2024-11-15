@@ -14,6 +14,7 @@ interface FieldProps {
   regex?: RegExp; // Add regex pattern for validation
   regexErrorMessage?: string; // Add custom error message for regex mismatch
   alphanumeric?: boolean; // Add a prop to restrict to alphanumeric characters
+  className?: string; 
 }
 
 interface TextInputFieldProps {
@@ -54,7 +55,7 @@ export const AlphaNumericField: React.FC<TextInputFieldProps> = ({ field }) => {
         // minLength={field.minLength ? Number(field.minLength) : undefined}
         value={value}
         onChange={handleChange}
-        className={`${styles.textField} ${styles[field.variant || "standard"]} ${error ? styles.errorField : ""}`}
+        className={`${styles.textField} ${styles[field.variant || "standard"]} ${error ? styles.errorField : ""} ${field.className || ""}`}
         onKeyDown={(event) => {
           const allowedKeys = [
             "Backspace",

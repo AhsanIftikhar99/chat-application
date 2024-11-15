@@ -1,0 +1,29 @@
+.textAreaContainer {
+    max-width: 400px;
+    width: 100%;
+  }
+  
+  .label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .textArea {
+    width: 100%;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #3A7699;
+    font-size: 16px;
+    color: #000;
+    resize: vertical; // Allows vertical resizing of the textarea
+    background-color: white;
+    min-height: 100px;
+  
+    &:focus {
+      border-color: #3A7699 !important;
+      outline: none; // Removes the default outline
+    }
+  }
+  

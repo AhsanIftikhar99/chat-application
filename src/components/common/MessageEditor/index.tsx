@@ -13,14 +13,8 @@ type TextEditorProps = {
 
 const toolbarOptions = [
   ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-  ['blockquote', 'code-block'],
+  ['code-block'],
   ['link', 'image'],
-  [{ 'header': 1 }, { 'header': 2 }],
-  [{ 'list': 'ordered' }, { 'list': 'bullet' }, { 'list': 'check' }],
-  [{ 'script': 'sub' }, { 'script': 'super' }],
-  [{ 'direction': 'rtl' }],
-  [{ 'font': [] }],
-  [{ 'align': [] }],
   ['clean']
 ];
 
