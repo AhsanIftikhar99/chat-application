@@ -1,8 +1,13 @@
+// components/ChatProfileCard.tsx
+"use client"
 import CustomButton from "@/components/GenericButton";
-import axios, { getAxiosConfig } from "@/utils/axiosConfig";
+import Loader from "@/components/Loader";
+import { ProfileModal } from "@/components/ProfileModals/ProfileDetails";
+import { useFetch } from "@/hooks/useFetch";
 import { User } from "@/utils/types";
 import PersonIcon from "@mui/icons-material/Person";
 import { Avatar } from "@mui/material";
+import { useEffect, useState } from "react";
 import styles from "./index.module.scss";
 
 type ChatProfileCardProps = {
@@ -10,48 +15,54 @@ type ChatProfileCardProps = {
   cookies: string;
 };
 
-const ChatProfileCard = async ({ chatWithSpecificUser, cookies }: ChatProfileCardProps) => {
-  let fetchedUser: User | null = null;
-  let profilePictureUrl: string | null = null;
+const ChatProfileCard = ({ chatWithSpecificUser, cookies }: ChatProfileCardProps) => {
 
-  try {
-    const userResponse = await axios.get(`/api/users/getUserById/${chatWithSpecificUser}`, getAxiosConfig(cookies));
-    fetchedUser = userResponse.data;
 
-    // Check if `profilePicture` exists and is not a string
-    if (fetchedUser?.profilePicture && typeof fetchedUser.profilePicture !== "string") {
-      const base64String = Buffer.from(fetchedUser.profilePicture.data).toString("base64");
-      profilePictureUrl = `data:image/png;base64,${base64String}`;
+  const [profilePictureUrl, setProfilePictureUrl] = useState<string | null>(null);
+  const [openProfileModal, setOpenProfileModal] = useState(false);
+
+  const handleProfileModalClose = () => setOpenProfileModal(false);
+
+  const { data: fetchedUser, isLoading } = useFetch<User>({
+    url: `/api/users/getUserById/${chatWithSpecificUser}`,
+    queryKey: ["userData"],
+  });
+
+  useEffect(() => {
+    console.log("fetchedUser", fetchedUser);
+    if (fetchedUser?.profilePicture && typeof fetchedUser.profilePicture !== 'string') {
+      const base64String = Buffer.from(fetchedUser.profilePicture.data).toString('base64');
+      setProfilePictureUrl(`data:image/png;base64,${base64String}`);
     }
-  } catch (error) {
-    console.error("Failed to fetch user by ID:", error);
   }
+    , [fetchedUser?.profilePicture]);
 
-  console.log("profilePictureUrl", profilePictureUrl);
+  console.log('profilePictureUrl', profilePictureUrl);
+
   console.log("fetchedUser", fetchedUser);
-
   return (
     <div className={styles.profileContainer}>
+      {isLoading && <Loader />}
       {fetchedUser && (
         <div className={styles.wrapper}>
           <div className={styles.avatarContainer}>
-            {!profilePictureUrl ? (
+            {profilePictureUrl === null ? (
               <Avatar variant="rounded" className={styles.avatar}>
                 <PersonIcon />
               </Avatar>
             ) : (
-              <Avatar variant="rounded" src={profilePictureUrl} className={styles.avatar} />
+              <Avatar variant="square" className={styles.avatar} src={profilePictureUrl || undefined} />
             )}
           </div>
           <div className={styles.userDetails}>
             <h4 className={styles.displayName}>
               {fetchedUser.displayName}
               <span
-                className={`${styles.statusDot} ${
-                  fetchedUser.online ? styles.online : styles.offline
-                }`}
+                className={`${styles.statusDot} ${fetchedUser.online ? styles.online : styles.offline
+                  }`}
               ></span>
             </h4>
+
           </div>
           <div className={styles.profileMessage}>
             <p>
@@ -61,15 +72,13 @@ const ChatProfileCard = async ({ chatWithSpecificUser, cookies }: ChatProfileCar
           </div>
           <CustomButton
             title="View Profile"
-            sx={{
-              backgroundColor: "white",
-              border: "0.5px solid #124766",
-              color: "#08344D",
-              marginTop: "12px",
-            }}
+            className={styles.viewProfileButton}
+            onClick={() => setOpenProfileModal(true)}
           />
         </div>
       )}
+
+      <ProfileModal isOpen={openProfileModal} editProfile={false} handleClose={handleProfileModalClose} userDataProp={fetchedUser} />
     </div>
   );
 };

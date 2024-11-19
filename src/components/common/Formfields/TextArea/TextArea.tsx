@@ -6,10 +6,11 @@ interface FieldProps {
   label: string;
   type?: string;
   restrictInput?: boolean;
-  maxLength?: number | string;
-  minLength?: number | string;
+  maxLength?: number ;
+  minLength?: number ;
   defaultValue?: string;
   className?: string;
+  value?: string;
 }
 
 interface MultilineInputFieldProps {
@@ -17,6 +18,22 @@ interface MultilineInputFieldProps {
 }
 
 export const MultilineInputField: React.FC<MultilineInputFieldProps> = ({ field }) => {
+
+  const [value, setValue] = React.useState(field.value || field.defaultValue || "");
+  const [error, setError] = React.useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const inputValue = e.target.value;
+    setValue(inputValue);
+
+    // MinLength validation
+    if (field.minLength && inputValue.length < field.minLength) {
+      setError(`Minimum length is ${field.minLength} characters.`);
+    } else {
+      setError("");
+    }
+  };
+
   return (
     <div className={styles.textAreaContainer}>
       {/* <label htmlFor={field.name} className={styles.label}>{field.label}</label> */}
@@ -24,9 +41,10 @@ export const MultilineInputField: React.FC<MultilineInputFieldProps> = ({ field 
         id={field.name}
         name={field.name}
         defaultValue={field.defaultValue}
-        className={`${styles.textArea} ${field.className || ""}`}
+        className={`${styles.textArea} ${field.className || ""} ${error ? styles.errorField : ""} `}
         maxLength={Number(field.maxLength)}
         minLength={Number(field.minLength)}
+        onChange={handleChange}
         rows={4}
         onKeyDown={(event) => {
           if (field.restrictInput) {
@@ -44,6 +62,7 @@ export const MultilineInputField: React.FC<MultilineInputFieldProps> = ({ field 
           }
         }}
       />
+       {error && <span className={styles.errorText}>{error}</span>}
     </div>
   );
 };

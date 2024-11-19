@@ -73,7 +73,8 @@
     }
 }
 
-.avatar {
+.avatarContainer {
+    position: relative;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -81,12 +82,31 @@
     height: 35px;
     border-radius: 50%;
     overflow: hidden;
-
+  
     @media screen and (max-width: 768px) {
-        min-width: 30px;
-        height: 30px;
+      min-width: 30px;
+      height: 30px;
     }
-}
+  }
+  
+  .onlineStatus {
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: 2px solid #ffffff; /* Border to make the dot stand out */
+  }
+  
+  .online {
+    background-color: #4caf50; /* Green for online */
+  }
+  
+  .offline {
+    background-color: #b0b0b0; /* Gray for offline */
+  }
+  
 
 .defaultAvatar {
     color: #08344d;

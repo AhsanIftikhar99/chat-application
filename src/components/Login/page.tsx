@@ -40,10 +40,12 @@ export default function Login({ modaleOpen, handleModalClose ,signUpModalOpen}: 
       type: "submit",
       manifest:'button',
       baseline: true,
+      name: "login",
     },
     {
       label: "Create a New Account",
       type: "button",
+      name: "signup",
       manifest:'button',
       onClick: () =>{
         handleModalClose();

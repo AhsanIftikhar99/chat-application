@@ -8,14 +8,13 @@ type TextEditorProps = {
   value: string;
   onChange: (value: string) => void;
   theme?: string;
-  className?: any;
+  className?: string;
 }
 
 const toolbarOptions = [
-  ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-  ['code-block'],
-  ['link', 'image'],
-  ['clean']
+  ['bold', 'italic','link'],       
+  ['code-block', 'list'],
+
 ];
 
 const TextEditor: React.FC<TextEditorProps> = ({

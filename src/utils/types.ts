@@ -1,6 +1,6 @@
 export type FormField = {
-  label: string;
-  type: string;
+  label?: string;
+  type?: string;
   name?: string;
   baseline?: boolean;
   placeholder?: string;
@@ -9,6 +9,9 @@ export type FormField = {
   pattern?: string;
   minLength?: number;
   variant?: string;
+  onClick?: () => void;
+  sx?: any;
+  manifest?: string;
 };
 
 export type FormFieldProps = {

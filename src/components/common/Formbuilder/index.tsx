@@ -1,13 +1,13 @@
+import { FormField } from "@/utils/types";
 import { AlphaNumericField } from "../Formfields/AlphaNumeric/AlphanumericField";
 import EmailInput from "../Formfields/EmailField";
 import { PasswordInput } from "../Formfields/Password/Password";
 import MultilineInputField from "../Formfields/TextArea";
 import TextInputField from "../Formfields/TextField";
-import styles from "./index.module.scss";
 
 
 type FormBuilderProps = {
-    formFields: any;
+    formFields: FormField;
 }
 
 

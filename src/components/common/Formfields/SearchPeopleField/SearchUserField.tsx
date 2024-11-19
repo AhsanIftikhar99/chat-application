@@ -1,7 +1,6 @@
 "use client";
 
 import Loader from "@/components/Loader";
-import { useFetch } from "@/hooks/useFetch";
 import { useGetUsers } from "@/hooks/useGetUser";
 import { User } from "@/utils/types";
 import { Autocomplete, Avatar, Box, ListItemIcon, ListItemText, Typography } from "@mui/material";

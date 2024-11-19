@@ -1,18 +1,23 @@
+import closeicon from "@/assets/images/closeicon.png";
 import React from "react";
 import Modal from "react-modal";
-import styles from "./index.module.scss";
 import { FormBuilder } from "../Formbuilder";
-import closeicon from "@/assets/images/closeicon.png"
-import { Divider } from "@mui/material";
+import styles from "./index.module.scss";
 
 type FormField = {
   label?: string;
-  type?: any;
+  type?: string;
   name?: string;
   baseline?: boolean;
-  manifest?: string;
-  sx?: any;
+  placeholder?: string;
+  maxLength?: number;
+  required?: boolean;
+  pattern?: string;
+  minLength?: number;
+  variant?: string;
   onClick?: () => void;
+  sx?: React.CSSProperties;
+  manifest?: string;
 };
 
 type TitleType = "Signup" | "Login" | "Profile" | "EditProfile"; // Add any other possible titles
@@ -77,7 +82,6 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
         </button>
       </div>
      
-      {title.includes("Profile") || title.includes("profile")  && <Divider />}
       <form className={styles.content} onSubmit={handleSubmit}>
         <div>
           {!!formFields &&
@@ -102,7 +106,7 @@ const CustomDialog: React.FC<CustomDialogProps> = ({
                 field.manifest === "button" && (
                   <div key={index} className={styles.buttonContainer}>
                     <button
-                      type={field.type}
+                      type={field.type as "button" | "submit" | "reset" | undefined}
                       style={field.sx}
                       onClick={field.onClick}
                       className={styles.customButton}

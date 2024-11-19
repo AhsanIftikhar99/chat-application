@@ -110,7 +110,7 @@ export default function Sidebar() {
           </div>
         )}
       </div>
-      <ProfileModal isOpen={openProfileModal} handleClose={handleProfileModalClose} />
+      <ProfileModal isOpen={openProfileModal} editProfile={true} handleClose={handleProfileModalClose} />
     </div>
   );
 }

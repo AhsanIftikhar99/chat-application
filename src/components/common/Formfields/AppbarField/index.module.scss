@@ -1,4 +1,5 @@
 .searchContainer {
+  position: relative;
   display: flex;
   flex-direction: column;
   max-width: 530px;
@@ -30,4 +31,110 @@
     outline: none;
     border-color: #327ea7;
   }
+}
+
+.suggestionsContainer {
+  position: absolute;
+  top: 50px;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  max-height: 200px; /* Keep the height for scrolling */
+  overflow-y: auto; /* Enable vertical scrolling */
+  width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 10;
+
+  /* Add smooth scrolling for better user experience */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #08344D #f1f1f1; /* Scrollbar color */
+}
+
+.suggestionsContainer::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+  border-radius: 8px; /* Make scrollbar rounded */
+}
+
+.suggestionsContainer::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Background of the scrollbar track */
+  border-radius: 8px; /* Rounded corners for the track */
+}
+
+.suggestionsContainer::-webkit-scrollbar-thumb {
+  background-color: #08344D; /* Scrollbar thumb color */
+  border-radius: 8px; /* Rounded scrollbar thumb */
+  border: 2px solid #f1f1f1; /* Padding around the thumb */
+}
+
+.suggestionsContainer::-webkit-scrollbar-button {
+  display: none; /* Remove up and down scroll buttons */
+}
+
+
+.suggestionItem {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.2s;
+
+  &:hover {
+    background: #e8f4fc; /* Add a light hover effect */
+  }
+}
+
+.avatarContainer {
+  position: relative;
+  margin-right: 12px;
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+  }
+
+  .defaultIcon {
+    width: 40px;
+    height: 40px;
+    color: #718799;
+  }
+}
+
+.onlineStatus {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+
+  &.online {
+    background-color: #4caf50;
+  }
+
+  &.offline {
+    background-color: gray;
+  }
+}
+
+.userInfo {
+  .displayName {
+    font-size: 14px;
+    font-weight: bold;
+    margin: 0;
+    color: #06334d;
+  }
+
+  .status {
+    font-size: 12px;
+    margin: 0;
+    color: #718799;
+  }
+}
+
+.noResults {
+  padding: 8px 12px;
+  font-size: 14px;
+  color: #718799;
+  text-align: center;
 }
