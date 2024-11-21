@@ -1,3 +1,15 @@
+// src/utils/types.ts
+import { MessageType } from "./enums";
+
+export type NewMessage = {
+  chatId: string;
+  senderId: string;
+  content: string;
+  messageType: MessageType; // Use the enum here
+  timestamp: string;
+};
+
+
 export type FormField = {
   label?: string;
   type?: string;
@@ -10,8 +22,10 @@ export type FormField = {
   minLength?: number;
   variant?: string;
   onClick?: () => void;
-  sx?: any;
+  sx?: React.CSSProperties;
   manifest?: string;
+  defaultValue?: string;
+  className?: string;
 };
 
 export type FormFieldProps = {

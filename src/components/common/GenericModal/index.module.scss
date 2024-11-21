@@ -74,7 +74,8 @@
   background: white;
   border-radius: 8px;
   width: 500px;
-  max-height: 491px;
+  min-height: 491px;
+  max-height: 520px;
   height: 100%;
   overflow-y: hidden;
   position: relative;

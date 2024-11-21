@@ -24,7 +24,7 @@ export default function Login({ modaleOpen, handleModalClose ,signUpModalOpen}: 
       manifest:'field',
       name: "email",
       maxLength:40,
-      minLength: 6,
+      minLength: 6
     },
     {
       placeholder: "Password",

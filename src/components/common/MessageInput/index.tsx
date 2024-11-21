@@ -4,11 +4,14 @@
 
 import CustomButton from "@/components/GenericButton";
 import useSocket from "@/hooks/useSocket";
+import { createNewMessage } from "@/utils/helper/messageUtils";
 import { LoggedInUser, User } from "@/utils/types";
 import SendIcon from "@mui/icons-material/Send";
 import React, { useState } from "react";
 import TextEditor from "../MessageEditor";
 import styles from "./index.module.scss";
+import sendIcon from "@/assets/images/sendIcon.svg"
+import { SocketEvents } from "@/utils/enums";
 
 type MessageInputProps = {
   chatId: string;
@@ -25,31 +28,19 @@ const MessageInput: React.FC<MessageInputProps> = ({ chatId, user }) => {
 
   const handleSendMessage = () => {
     if (message.trim()) {
-      const newMessage = {
-        chatId,
-        senderId: LoggedInUser?.id || "",
-        content: message.replace(/<\/?p>/g, ""),
-        messageType: "text",
-        timestamp: new Date().toISOString(),
-      };
-
-      socket.emit("sendMessage", newMessage);
+      if(message.includes('<br>'))
+        return
+      const newMessage = createNewMessage(chatId, LoggedInUser?.id || "", message);
+      socket.emit(SocketEvents.SEND_MESSAGE, newMessage);
       setMessage("");
     }
   };
 
   return (
     <div className={styles.editorContainer}>
-     <div className={styles.texteditorWrapper}>
-     <TextEditor theme="snow" value={message} onChange={setMessage} className={styles.textEditor} />
-     </div>
-      <CustomButton
-        title="Send"
-        icon={<SendIcon />}
-        onClick={handleSendMessage}
-        className={styles.sendButton} // Apply custom CSS class
-      />
-
+      <div className={styles.texteditorWrapper}>
+        <TextEditor onClick={handleSendMessage} theme="snow" value={message} onChange={setMessage} className={styles.textEditor} />
+      </div>
     </div>
   );
 };

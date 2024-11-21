@@ -1,103 +1,140 @@
-// Base button styles for reuse
-.buttonBase {
-  width: 100% !important;
-  font-size: 14px !important;
-  text-transform: none !important;
-  border-radius: 8px !important;
+.editProfileDialog {
+  background: white;
+  border-radius: 8px;
+  width: 674px;
+  max-height: 510px;
+  height: auto;
+  overflow-y: auto;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
 }
 
-// Container Styles
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #e0e0e0; /* Light gray border */
+  padding: 16px 20px; /* Spacing for the header */
+}
+
+.dialogTitle {
+  color: #06334d;
+  font-weight: 600;
+  font-size: 20px;
+}
+
+.closeButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  font-size: 20px;
+  padding: 0;
+}
+
 .editProfileContainer {
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   gap: 20px;
-  padding-left: 16px;
-  padding-bottom: 10px;
-  padding-right: 32px;
+  padding: 20px;
 }
 
-// Form Field Wrapper
 .formFieldsWrapper {
   flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
-// Text Field
+.profilePhotoWrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: start;
+}
+
+.labelProfilePhoto {
+  color: #3a7699;
+  font-size: 12px;
+  font-weight: 500;
+  text-align: left;
+  margin-bottom: 2px;
+}
+
+.profilePhoto {
+  width: 210px !important; /* Adjusted to the required size */
+  height: 200px !important; /* Adjusted to the required size */
+  border: 1px solid #ddd;
+}
+
+.uploadProfileButtonStyles {
+  margin-top: 20px !important;
+  width: 100%; /* Ensure it aligns with the design */
+  border: 1px solid #124766 !important;
+  color: #124766 !important;
+  border-radius: 8px !important;
+  text-transform: none !important;
+}
+
+.removePhotoButtonStyles {
+  color: #3a7699 !important; /* Red color for remove button */
+  text-transform: none !important;
+  width: 100%; /* Ensure it aligns with the design */
+}
+
+.actionButtons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 10px;
+  padding-right: 16px;
+  padding-bottom: 24px;
+}
+
+.saveChangeButtonStyles {
+  background-color: #06334d !important;
+  font-weight: 500 !important;
+  text-transform: none !important;
+}
+
+.cancelButtonStyles {
+  background-color: white !important;
+  color: #06334d !important;
+  font-weight: 500 !important;
+  text-transform: none !important;
+}
+
 .textField {
   max-width: 400px;
   width: 100%;
   height: 48px;
   padding: 0 10px;
-  border: 1px solid var(--Blue-Fade-3, #97b4cc);
+  border: 1px solid #97b4cc;
   border-radius: 8px;
   font-size: 16px;
   background-color: white;
   color: black;
 }
 
-.labelStyles{
-  color: #3A7699;
+.labelStyles {
+  color: #3a7699;
   font-size: 12px;
   font-weight: 500;
   margin-bottom: 3px;
-}
-
-// Button Styles
-.uploadProfileButtonStyles {
-  @extend .buttonBase;
-  margin-top: 5px !important;
-  border: 1px solid #124766 !important;
-}
-
-.removePhotoButtonStyles {
-  @extend .buttonBase;
-  color: #3a7699 !important;
-}
-
-.saveChangeButtonStyles {
-  @extend .buttonBase;
-  max-width: 119px;
-  height: 40px;
-  font-size: 13px !important;
-  background-color: #06334d !important;
-  font-weight: 500;
-
-}
-
-.cancelButtonStyles {
-  @extend .buttonBase;
-  color: #06334D !important;
-  background-color: white !important;
-  font-weight: 500;
-  max-width: 75px !important;
-}
-
-// Profile Photo Wrapper
-.profilePhotoWrapper {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 10px;
-}
-
-// Profile Photo
-.profilePhoto {
-  width: 200px !important;
-  height: 200px !important;
-  border-radius: 10px !important;
-}
-
-// Action Buttons Container
-.actionButtons {
-  display: flex;
-  justify-content: flex-end;
-  gap: 10px;
-  margin-top: 20px;
-  padding-right: 32px;
-}
-
-// Form Field Container
-.formFieldContainer {
-  margin: 10px 0;
 }

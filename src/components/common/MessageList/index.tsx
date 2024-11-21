@@ -1,53 +1,56 @@
 "use client";
 
 import Loader from "@/components/Loader";
+import { useQueryClient } from "@tanstack/react-query";
 import { useGetMessages } from "@/hooks/useGetMessages";
 import useSocket from "@/hooks/useSocket";
 import { Message } from "@/utils/types";
-import PersonIcon from "@mui/icons-material/Person";
-import { Avatar } from "@mui/material";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import styles from "./index.module.scss";
+import MessageAvatar from "../MessageAvatar";
+import { SocketEvents } from "@/utils/enums";
 
 type MessagesListProps = {
   user: any;
   chatId: string;
-  chatWithSpecificUser?: string;
-  cookieHeader?: string;
 };
 
-const MessagesList: React.FC<MessagesListProps> = ({ chatId, user, chatWithSpecificUser, cookieHeader }) => {
-  const loggedInUser = user?.loggedUser
+const MessagesList: React.FC<MessagesListProps> = ({ chatId, user }) => {
+  const loggedInUser = user?.loggedUser;
   const socket = useSocket(chatId);
   const bottomRef = useRef<HTMLDivElement | null>(null);
-  console.log('user', user);
-
+  const queryClient = useQueryClient();
 
   const { data: fetchedMessages = [], isLoading: isMessageLoading } = useGetMessages({ chatId });
-  const [messages, setMessages] = useState<Message[]>(fetchedMessages);
-
-  useEffect(() => {
-
-    setMessages(fetchedMessages);
-  }, [fetchedMessages]);
 
 
   useEffect(() => {
-    socket.on("newMessage", (newMessage: Message) => {
+    const handleNewMessage = (newMessage: Message) => {
       console.log("Socket listening:", newMessage);
+      queryClient.setQueryData(["messages"], (oldMessages: Message[] | undefined) => {
 
+        if (oldMessages?.find((msg) => msg.id === newMessage.id)) {
+          return oldMessages;
+        }
 
-      setMessages((prevMessages) => [...prevMessages, newMessage]);
-    });
+        return [...(oldMessages || []), newMessage];
+      });
+
+      // Scroll to the bottom for the new message
+      bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    };
+
+    socket.on(SocketEvents.NEW_MESSAGE, handleNewMessage);
 
     return () => {
-      socket.off("newMessage");
+      socket.off(SocketEvents.NEW_MESSAGE, handleNewMessage);
     };
-  }, [socket]);
+  }, [socket, queryClient]);
 
+  // Auto-scroll to the bottom when fetched messages change
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
+  }, [fetchedMessages]);
 
   const getDisplayName = (senderId: string) => {
     return senderId === user?.user?.id ? user.user?.displayName : loggedInUser?.displayName;
@@ -55,13 +58,10 @@ const MessagesList: React.FC<MessagesListProps> = ({ chatId, user, chatWithSpeci
 
   return (
     <div className={styles.messagesContainer}>
-      {/* <ChatProfileCard chatWithSpecificUser={chatWithSpecificUser} cookies={cookieHeader as string} /> */}
       {isMessageLoading && <Loader />}
-      {messages.map((msg) => (
+      {fetchedMessages.map((msg) => (
         <div className={styles.messageRow} key={msg.id}>
-          <Avatar variant="circular" className={styles.messageAvatar}>
-            {msg.senderId === user?.id && user?.icon ? <Avatar src={user?.icon} /> : <PersonIcon />}
-          </Avatar>
+          <MessageAvatar msg={msg} user={user} />
           <div className={styles.messageContentWrapper}>
             <div className={styles.messageHeader}>
               <h5 className={styles.messageSender}>{getDisplayName(msg.senderId)}</h5>

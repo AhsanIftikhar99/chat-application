@@ -4,7 +4,7 @@ import { useMutation, UseMutationResult } from "@tanstack/react-query";
 // Define types for the request and response
 interface PostRequestParams {
   API_URL: string;
-  BODY: any;
+  BODY: {};
   config?: AxiosRequestConfig;
 }
 

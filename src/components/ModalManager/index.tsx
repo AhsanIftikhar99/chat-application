@@ -4,10 +4,7 @@ import { useState } from "react";
 import SignUp from "@/components/SignUp/page";
 import Login from "@/components/Login/page";
 import CustomButton from "../GenericButton";
-
-type ModalManagerProps = {
-  handleLoginModalOpen: () => void;
-};
+import styles from "./index.module.scss";
 
 const ModalManager: React.FC = () => {
   const [modaleOpen, setModalOpen] = useState(false);
@@ -24,23 +21,12 @@ const ModalManager: React.FC = () => {
       <CustomButton
         title="Sign Up"
         onClick={handleModalOpen}
-        sx={{
-          mt: "20px",
-          width: { xs: "100px", md: "200px" },
-          height: "50px",
-          borderRadius: "8px",
-        }}
+        className={styles.signUpButton}
       />
       <CustomButton
         title="Login"
         onClick={handleLoginModalOpen}
-        sx={{
-          ml: "10px",
-          mt: "20px",
-          width: { xs: "100px", md: "200px" },
-          height: "50px",
-          borderRadius: "8px",
-        }}
+        className={styles.loginButton}
       />
       <SignUp
         modaleOpen={modaleOpen}

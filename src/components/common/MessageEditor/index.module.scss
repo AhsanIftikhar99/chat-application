@@ -1,0 +1,18 @@
+.textEditorContainer {
+    position: relative; // Set relative positioning for absolute children
+  }
+  
+  .customButton {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+  
+    img {
+      width: 18px;
+      height: 18px;
+    }
+  }
+  

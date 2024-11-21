@@ -7,11 +7,8 @@ import { User } from "@/utils/types";
 import { useGetUsers } from "@/hooks/useGetUser";
 import { useRouter } from "next/navigation";
 
-type AppbarSearchProps = {
-  users?: User[];
-};
 
-export const AppbarSearch: React.FC<AppbarSearchProps> = () => {
+export const AppbarSearch: React.FC = () => {
   const router = useRouter();
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
@@ -45,7 +42,6 @@ export const AppbarSearch: React.FC<AppbarSearchProps> = () => {
 
   const onUserSelect = (user: User) => {
     setIsSelecting(true); // Prevent onBlur from hiding the list
-    console.log("Selected user:", user);
     router.push(`/chatwithuser/${user.id}`);
     setTimeout(() => setIsSelecting(false), 100); // Reset isSelecting after routing
   };

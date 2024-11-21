@@ -3,11 +3,9 @@ import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   const token = request.cookies.get("jwt"); // Assuming 'jwt' is the cookie name for your token
-  console.log("token", token);
 
   // Define whether the request is for the root route
   const isRootRoute = request.nextUrl.pathname === "/";
-  console.log("isRootRoute", isRootRoute);
 
   // Allow access to the root route ("/") without a token
   if (isRootRoute && !token) {

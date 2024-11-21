@@ -1,63 +1,39 @@
 import * as React from "react";
+import { Control, Controller } from "react-hook-form";
 import styles from "./index.module.scss";
+import { FormField } from "@/utils/types";
 
-interface FieldProps {
-  name: string;
-  label: string;
-  type: string;
-  variant?: "filled" | "outlined" | "standard";
-  placeholder?: string;
-  maxLength?: number;
-  minLength?: number;
-  defaultValue?: string;
-  value?: string;
-  style?: React.CSSProperties;
-  className?: string; // Add a className prop to allow custom classes
+type TextInputFieldProps = {
+  field: FormField;
+  control: Control;
 }
 
-interface TextInputFieldProps {
-  field: FieldProps;
-}
-
-export const TextInputField: React.FC<TextInputFieldProps> = ({ field }) => {
-  const [value, setValue] = React.useState(field.value || field.defaultValue || "");
-  const [error, setError] = React.useState("");
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-    setValue(inputValue);
-
-    // MinLength validation
-    if (field.minLength && inputValue.length < field.minLength) {
-      setError(`Minimum length is ${field.minLength} characters.`);
-    } else {
-      setError("");
-    }
-  };
-
+export const TextInputField: React.FC<TextInputFieldProps> = ({ field, control }) => {
+  const placeholder = field.placeholder || field.label;
+  const maxLength = field.maxLength || 40;
+  const className = field.className || "";
   return (
-    <div className={styles.textContainer}>
-      <input
-        type={field.type}
-        autoComplete="off"
-        name={field.name}
-        style={field.style}
-        placeholder={field.placeholder || field.label}
-        maxLength={field.maxLength ? Number(field.maxLength) : undefined}
-        value={value}
-        onChange={handleChange}
-        className={`${styles.textField} ${styles[field.variant || "standard"]} ${error ? styles.errorField : ""} ${field.className || ""} `}
-        onKeyDown={(event) => {
-          if (field?.type === "text") {
-            const keyCode = event.keyCode || event.which;
-            const keyValue = String.fromCharCode(keyCode);
-            // Allow backspace key, enter key, and tab key
-            if (event.keyCode === 8 || event.keyCode === 13 || event.keyCode === 9) return;
-            if (!/^[a-zA-Z ]*$/.test(keyValue)) event.preventDefault();
-          }
-        }}
-      />
-      {error && <span className={styles.errorText}>{error}</span>}
-    </div>
+    <Controller
+      name={field.name || ""}
+      control={control}
+      render={({ field, fieldState }) => (
+        <div className={styles.textContainer}>
+          <input
+            {...field}
+            autoComplete="off"
+            maxLength={maxLength}
+            placeholder={placeholder}
+            className={`${styles.textField} ${fieldState.error ? styles.errorField : ""} ${className}`}
+            onKeyDown={(event) => {
+              const keyCode = event.keyCode || event.which;
+              const keyValue = String.fromCharCode(keyCode);
+              if (event.keyCode === 8 || event.keyCode === 13 || event.keyCode === 9) return;
+              if (!/^[a-zA-Z ]*$/.test(keyValue)) event.preventDefault();
+            }}
+          />
+          {fieldState.error && <span className={styles.errorText}>{fieldState.error.message}</span>}
+        </div>
+      )}
+    />
   );
 };

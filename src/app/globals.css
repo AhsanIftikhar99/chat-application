@@ -50,3 +50,23 @@ a {
   font-family: 'Righteous', Arial, Helvetica, sans-serif !important;
   color: #08344D;
 }
+
+.ql-toolbar.ql-snow {
+  border-top-right-radius: 8px; 
+  border-top-left-radius: 8px;
+  background-color: #F2F9FF;
+  border: 2px solid #B7DDF2 !important;
+}
+
+.ql-container {
+  border: none; /* Reset all borders first */
+  border-bottom: 2px solid #B7DDF2; /* Apply border to the bottom */
+  border-left: 2px solid #B7DDF2; /* Apply border to the left */
+  border-right: 2px solid #B7DDF2; /* Apply border to the right */
+  border-top: none; /* Explicitly ensure no top border */
+  border-bottom-right-radius: 8px; /* Rounded bottom-right corner */
+  border-bottom-left-radius: 8px; /* Rounded bottom-left corner */
+  background-color: #F2F9FF; /* Background color */
+ 
+}
+

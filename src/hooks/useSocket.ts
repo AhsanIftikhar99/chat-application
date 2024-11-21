@@ -1,16 +1,15 @@
-// hooks/useSocket.ts
-
-import { useEffect } from 'react';
-import { io, Socket } from 'socket.io-client';
-import Cookies from 'js-cookie';
+import { useEffect } from "react";
+import { io, Socket } from "socket.io-client";
+import Cookies from "js-cookie";
+import { SocketEvents } from "@/utils/enums";
 
 let socket: Socket | null = null;
 
-// Function to get or create the socket instance
+
 const getSocketInstance = (): Socket => {
   if (!socket) {
-    const token = Cookies.get('token');
-    socket = io('http://localhost:4000', {
+    const token = Cookies.get("token");
+    socket = io("http://localhost:4000", {
       auth: { token },
     });
   }
@@ -18,24 +17,35 @@ const getSocketInstance = (): Socket => {
   return socket;
 };
 
-// Custom hook to manage socket connection and joining rooms
 const useSocket = (chatId: string | null): Socket => {
   const socket = getSocketInstance();
 
   useEffect(() => {
     if (chatId) {
       // Join the specific chat room
-      socket.emit("joinRoom", chatId);
+      socket.emit(SocketEvents.JOIN_ROOM, chatId);
+      console.log(`Joined room: ${chatId}`);
     }
 
-    socket.on("connect", () => {
+    return () => {
+      if (chatId) {
+        // Leave the room
+        socket.emit(SocketEvents.LEAVE_ROOM, chatId);
+        console.log(`Left room: ${chatId}`);
+      }
+    };
+  }, [socket, chatId]);
+
+  useEffect(() => {
+    socket.on(SocketEvents.CONNECT, () => {
       console.log("Connected to socket server");
     });
 
     return () => {
-      socket.disconnect();
+
+      console.log("Socket cleanup triggered");
     };
-  }, [socket, chatId]);
+  }, [socket]);
 
   return socket;
 };

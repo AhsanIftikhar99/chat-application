@@ -1,0 +1,96 @@
+/* Container styles */
+.container {
+  min-height: calc(100vh - 90px);
+  width: 100%;
+  margin-top: 20px;
+  overflow-x: hidden;
+  padding-left: 25px;
+  padding-right: 25px;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Toolbar placeholder */
+.toolbar {
+  height: 64px; /* Matches the height of the toolbar in Material-UI */
+}
+
+/* Flex container for layout */
+.flexContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
+}
+
+/* Left section styles */
+.leftSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  margin-right: 20px;
+
+  @media (max-width: 768px) {
+    margin-right: 0;
+    margin-bottom: 20px;
+  }
+}
+
+/* Header text styles */
+.headerText {
+  font-size: 55px;
+  letter-spacing: 5% !important;
+  font-weight: 400;
+  color: #06334d;
+  margin: 0;
+
+  @media (max-width: 768px) {
+    font-size: 30px;
+  }
+}
+
+/* Body text styles */
+.bodyText {
+  width: 90%;
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: 400;
+  color: #06334d;
+  line-height: 30px;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    font-size: 17px;
+  }
+}
+
+/* Modal manager wrapper */
+.modalManagerWrapper {
+  margin-top: 10px;
+}
+
+/* Right section styles */
+.rightSection {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Globe image styles */
+.globeImage {
+  height: 250px;
+  width: 420px;
+
+  @media (max-width: 767px) {
+    height: 200px;
+    width: 350px;
+  }
+}

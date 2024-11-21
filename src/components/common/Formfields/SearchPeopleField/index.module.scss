@@ -1,0 +1,185 @@
+.searchContainer {
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+}
+
+.toContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Adjust spacing between "To:" and input field */
+}
+
+.toLabel {
+  font-size: 18px;
+  font-weight: 500;
+  font-weight: bold;
+  color: #214f6d;
+}
+
+.selectedUsers {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.selectedUser {
+  display: flex;
+  align-items: center;
+  background-color: #f1f1f1;
+  border-radius: 16px;
+  padding: 3px;
+  gap: 4px;
+}
+
+.userAvatar {
+  width: 12px !important;
+  height: 12px !important;
+  border-radius: 50% !important;
+  overflow: hidden !important;
+}
+
+.userName {
+  font-size: 14px !important;
+  color: #333;
+}
+
+.removeButton {
+  border: none;
+  background: transparent;
+  color: #f44336;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.inputField {
+  flex: 1;
+  font-size: 16px;
+  border: none;
+  outline: none;
+  color: #333;
+  background: transparent;
+}
+
+.inputField::placeholder {
+  color: #aaa;
+}
+
+.suggestionsContainer {
+  margin-top: 1px;
+  left: 0;
+  width: 100%;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  z-index: 10;
+  overflow-y: auto;
+  max-height: 250px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  /* Add smooth scrolling for better user experience */
+  scrollbar-width: thin; /* Firefox */
+  scrollbar-color: #08344d #f1f1f1; /* Scrollbar color */
+}
+
+.suggestionsContainer::-webkit-scrollbar {
+  width: 8px; /* Width of the scrollbar */
+  border-radius: 8px; /* Make scrollbar rounded */
+}
+
+.suggestionsContainer::-webkit-scrollbar-track {
+  background: #f1f1f1; /* Background of the scrollbar track */
+  border-radius: 8px; /* Rounded corners for the track */
+}
+
+.suggestionsContainer::-webkit-scrollbar-thumb {
+  background-color: #08344d; /* Scrollbar thumb color */
+  border-radius: 8px; /* Rounded scrollbar thumb */
+  border: 2px solid #f1f1f1; /* Padding around the thumb */
+}
+
+.suggestionsContainer::-webkit-scrollbar-button {
+  display: none; /* Remove up and down scroll buttons */
+}
+
+.suggestionItem {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.suggestionItem:hover {
+  background-color: #f7f9fc;
+}
+
+.avatarContainer {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin-right: 10px;
+}
+
+.avatar {
+  width: 32px !important;
+  height: 32px !important;
+  border-radius: 50% !important;
+}
+
+.defaultIcon {
+  width: 32px !important;
+  height: 32px !important;
+  color: #ccc !important;
+}
+
+.onlineStatus {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: 2px solid white;
+}
+
+.online {
+  background-color: #4caf50;
+}
+
+.offline {
+  background-color: #ccc;
+}
+
+.userInfo {
+  display: flex;
+  flex-direction: column;
+}
+
+.displayName {
+  font-size: 14px;
+  font-weight: bold;
+  color: #333;
+}
+
+.status {
+  font-size: 12px;
+  color: #666;
+}
+
+.noResultsContainer {
+  margin-top: 1px;
+  left: 0;
+  width: 100%;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+}
+
+.noResultsText {
+  font-size: 16px;
+  color: #08344d;
+  font-weight: 700;
+}

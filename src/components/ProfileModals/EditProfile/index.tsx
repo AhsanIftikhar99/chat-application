@@ -6,6 +6,12 @@ import { User } from '@/utils/types';
 import { Avatar, Button, Divider } from '@mui/material';
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
+import { FormProvider, useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { getValidationSchema } from '@/utils/validations';
+import closeicon from "@/assets/images/closeicon.png";
+import Modal from "react-modal";
+import CustomSnackbar from '@/components/Toaster';
 
 type EditProfileModalProps = {
     isOpen: boolean;
@@ -18,13 +24,17 @@ type EditProfileModalProps = {
 export const EditProfileModal = ({ isOpen, handleClose, userData }: EditProfileModalProps) => {
     const [selectedImageBlob, setSelectedImageBlob] = useState<Blob | null>(null);
     const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
-    console.log('user data', userData);
+    const [error, setError] = useState<string | null>(null);
+
     const { mutate, status, isError } = usePost({
         onPostReqSuccess: handleSuccess,
+        onPostReqError(error) {
+            console.log(error);
+            setError((error as { response: { data: { message: string } } }).response.data.message)
+          },
     });
 
     function handleSuccess(response: any) {
-        console.log(response);
         handleClose();
     }
 
@@ -35,9 +45,7 @@ export const EditProfileModal = ({ isOpen, handleClose, userData }: EditProfileM
             type: "text",
             name: "displayName",
             defaultValue: userData.displayName,
-            value: userData.displayName,
             maxLength: 40,
-            minLength: 4,
             variant: "outlined",
             className: styles.textField
         },
@@ -47,7 +55,6 @@ export const EditProfileModal = ({ isOpen, handleClose, userData }: EditProfileM
             type: "alphanumeric",
             name: "username",
             defaultValue: userData.username,
-            minLength: 6,
             maxLength: 30,
             variant: "outlined",
             className: styles.textField
@@ -58,7 +65,6 @@ export const EditProfileModal = ({ isOpen, handleClose, userData }: EditProfileM
             type: "textarea",
             name: "status",
             defaultValue: userData.status,
-            minLength: 6,
             maxLength: 100,
             variant: "outlined",
             className: styles.textField
@@ -74,17 +80,19 @@ export const EditProfileModal = ({ isOpen, handleClose, userData }: EditProfileM
     }, [userData?.profilePicture]);
 
     const handleFormSubmit = (formData: { [key: string]: any }) => {
-        console.log('Form data', formData);
-
         // Create a FormData object to handle file upload
-        const formDataPayload = new FormData();
-        formDataPayload.append("username", formData.username || userData.username); // Fallback to userData value if empty
-        formDataPayload.append("displayName", formData.displayName || userData.displayName); // Fallback to userData value if empty
-        formDataPayload.append("status", formData.status || userData.status); // Fallback to userData value if empty
+        var formDataPayload = new FormData();
+        formDataPayload.append("username", formData.username || userData.username); 
+        formDataPayload.append("displayName", formData.displayName || userData.displayName); 
+        formDataPayload.append("status", formData.status || userData.status); 
 
+
+        console.log('Selected Image Blob', selectedImageBlob);
         if (selectedImageBlob) {
             formDataPayload.append("profilePicture", selectedImageBlob);
         }
+
+
 
         console.log('Form data payload', formDataPayload);
         mutate({
@@ -107,60 +115,109 @@ export const EditProfileModal = ({ isOpen, handleClose, userData }: EditProfileM
     const handleRemoveImage = () => {
         setSelectedImageBlob(null);
         if (imagePreviewUrl) {
-            URL.revokeObjectURL(imagePreviewUrl); // Clean up the Blob URL
+            URL.revokeObjectURL(imagePreviewUrl); 
             setImagePreviewUrl(null);
         }
     };
 
+
+    const validationSchema = getValidationSchema('Profile');
+
+    // Initialize react-hook-form with resolver
+    const methods = useForm({
+        resolver: yupResolver(validationSchema),
+        defaultValues: formFields?.reduce((acc, field) => {
+            acc[field.name as any] = field.defaultValue || "";
+            return acc;
+        }, {} as { [key: string]: any }),
+    });
+
+    const { control } = methods;
+
+    const handleSubmit = (data: any) => {
+        handleFormSubmit(data);
+    };
+
+
+
     return (
-        <CustomDialog
-            title="Edit your profile"
-            open={isOpen}
-            onClose={handleClose}
-            onSubmit={handleFormSubmit}
+        <Modal
+            isOpen={isOpen}
+            ariaHideApp={false}
+            onRequestClose={handleClose}
+            className={styles.editProfileDialog}
+            overlayClassName={styles.overlay}
         >
-            <div className={styles.editProfileContainer}>
-                <div className={styles.formFieldsWrapper}>
-                    {!!formFields && formFields.map((field, index) => (
-                        <div key={index} className={styles.formFieldContainer}>
-                            <p className={styles.labelStyles}>{field?.label}</p>
-                            <FormBuilder formFields={field} />
+            <div className={styles.header}>
+                <h2 className={styles.dialogTitle}>Edit your profile</h2>
+                <button onClick={handleClose} className={styles.closeButton}>
+                    <img src={closeicon.src} alt="closeicon" />
+                </button>
+            </div>
+            {error && <CustomSnackbar message={error} severity="error" />}
+            <FormProvider {...methods}>
+                <form className={styles.content} onSubmit={methods.handleSubmit(handleSubmit)}>
+                    <div className={styles.editProfileContainer}>
+                        {/* Left section for form fields */}
+                        <div className={styles.formFieldsWrapper}>
+                            {!!formFields &&
+                                formFields.map((field, index) => (
+                                    <div key={index} className={styles.formFieldContainer}>
+                                        <p className={styles.labelStyles}>{field?.label}</p>
+                                        <FormBuilder formFields={field} control={control} />
+                                    </div>
+                                ))}
                         </div>
-                    ))}
-                </div>
-                <div className={styles.profilePhotoWrapper}>
-                    <Avatar
-                        alt="Profile Photo"
-                        src={imagePreviewUrl || undefined} // Display preview URL or default
-                        className={styles.profilePhoto}
-                    />
-                    <Button
-                        className={styles.uploadProfileButtonStyles}
-                        variant="outlined"
-                        component="label"
-                    >
-                        Upload Profile Photo
-                        <input type="file" hidden onChange={handleImageChange} />
-                    </Button>
-                    <Button
-                        className={styles.removePhotoButtonStyles}
-                        variant="text"
-                        color="error"
-                        onClick={handleRemoveImage}
-                    >
-                        Remove Photo
-                    </Button>
-                </div>
-            </div>
-            <div className={styles.actionButtons}>
-                <Button className={styles.cancelButtonStyles} variant="outlined" onClick={handleClose}>
-                    Cancel
-                </Button>
-                <Button onClick={handleFormSubmit} className={styles.saveChangeButtonStyles} variant="contained" type="submit">
-                    Save changes
-                </Button>
-            </div>
-        </CustomDialog>
+
+                        {/* Right section for profile photo */}
+                        <div className={styles.profilePhotoWrapper}>
+                        <p className={styles.labelProfilePhoto}>Profile Picture</p>
+                            <Avatar
+                                alt="Profile Photo"
+                                src={imagePreviewUrl || undefined}
+                                variant="rounded"
+                                className={styles.profilePhoto}
+                            />
+                            <Button
+                                className={styles.uploadProfileButtonStyles}
+                                variant="outlined"
+                                component="label"
+                            >
+                                Upload Profile Photo
+                                <input type="file" hidden onChange={handleImageChange} />
+                            </Button>
+                            <Button
+                                className={styles.removePhotoButtonStyles}
+                                variant="text"
+                                color="error"
+                                onClick={handleRemoveImage}
+                            >
+                                Remove Photo
+                            </Button>
+                        </div>
+                    </div>
+
+                    {/* Action buttons */}
+                    <div className={styles.actionButtons}>
+                        <Button
+                            className={styles.cancelButtonStyles}
+                            variant="outlined"
+                            onClick={handleClose}
+                        >
+                            Cancel
+                        </Button>
+                        <Button
+                            className={styles.saveChangeButtonStyles}
+                            variant="contained"
+                            type="submit"
+                        >
+                            Save changes
+                        </Button>
+                    </div>
+                </form>
+            </FormProvider>
+        </Modal>
+
     );
 };
 

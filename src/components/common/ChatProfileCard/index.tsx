@@ -29,17 +29,12 @@ const ChatProfileCard = ({ chatWithSpecificUser, cookies }: ChatProfileCardProps
   });
 
   useEffect(() => {
-    console.log("fetchedUser", fetchedUser);
     if (fetchedUser?.profilePicture && typeof fetchedUser.profilePicture !== 'string') {
       const base64String = Buffer.from(fetchedUser.profilePicture.data).toString('base64');
       setProfilePictureUrl(`data:image/png;base64,${base64String}`);
     }
-  }
-    , [fetchedUser?.profilePicture]);
+  }, [fetchedUser?.profilePicture]);
 
-  console.log('profilePictureUrl', profilePictureUrl);
-
-  console.log("fetchedUser", fetchedUser);
   return (
     <div className={styles.profileContainer}>
       {isLoading && <Loader />}

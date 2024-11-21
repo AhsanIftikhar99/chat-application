@@ -13,7 +13,9 @@ type DirectMessagesListProps = {
     userid: string;
     displayName?: string;
     username: string;
-    profilePicture?: string;
+    profilePicture?: {
+      data: string | Buffer;
+    };
     online?: boolean; // Add the online status here
   }[];
   currentPath: string;
@@ -28,7 +30,7 @@ export default function DirectMessagesList({ users, currentPath }: DirectMessage
     setIsOpen(!isOpen);
   };
 
-  console.log('USERS', users);
+  console.log('users', users);
 
   return (
     <>
@@ -58,15 +60,14 @@ export default function DirectMessagesList({ users, currentPath }: DirectMessage
                 <Link href={`/chatwithuser/${user.userid}`} passHref>
                   <div className={styles.userButton}>
                     <div className={styles.avatarContainer}>
-                      {user.profilePicture ? (
-                        <img src={user.profilePicture} alt="Profile" className={styles.avatar} />
+                      {user.profilePicture  ? (
+                        <img src={`data:image/png;base64,${Buffer.from(user?.profilePicture?.data).toString("base64")}`} className={styles.avatar} />
                       ) : (
                         <AccountCircleIcon className={styles.defaultAvatar} />
                       )}
                       <span
-                        className={`${styles.onlineStatus} ${
-                          user.online ? styles.online : styles.offline
-                        }`}
+                        className={`${styles.onlineStatus} ${user.online ? styles.online : styles.offline
+                          }`}
                       ></span>
                     </div>
                     <span className={styles.userName}>{user.displayName || user.username}</span>

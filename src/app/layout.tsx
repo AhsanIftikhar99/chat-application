@@ -1,10 +1,7 @@
-import { ThemeProvider } from "@mui/material"; // Import MUI components
-import type { Metadata } from "next";
-import "./globals.css";
-import theme from "@/theme"; // Ensure this path is correct
 import { geistMono, geistSans } from "@/utils/helper";
 import ReactQueryProvider from "@/utils/providers/ReactQueryProvider";
-import { cookies } from "next/headers"; // Import cookies utility
+import type { Metadata } from "next";
+import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Chat App",
@@ -21,10 +18,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <ReactQueryProvider > {/* Pass token if needed */}
-          <ThemeProvider theme={theme}>
+        <ReactQueryProvider > 
             {children}
-          </ThemeProvider>
         </ReactQueryProvider>
       </body>
     </html>

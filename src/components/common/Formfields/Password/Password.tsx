@@ -1,52 +1,33 @@
 import * as React from "react";
+import { Control, Controller } from "react-hook-form";
 import styles from "./index.module.scss";
-
-interface FieldProps {
-  name: string;
-  label: string;
-  type: string;
-  variant?: "filled" | "outlined" | "standard";
-  placeholder?: string;
-  maxLength?: number;
-  minLength?: number;
-  defaultValue?: string;
-  value?: string;
-}
+import { FormField } from "@/utils/types";
 
 interface PasswordInputFieldProps {
-  field: FieldProps;
+  field: FormField;
+  control: Control;
 }
 
-export const PasswordInput: React.FC<PasswordInputFieldProps> = ({ field }) => {
-  const [value, setValue] = React.useState(field.value || field.defaultValue || "");
-  const [error, setError] = React.useState("");
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const inputValue = e.target.value;
-    setValue(inputValue);
-
-    // MinLength validation
-    if (field.minLength && inputValue.length < field.minLength) {
-      setError(`Password must be at least ${field.minLength} characters.`);
-    } else {
-      setError("");
-    }
-  };
-
+export const PasswordInput: React.FC<PasswordInputFieldProps> = ({ field, control }) => {
+  const placeholder = field.placeholder || field.label;
+  const maxLength = field.maxLength || 40;
   return (
-    <div className={styles.passwordContainer}>
-      <input
-        type="password"
-        autoComplete="off"
-        name={field.name}
-        placeholder={field.placeholder || field.label}
-        maxLength={field.maxLength ? Number(field.maxLength) : undefined}
-        // minLength={field.minLength ? Number(field.minLength) : undefined}
-        value={value}
-        onChange={handleChange}
-        className={`${styles.textField} ${styles[field.variant || "standard"]} ${error ? styles.errorField : ""}`}
-      />
-      {error && <span className={styles.errorText}>{error}</span>}
-    </div>
+    <Controller
+      name={field.name || ""}
+      control={control}
+      render={({ field, fieldState }) => (
+        <div className={styles.passwordContainer}>
+          <input
+            {...field}
+            type="password"
+            autoComplete="off"
+            maxLength={maxLength}
+            placeholder={placeholder}
+            className={`${styles.textField} ${fieldState.error ? styles.errorField : ""}`}
+          />
+          {fieldState.error && <span className={styles.errorText}>{fieldState.error.message}</span>}
+        </div>
+      )}
+    />
   );
 };

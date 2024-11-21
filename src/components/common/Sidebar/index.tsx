@@ -16,6 +16,7 @@ import {
   LocalParking as LocalParkingIcon,
 } from "@mui/icons-material";
 import styles from "./index.module.scss";
+import ProfileMenu from '../LoggedInProfileMenu';
 
 const listItems = [
   { text: "Home", icon: <HomeIcon className={styles.icon} /> },
@@ -30,7 +31,7 @@ export default function Sidebar() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [profilePictureUrl, setProfilePictureUrl] = useState('');
   const { data: loggedInUser = {} as User } = useGetLoggedInUser();
-  
+
   // Ref for the menu element
   const menuRef = useRef<HTMLDivElement>(null);
 
@@ -93,22 +94,11 @@ export default function Sidebar() {
         <div className={styles.addButton}>
           <AddIcon className={styles.addIcon} />
         </div>
-        <div className={styles.avatarBox} onClick={handleMenuToggle}>
-          <div className={styles.avatar}>
-            {profilePictureUrl ? (
-              <img src={profilePictureUrl} alt="profile" />
-            ) : (
-              <AccountCircle style={{ color: "white", fontSize: 40 }} />
-            )}
-          </div>
-          <div className={styles.statusIndicator} />
-        </div>
-        {menuOpen && (
-          <div ref={menuRef} className={`${styles.menu} ${styles.menuOpen}`}>
-            <div className={styles.menuItem} onClick={handleProfileModalOpen}>Profile</div>
-            <div className={styles.menuItem} onClick={handleLogout}>Logout</div>
-          </div>
-        )}
+        <ProfileMenu
+          profilePictureUrl={profilePictureUrl}
+          onProfileClick={handleProfileModalOpen}
+          onLogoutClick={handleLogout}
+        />
       </div>
       <ProfileModal isOpen={openProfileModal} editProfile={true} handleClose={handleProfileModalClose} />
     </div>
